@@ -1,0 +1,108 @@
+{
+  "PointRewards": [
+    {
+      "Points": 50,
+      "AP": 0,
+      "Power": null,
+      "Artifact": "Poor"
+    },
+    {
+      "Points": 100,
+      "AP": 0,
+      "Power": "AdvanceTimeHour",
+      "Artifact": null
+    },
+    {
+      "Points": 200,
+      "AP": 0,
+      "Power": null,
+      "Artifact": "Common"
+    },
+    {
+      "Points": 400,
+      "AP": 0,
+      "Power": "FreeCache",
+      "Artifact": null
+    },
+    {
+      "Points": 800,
+      "AP": 0,
+      "Power": null,
+      "Artifact": "Uncommon"
+    },
+    {
+      "Points": 1600,
+      "AP": 50,
+      "Power": null,
+      "Artifact": null
+    },
+    {
+      "Points": 3200,
+      "AP": 0,
+      "Power": null,
+      "Artifact": "Rare"
+    },
+    {
+      "Points": 6400,
+      "AP": 0,
+      "Power": "InspireMercenaries",
+      "Artifact": null
+    },
+    {
+      "Points": 12800,
+      "AP": 300,
+      "Power": null,
+      "Artifact": null
+    },
+    {
+      "Points": 25600,
+      "AP": 0,
+      "Power": null,
+      "Artifact": "Epic"
+    },
+    {
+      "Points": 51200,
+      "AP": 0,
+      "Power": "MultiLevel",
+      "Artifact": null
+    },
+    {
+      "Points": 102400,
+      "AP": 0,
+      "Power": null,
+      "Artifact": "Legendary"
+    }
+  ],
+  "RankRewards": [
+    {
+      "Rank": 1,
+      "AP": 0,
+      "Power": null,
+      "Artifact": "Epic"
+    },
+    {
+      "Rank": 2,
+      "AP": 100,
+      "Power": null,
+      "Artifact": null
+    },
+    {
+      "Rank": 3,
+      "AP": 0,
+      "Power": "InspireMercenaries",
+      "Artifact": null
+    },
+    {
+      "Rank": 4,
+      "AP": 0,
+      "Power": null,
+      "Artifact": "Rare"
+    },
+    {
+      "Rank": 5,
+      "AP": 0,
+      "Power": "FreeCache",
+      "Artifact": null
+    }
+  ]
+}

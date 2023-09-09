@@ -1,0 +1,51 @@
+[
+  {
+    "Name": "Tutorial",
+    "Id": 1,
+    "ImageWidth": 895,
+    "ImageHeight": 532,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Huruey\u0027s Castle",
+    "Id": 2,
+    "ImageWidth": 1270,
+    "ImageHeight": 650,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Orbis Veteribus Notus",
+    "Id": 21,
+    "ImageWidth": 3330,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 12.92,
+      "Ore": {
+        "Type": 16,
+        "Kind": "Ore",
+        "Name": "Uranium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-88A1FF.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Hex Earth",
+    "Id": 49,
+    "ImageWidth": 2500,
+    "ImageHeight": 1200,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  }
+]

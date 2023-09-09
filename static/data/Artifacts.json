@@ -1,0 +1,699 @@
+[
+  {
+    "Name": "Time Warp",
+    "Description": "Advance time by \u003Cvalue\u003E minutes",
+    "Values": [
+      7.5,
+      15,
+      30,
+      60,
+      120,
+      240,
+      480
+    ],
+    "IsActive": true,
+    "IsPercentage": false,
+    "Type": "Active_AdvanceTimeByMinutes",
+    "Image": "Artifacts/TimeWarp.png"
+  },
+  {
+    "Name": "Field Hospital",
+    "Description": "Deploy a field hospital that saves \u003Cvalue%\u003E from conquering neighboring territories",
+    "Values": [
+      0.015,
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48,
+      0.96
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_FieldHospital",
+    "Image": "Artifacts/FieldHospital.png"
+  },
+  {
+    "Name": "Money Cache",
+    "Description": "Instantly get a money cache of size \u003Cvalue%\u003E",
+    "Values": [
+      0.15,
+      0.3,
+      0.6,
+      1.2,
+      2.4,
+      4.8,
+      9.6
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_GetMoneyCache",
+    "Image": "Artifacts/MoneyCache.png"
+  },
+  {
+    "Name": "Resource Cache",
+    "Description": "Instantly get a resource cache of size \u003Cvalue%\u003E",
+    "Values": [
+      0.15,
+      0.3,
+      0.6,
+      1.2,
+      2.4,
+      4.8,
+      9.6
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_GetResourceCache",
+    "Image": "Artifacts/ResourceCache.png"
+  },
+  {
+    "Name": "Army Cache",
+    "Description": "Instantly get an army cache of size \u003Cvalue%\u003E",
+    "Values": [
+      0.1,
+      0.2,
+      0.4,
+      0.8,
+      1.6,
+      3.2,
+      6.4
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_GetArmyCache",
+    "Image": "Artifacts/ArmyCache.png"
+  },
+  {
+    "Name": "Inspire Mercenaries",
+    "Description": "Get \u003Cvalue%\u003E of mercenaries from a mercenary camp for free",
+    "Values": [
+      0.015,
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48,
+      0.96
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_InspireMercenaries",
+    "Image": "Artifacts/InspireMercs.png"
+  },
+  {
+    "Name": "Market Raid",
+    "Description": "Instantly conduct a market raid of size \u003Cvalue%\u003E",
+    "Values": [
+      0.075,
+      0.15,
+      0.3,
+      0.6,
+      1.2,
+      2.4,
+      4.8
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_MarketRaid",
+    "Image": "Artifacts/MarketRaid.png"
+  },
+  {
+    "Name": "Damage Territory",
+    "Description": "Reduce armies needed to conquer a territory by \u003Cvalue%\u003E",
+    "Values": [
+      0.015,
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48,
+      0.96
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_ReduceArmiesNeededToConquerTerritory",
+    "Image": "Artifacts/ReduceArmies.png"
+  },
+  {
+    "Name": "Fog Buster",
+    "Description": "Reveals \u003Cvalue\u003E fogged territories on the map",
+    "Values": [
+      2,
+      4,
+      8,
+      14,
+      24,
+      50,
+      64
+    ],
+    "IsActive": true,
+    "IsPercentage": false,
+    "Type": "Active_RevealTerritories",
+    "Image": "Artifacts/RevealTerritories.png"
+  },
+  {
+    "Name": "Supercharge Army Camp",
+    "Description": "Supercharge an army camp for \u003Cvalue\u003E minutes",
+    "Values": [
+      7.5,
+      15,
+      30,
+      60,
+      120,
+      240,
+      480
+    ],
+    "IsActive": true,
+    "IsPercentage": false,
+    "Type": "Active_SuperchargeArmyCampByMinutes",
+    "Image": "Artifacts/SuperchargeArmy.png"
+  },
+  {
+    "Name": "Supercharge Mine",
+    "Description": "Supercharge a mine for \u003Cvalue\u003E minutes",
+    "Values": [
+      7.5,
+      15,
+      30,
+      60,
+      120,
+      240,
+      480
+    ],
+    "IsActive": true,
+    "IsPercentage": false,
+    "Type": "Active_SuperchargeMineByMinutes",
+    "Image": "Artifacts/SuperchargeMine.png"
+  },
+  {
+    "Name": "Discount Army Camp",
+    "Description": "Purchase an army camp upgrade at a \u003Cvalue%\u003E discount",
+    "Values": [
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48,
+      0.96,
+      1.92
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_UpgradeArmyCampForDiscount",
+    "Image": "Artifacts/UpgradeArmyCampDiscount.png"
+  },
+  {
+    "Name": "Discount Hospital",
+    "Description": "Purchase a hospital upgrade at a \u003Cvalue%\u003E discount",
+    "Values": [
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48,
+      0.96,
+      1.92
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_UpgradeHospitalForDiscount",
+    "Image": "Artifacts/UpgradeHospitalDiscount.png"
+  },
+  {
+    "Name": "Discount Mine",
+    "Description": "Purchase a mine upgrade at a \u003Cvalue%\u003E discount",
+    "Values": [
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48,
+      0.96,
+      1.92
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_UpgradeMineForDiscount",
+    "Image": "Artifacts/UpgradeMineDiscount.png"
+  },
+  {
+    "Name": "Triple Strike",
+    "Description": "Conquer a territory you have three or more borders to at a \u003Cvalue%\u003E discount",
+    "Values": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8,
+      1.6,
+      3.2
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_TripleStrike",
+    "Image": "Artifacts/TripleStrike.png"
+  },
+  {
+    "Name": "Quadruple Strike",
+    "Description": "Conquer a territory you have four or more borders to at a \u003Cvalue%\u003E discount",
+    "Values": [
+      0.06,
+      0.12,
+      0.24,
+      0.48,
+      0.96,
+      1.92,
+      3.84
+    ],
+    "IsActive": true,
+    "IsPercentage": true,
+    "Type": "Active_QuadrupleStrike",
+    "Image": "Artifacts/QuadStrike.png"
+  },
+  {
+    "Name": "Cache Boost",
+    "Description": "Money, armies, and resources received from all caches increased by \u003Cvalue%\u003E",
+    "Values": [
+      0.004,
+      0.008,
+      0.016,
+      0.032,
+      0.064,
+      0.128,
+      0.256
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "AllCachesIncreased",
+    "Image": "Artifacts/AllCachesIncreased.png"
+  },
+  {
+    "Name": "Alloy Values",
+    "Description": "Alloy sell value increased by \u003Cvalue%\u003E",
+    "Values": [
+      0.035,
+      0.07,
+      0.14,
+      0.28,
+      0.56,
+      1.12,
+      2.24
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "AlloySellValues",
+    "Image": "Artifacts/AlloySellValues.png"
+  },
+  {
+    "Name": "Army Camp Discount",
+    "Description": "Reduces cost of upgrading army camps by \u003Cvalue%\u003E",
+    "Values": [
+      0.0075,
+      0.015,
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "ArmyCampUpgradeDiscount",
+    "Image": "Artifacts/ArmyCampUpgradeDiscount.png"
+  },
+  {
+    "Name": "Army Camp Boost",
+    "Description": "Increases armies produced by army camps by \u003Cvalue%\u003E",
+    "Values": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8,
+      1.6,
+      3.2
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "ArmyCampProduction",
+    "Image": "Artifacts/ArmyCampProduction.png"
+  },
+  {
+    "Name": "Army Cache Boost",
+    "Description": "Increases armies received from all caches by \u003Cvalue%\u003E",
+    "Values": [
+      0.01,
+      0.02,
+      0.04,
+      0.08,
+      0.16,
+      0.32,
+      0.64
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "CacheArmiesIncreased",
+    "Image": "Artifacts/CacheArmiesIncreased.png"
+  },
+  {
+    "Name": "Money Cache Boost",
+    "Description": "Increases money received from all caches by \u003Cvalue%\u003E",
+    "Values": [
+      0.02,
+      0.04,
+      0.08,
+      0.16,
+      0.32,
+      0.64,
+      1.28
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "CacheMoneyIncreased",
+    "Image": "Artifacts/CacheMoneyIncreased.png"
+  },
+  {
+    "Name": "Resource Cache Boost",
+    "Description": "Increases resources received from all caches by \u003Cvalue%\u003E",
+    "Values": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8,
+      1.6,
+      3.2
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "CacheResourcesIncreased",
+    "Image": "Artifacts/CacheResourcesIncreased.png"
+  },
+  {
+    "Name": "Craft Double",
+    "Description": "\u003Cvalue%\u003E chance of crafters producing two items instead of one",
+    "Values": [
+      0.0075,
+      0.015,
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "CraftDouble",
+    "Image": "Artifacts/CraftDouble.png"
+  },
+  {
+    "Name": "Efficient Crafters",
+    "Description": "Crafter ingredients reduced by \u003Cvalue%\u003E",
+    "Values": [
+      0.005,
+      0.01,
+      0.02,
+      0.04,
+      0.08,
+      0.16,
+      0.32
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "CrafterIngredientsReducedBy",
+    "Image": "Artifacts/CrafterIngredientsReducedBy.png"
+  },
+  {
+    "Name": "Speedy Crafters",
+    "Description": "Crafters work \u003Cvalue%\u003E faster",
+    "Values": [
+      0.05,
+      0.1,
+      0.15,
+      0.25,
+      0.35,
+      0.5,
+      0.65
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "CrafterSpeedIncreasedBy",
+    "Image": "Artifacts/CrafterSpeedIncreasedBy.png"
+  },
+  {
+    "Name": "Draft Boost",
+    "Description": "Draft values increased by \u003Cvalue%\u003E",
+    "Values": [
+      0.02,
+      0.04,
+      0.08,
+      0.16,
+      0.32,
+      0.64,
+      1.28
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "DraftsIncreasedBy",
+    "Image": "Artifacts/DraftsIncreasedBy.png"
+  },
+  {
+    "Name": "Hospital Discount",
+    "Description": "Reduces the cost of upgrading hospitals by \u003Cvalue%\u003E",
+    "Values": [
+      0.0075,
+      0.015,
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "HospitalUpgradeDiscount",
+    "Image": "Artifacts/HospitalUpgradeDiscount.png"
+  },
+  {
+    "Name": "Hospital Boost",
+    "Description": "Armies saved by hospitals increased by \u003Cvalue%\u003E",
+    "Values": [
+      0.01,
+      0.02,
+      0.04,
+      0.08,
+      0.1,
+      0.12,
+      0.14
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "HospitalSaveAdditional",
+    "Image": "Artifacts/HospitalSaveAdditional.png"
+  },
+  {
+    "Name": "Item Values",
+    "Description": "Item sell values increased by \u003Cvalue%\u003E",
+    "Values": [
+      0.02,
+      0.04,
+      0.08,
+      0.16,
+      0.32,
+      0.64,
+      1.28
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "ItemSellValues",
+    "Image": "Artifacts/ItemSellValues.png"
+  },
+  {
+    "Name": "Idle Time",
+    "Description": "Increase your maximum idle time by \u003Cvalue\u003E minutes",
+    "Values": [
+      10,
+      20,
+      40,
+      80,
+      160,
+      320,
+      640
+    ],
+    "IsActive": false,
+    "IsPercentage": false,
+    "Type": "MaxIdleTime",
+    "Image": "Artifacts/MaxIdleTime.png"
+  },
+  {
+    "Name": "Mercenary Discount",
+    "Description": "Decrease cost of mercenaries by \u003Cvalue%\u003E",
+    "Values": [
+      0.01,
+      0.02,
+      0.04,
+      0.08,
+      0.16,
+      0.32,
+      0.64
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "MercenaryDiscount",
+    "Image": "Artifacts/MercenaryDiscount.png"
+  },
+  {
+    "Name": "Mine Discount",
+    "Description": "Reduces the cost of upgrading mines by \u003Cvalue%\u003E",
+    "Values": [
+      0.0125,
+      0.025,
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "MineUpgradeDiscount",
+    "Image": "Artifacts/MineUpgradeDiscount.png"
+  },
+  {
+    "Name": "Bonus Money Boost",
+    "Description": "Increases the money received from bonuses by \u003Cvalue%\u003E",
+    "Values": [
+      0.05,
+      0.1,
+      0.2,
+      0.4,
+      0.8,
+      1.6,
+      3.2
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "MoneyFromBonuses",
+    "Image": "Artifacts/MoneyFromBonuses.png"
+  },
+  {
+    "Name": "Territory Money Boost",
+    "Description": "Increases the money received from territories by \u003Cvalue%\u003E",
+    "Values": [
+      0.125,
+      0.25,
+      0.5,
+      1,
+      2,
+      4,
+      8
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "MoneyFromTerritories",
+    "Image": "Artifacts/MoneyFromTerritories.png"
+  },
+  {
+    "Name": "Ore Values",
+    "Description": "Ore sell values increased by \u003Cvalue%\u003E",
+    "Values": [
+      0.045,
+      0.09,
+      0.18,
+      0.36,
+      0.72,
+      1.44,
+      2.88
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "OreSellValues",
+    "Image": "Artifacts/OreSellValues.png"
+  },
+  {
+    "Name": "Mine Boost",
+    "Description": "Ore received from mines increased by \u003Cvalue%\u003E",
+    "Values": [
+      0.0175,
+      0.035,
+      0.07,
+      0.14,
+      0.28,
+      0.56,
+      1.12
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "MineProduction",
+    "Image": "Artifacts/MineProduction.png"
+  },
+  {
+    "Name": "Smelt Double",
+    "Description": "\u003Cvalue%\u003E chance of smelters producing two alloys instead of one",
+    "Values": [
+      0.0075,
+      0.015,
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "SmeltDouble",
+    "Image": "Artifacts/SmeltDouble.png"
+  },
+  {
+    "Name": "Efficient Smelters",
+    "Description": "Smelter ingredients reduced by \u003Cvalue%\u003E",
+    "Values": [
+      0.005,
+      0.01,
+      0.02,
+      0.04,
+      0.08,
+      0.16,
+      0.32
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "SmelterIngredientsReduced",
+    "Image": "Artifacts/SmelterIngredientsReduced.png"
+  },
+  {
+    "Name": "Speedy Smelters",
+    "Description": "Smelters work \u003Cvalue%\u003E faster",
+    "Values": [
+      0.05,
+      0.1,
+      0.15,
+      0.25,
+      0.35,
+      0.5,
+      0.65
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "SmelterSpeedIncreased",
+    "Image": "Artifacts/SmelterSpeedIncreased.png"
+  },
+  {
+    "Name": "Tech Discount",
+    "Description": "Reduces requirements of techs by \u003Cvalue%\u003E",
+    "Values": [
+      0.0075,
+      0.015,
+      0.03,
+      0.06,
+      0.12,
+      0.24,
+      0.48
+    ],
+    "IsActive": false,
+    "IsPercentage": true,
+    "Type": "TechDiscount",
+    "Image": "Artifacts/TechDiscount.png"
+  }
+]

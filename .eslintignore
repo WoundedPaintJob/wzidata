@@ -1,0 +1,9 @@
+node_modules
+dist
+.parcel-cache
+.storybook
+
+*.cjs
+static/data
+*.json
+*.yaml

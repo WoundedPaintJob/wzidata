@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["DOM", "ESNext"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "@welldone-software/why-did-you-render",
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@util/*": ["src/util/*"],
+      "@static/*": ["static/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@type/*": ["src/types/*"],
+      "@lib/*": ["src/lib/*"],
+      "@features/*": ["src/features/*"]
+    },
+  },
+  "exclude": ["node_modules", "dist", "static"]
+}

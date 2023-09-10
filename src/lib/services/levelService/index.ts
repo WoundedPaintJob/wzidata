@@ -19,7 +19,7 @@ import { RenderOptionType } from "@lib/types/enums";
 import { levelDataSchema } from "@lib/types/levelData";
 
 export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
-  const levelData = await fetch(`/data/${level.Id}/Data.json`);
+  const levelData = await fetch(`./data/${level.Id}/Data.json`);
   const parseResult = levelDataSchema.safeParse(await levelData.json());
   if (parseResult.success == false) {
     console.log(parseResult.error);

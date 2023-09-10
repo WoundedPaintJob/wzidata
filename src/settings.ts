@@ -1,8 +1,8 @@
 const LocalImages = true;
 const LocalSettings: SettingsType = {
   RenderMap: true,
-  ResourceUrl: '/Images/Resources/',
-  RewardUrl: '/Images/Rewards/',
+  ResourceUrl: './Images/Resources/',
+  RewardUrl: './Images/Rewards/',
 };
 const CDNSettings: SettingsType = {
   RenderMap: false,

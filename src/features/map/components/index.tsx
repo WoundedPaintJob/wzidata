@@ -69,7 +69,7 @@ const MapComponent = () => {
               }}
             >
               {Settings.RenderMap && (
-                <image href={`/data/${levelId}/Image.png`} />
+                <image href={`./data/${levelId}/Image.png`} />
               )}
               {zones.map((zone) => (
                 <MapZone

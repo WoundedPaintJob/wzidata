@@ -46,40 +46,42 @@ const Home = () => {
   }, []);
   if (zoneLength == 0) return <>Loading</>;
   return (
-    <div>
-      <Notifications />
-      <Section>
-        <Section.Header>
-          {name}
-          <div className="float-right">
-            <LevelSelector />
+    <div className="container mx-auto sm:px-4 lg:px-6">
+      <div>
+        <Notifications />
+        <Section>
+          <Section.Header>
+            {name}
+            <div className="float-right">
+              <LevelSelector />
+            </div>
+            <Timer />
+          </Section.Header>
+        </Section>
+        <TabList />
+        {!wideMap && (
+          <div className="grid grid-cols-1 md:grid-cols-8">
+            <div className="md:col-span-2">
+              <MapFilter />
+              <Highlights />
+            </div>
+            <div className="md:col-span-6">
+              <MapComponent />
+            </div>
           </div>
-          <Timer />
-        </Section.Header>
-      </Section>
-      <TabList />
-      {!wideMap && (
-        <div className="grid grid-cols-1 md:grid-cols-8">
-          <div className="md:col-span-2">
-            <MapFilter />
-            <Highlights />
-          </div>
-          <div className="md:col-span-6">
-            <MapComponent />
-          </div>
-        </div>
-      )}
-      {wideMap && (
-        <>
-          <div>
-            <MapComponent />
-          </div>
-          <div className="grid grid-cols-2">
-            <MapFilter />
-            <Highlights />
-          </div>
-        </>
-      )}
+        )}
+        {wideMap && (
+          <>
+            <div>
+              <MapComponent />
+            </div>
+            <div className="grid grid-cols-2">
+              <MapFilter />
+              <Highlights />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

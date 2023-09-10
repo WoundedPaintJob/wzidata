@@ -91,9 +91,6 @@ devDependencies:
   '@typescript-eslint/parser':
     specifier: ^5.62.0
     version: 5.62.0(eslint@8.49.0)(typescript@5.2.2)
-  '@welldone-software/why-did-you-render':
-    specifier: ^7.0.1
-    version: 7.0.1(react@18.2.0)
   del-cli:
     specifier: ^5.1.0
     version: 5.1.0
@@ -3237,15 +3234,6 @@ packages:
       - supports-color
     dev: true
 
-  /@welldone-software/why-did-you-render@7.0.1(react@18.2.0):
-    resolution: {integrity: sha512-Qe/8Xxa2G+LMdI6VoazescPzjjkHYduCDa8aHOJR50e9Bgs8ihkfMBY+ev7B4oc3N59Zm547Sgjf8h5y0FOyoA==}
-    peerDependencies:
-      react: ^16 || ^17 || ^18
-    dependencies:
-      lodash: 4.17.21
-      react: 18.2.0
-    dev: true
-
   /abortcontroller-polyfill@1.7.5:
     resolution: {integrity: sha512-JMJ5soJWP18htbbxJjG7bG6yuI6pRhgJ0scHHTfkUjf6wjP912xZWvM+A4sJK3gqd9E8fcPbDnOefbA9Th/FIQ==}
     dev: true
@@ -6243,6 +6231,7 @@ packages:
     dependencies:
       react: 18.2.0
     dev: false
+    bundledDependencies: []
 
   /react-refresh@0.14.0:
     resolution: {integrity: sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==}

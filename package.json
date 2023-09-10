@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start": "pnpm cleanup:quick && parcel",
-    "build": "pnpm cleanup && parcel build"
+    "build": "pnpm cleanup && parcel build --public-url ./"
   },
   "keywords": [],
   "author": "",

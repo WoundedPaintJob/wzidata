@@ -1,6 +1,6 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren } from "react";
 
 export interface CardProps extends PropsWithChildren {
-  size?: 'normal' | 'small';
-  passive?: boolean;
+  size?: "normal" | "small";
+  mode?: "normal" | "passive" | "semi";
 }

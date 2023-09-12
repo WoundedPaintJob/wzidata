@@ -37,10 +37,5 @@ State information
 Should contain the zod schema for the asset
 
 ## Issues
-
-- Split up Evaluator
-- Create Resource Cache Card for Overview
-- Asset names, not just location name
-  - For tech shopping list the other way around
 - Hardened bonuses
 - Add smelter and crafter speed to tech list

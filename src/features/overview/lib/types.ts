@@ -1,13 +1,14 @@
-import { BonusState } from '@features/bonus/lib/types';
-import { MaterialType } from '@features/material/lib/enums';
-import { MaterialState } from '@features/material/lib/types';
-import { MapPath } from '@features/path/lib/types';
-import { ZoneState } from '@features/zone/lib/types';
-import { Tabs } from '@lib/types/enums';
-import { TechState } from '@features/tech/lib/types';
-import { ArmyCampState } from '@features/armyCamp/lib/types';
-import { MineState } from '@features/mine/lib/types';
-import { HospitalState } from '@features/hospital/lib/types';
+import { BonusState } from "@features/bonus/lib/types";
+import { MaterialType } from "@features/material/lib/enums";
+import { MaterialState } from "@features/material/lib/types";
+import { MapPath } from "@features/path/lib/types";
+import { ZoneState } from "@features/zone/lib/types";
+import { Tabs } from "@lib/types/enums";
+import { TechState } from "@features/tech/lib/types";
+import { ArmyCampState } from "@features/armyCamp/lib/types";
+import { MineState } from "@features/mine/lib/types";
+import { HospitalState } from "@features/hospital/lib/types";
+import { Reward } from "@features/reward/lib/types";
 
 export interface OverviewProps {
   Name: string;
@@ -19,31 +20,54 @@ export interface OverviewProps {
   Techs: TechState[][];
 }
 export interface OverviewSlice extends OverviewProps {
-	ActiveZone: ZoneState;
-	SetActiveZone: (zone: ZoneState) => void;
-	ActiveBonus: BonusState;
-	SetActiveBonus: (bonus: BonusState) => void;
-	ActiveMaterial: MaterialState;
-	SetActiveMaterial: (material: MaterialType) => void;
-	ActiveTab: Tabs;
-	SetActiveTab: (tab: Tabs) => void;
-	ActivePath: MapPath;
-	SetActivePath: (path: MapPath) => void;
-	ToggleTech: (tech: TechState) => void;
-	TechDisplay: TechDisplayMode;
-	SetTechDisplay: (mode: TechDisplayMode) => void;
-	SuperChargeArmyCamp: (armyCamp: ArmyCampState) => void;
-	SuperChargeMine: (mine: MineState) => void;
+  ActiveZone: ZoneState;
+  SetActiveZone: (zone: ZoneState) => void;
+  ActiveBonus: BonusState;
+  SetActiveBonus: (bonus: BonusState) => void;
+  ActiveMaterial: MaterialState;
+  SetActiveMaterial: (material: MaterialType) => void;
+  ActiveTab: Tabs;
+  SetActiveTab: (tab: Tabs) => void;
+  ActivePath: MapPath;
+  SetActivePath: (path: MapPath) => void;
+  ToggleTech: (tech: TechState) => void;
+  TechDisplay: TechDisplayMode;
+  SetTechDisplay: (mode: TechDisplayMode) => void;
+  SuperChargeArmyCamp: (armyCamp: ArmyCampState) => void;
+  SuperChargeMine: (mine: MineState) => void;
 }
 export interface CardData {
   zones: ZoneState[];
-  unconqueredZones: ZoneState[];
   bonuses: BonusState[];
-  unconqueredBonuses: BonusState[];
-  ConqueredHospitals: HospitalState[];
+  conqueredHospitals: HospitalState[];
 }
 export enum TechDisplayMode {
   Total,
   Market,
   MarketPlusArmy,
+}
+
+export interface BiggestCacheProps {
+  rewardProperty: (reward: Reward) => number;
+  cacheMultiplier: number;
+  cacheZones: ZoneState[];
+  cacheBonuses: BonusState[];
+}
+export interface BestCacheProps {
+  rewardProperty: (reward: Reward) => number;
+  cacheZones: ZoneState[];
+  cacheBonuses: BonusState[];
+  zones: ZoneState[];
+  conqueredHospitals: HospitalState[];
+  cacheMultiplier: number;
+  jointStrikeMultiplier: number;
+  hospitalMultiplier: number;
+}
+export interface CacheCardProps extends CardData {
+  header: string;
+  rewardProperty: (reward: Reward) => number;
+  cacheMultiplier: number;
+  jointStrikeMultiplier: number;
+  hospitalMultiplier: number;
+  totalArmies?: number;
 }

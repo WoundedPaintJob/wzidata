@@ -8,6 +8,8 @@ import MercenaryCard from "./mercenaryCard";
 import MoneyCacheCard from "./moneyCacheCard";
 import TerritoriesCard from "./territoriesCard";
 import { isAssetConquered } from "@helpers/assetHelper";
+import usePlayerStore from "@lib/stores/playerStore";
+import ResourceCacheCard from "./resourceCacheCard";
 
 const OverView = () => {
   const zoneRef = useRef(useLevelStore((state) => state.Zones));
@@ -28,6 +30,9 @@ const OverView = () => {
       ),
     []
   );
+  const advancements = usePlayerStore((state) => state.Advancements);
+  const artifacts = usePlayerStore((state) => state.Artifacts);
+  const techs = useLevelStore((state) => state.Techs);
   if (zoneRef.current.size == 0) return <></>;
   const zones = Array.from(zoneRef.current.values());
   const bonuses = Array.from(bonusRef.current.values());
@@ -40,20 +45,19 @@ const OverView = () => {
   const cardProps: CardData = {
     bonuses: bonuses,
     zones: zones,
-    unconqueredZones: zones.filter((z) => !z.Conquered),
-    unconqueredBonuses: bonuses.filter((b) => !b.Conquered),
-    ConqueredHospitals: conqueredHospitals,
+    conqueredHospitals: conqueredHospitals,
   };
   return (
     <div>
       <Section>
         <Section.Body>
           <Section.CardList>
-            <ArmyCard data={cardProps} />
-            <TerritoriesCard data={cardProps} />
-            <ArmyCacheCard data={cardProps} />
-            <MoneyCacheCard data={cardProps} />
-            <MercenaryCard data={cardProps} />
+            <ArmyCard {...cardProps} />
+            <TerritoriesCard {...cardProps} />
+            <ArmyCacheCard {...cardProps} />
+            <MoneyCacheCard {...cardProps} />
+            <ResourceCacheCard {...cardProps} />
+            <MercenaryCard {...cardProps} />
           </Section.CardList>
         </Section.Body>
       </Section>

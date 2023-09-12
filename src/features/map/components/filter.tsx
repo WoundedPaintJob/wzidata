@@ -19,7 +19,9 @@ const RenderOption = (props: { type: RenderOptionType }) => {
   return (
     <div className="flex">
       <CheckBox checked={checked} onClick={() => checkHandler(props.type)} />
-      <Text size="small" className="ml-1">{propsTypeToString(props.type)}</Text>
+      <Text size="small" className="ml-1">
+        {propsTypeToString(props.type)}
+      </Text>
     </div>
   );
 };
@@ -42,7 +44,7 @@ const MapFilter = () => {
           {({ open }) => (
             <>
               <Disclosure.Button className="flex py-2 text-main">
-								Filters
+                Filters
                 <ChevronRightIcon
                   className={twMerge(
                     "h-6 w-6",
@@ -76,7 +78,6 @@ const MapFilter = () => {
                   </RenderColumn>
                   <RenderColumn header="Map Settings">
                     <RenderOption type={RenderOptionType.Conquered} />
-                    <RenderOption type={RenderOptionType.BonusZones} />
                     <RenderOption type={RenderOptionType.MostExpensive} />
                     <RenderOption type={RenderOptionType.Cost} />
                     <RenderOption type={RenderOptionType.FreeZones} />
@@ -86,9 +87,13 @@ const MapFilter = () => {
                         onClick={() => toggleWide()}
                       />
                       <Text size="small" className="ml-1">
-												Wider map
+                        Wider map
                       </Text>
                     </div>
+                  </RenderColumn>
+                  <RenderColumn header="Bonuses">
+                    <RenderOption type={RenderOptionType.BonusZones} />
+                    <RenderOption type={RenderOptionType.MoneyPerSecond} />
                   </RenderColumn>
                 </div>
               </Disclosure.Panel>

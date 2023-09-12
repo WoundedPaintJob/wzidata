@@ -1,7 +1,9 @@
-import useLevelStore from '@lib/stores/levelStore';
-import { shouldDrawImage } from '@features/zone/lib/helper';
-import { BonusState } from '../lib/types';
-import { Settings } from 'src/settings';
+import useLevelStore from "@lib/stores/levelStore";
+import { shouldDrawImage } from "@features/zone/lib/helper";
+import { BonusState } from "../lib/types";
+import { Settings } from "src/settings";
+import { RenderOptionType } from "@lib/types/enums";
+import { formatNumber } from "@helpers/numberHelper";
 
 const MapBonus = (props: { bonus: BonusState }) => {
   const renderSettings = useLevelStore((state) => state.RenderOptions);
@@ -20,5 +22,22 @@ const MapBonus = (props: { bonus: BonusState }) => {
         onClick={() => setActive(props.bonus)}
       />
     );
+  if (
+    renderSettings.get(RenderOptionType.MoneyPerSecond) &&
+    props.bonus.Reward.MoneyPerSecond
+  ) {
+    return (
+      <text
+        key={`${props.bonus.Id}Text`}
+        x={props.bonus.Svg.Center.X - 8}
+        y={props.bonus.Svg.Center.Y + 2}
+        fontWeight={400}
+        fontSize={10}
+        onClick={() => setActive(props.bonus)}
+      >
+        {formatNumber(props.bonus.Reward.MoneyPerSecond)}
+      </text>
+    );
+  }
 };
 export default MapBonus;

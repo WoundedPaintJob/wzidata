@@ -1,5 +1,5 @@
-import { twMerge } from 'tailwind-merge';
-import { CardProps } from './types';
+import { twMerge } from "tailwind-merge";
+import { CardProps } from "./types";
 
 const CardHeader = (props: CardProps) => {
   return (
@@ -19,14 +19,15 @@ const CardBody = (props: CardProps) => {
   return <div>{props.children}</div>;
 };
 const Card = (props: CardProps) => {
-  const size = props.size ? props.size : 'normal';
-  const isPassive = props.passive ? props.passive : false;
+  const size = props.size ? props.size : "normal";
+  const mode = props.mode ? props.mode : "normal";
   const className = twMerge(
-    isPassive && 'bg-cardBackgroundPassive',
-    isPassive == false && 'bg-cardBackground',
-    'text-main rounded',
-    size == 'normal' && 'px-2 py-3  sm:px-4',
-    size == 'small' && 'px-1 py-1'
+    mode == "passive" && "bg-cardBackgroundPassive",
+    mode == "semi" && "bg-cardBackgroundSemiPassive",
+    mode == "normal" && "bg-cardBackground",
+    "text-main rounded",
+    size == "normal" && "px-2 py-3  sm:px-4",
+    size == "small" && "px-1 py-1"
   );
   return <div className={className}>{props.children}</div>;
 };

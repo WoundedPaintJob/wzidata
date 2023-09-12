@@ -1,9 +1,9 @@
-import Card from '@components/atoms/card';
-import CheckBox from '@components/atoms/checkbox';
-import MaterialDetails from '@features/material/components/details';
-import useLevelStore from '@lib/stores/levelStore';
-import { TechState } from '../lib/types';
-import { Settings } from 'src/settings';
+import Card from "@components/atoms/card";
+import CheckBox from "@components/atoms/checkbox";
+import MaterialDetails from "@features/material/components/details";
+import useLevelStore from "@lib/stores/levelStore";
+import { TechState } from "../lib/types";
+import { Settings } from "src/settings";
 
 const Tech = (props: {
   tech: TechState;
@@ -12,7 +12,16 @@ const Tech = (props: {
 }) => {
   const toggle = useLevelStore((state) => state.ToggleTech);
   return (
-    <Card size="small" passive={!props.highlight}>
+    <Card
+      size="small"
+      mode={
+        props.tech.Bought && props.highlight
+          ? "semi"
+          : props.highlight
+          ? "normal"
+          : "passive"
+      }
+    >
       <Card.Body>
         <div className="flex flex-col lg:flex-row">
           <img
@@ -22,14 +31,14 @@ const Tech = (props: {
             className="m-1 w-4 sm:w-8 sm:m-2 bg-black"
           />
           <CheckBox
-            checked={props.tech.Bought}
+            checked={props.tech.Bought || false}
             onClick={() => toggle(props.tech)}
           />
         </div>
         <MaterialDetails
           materials={props.tech.Materials}
           multiplier={props.costMultiplier}
-          roundNumber={'default'}
+          roundNumber={"default"}
         />
       </Card.Body>
     </Card>

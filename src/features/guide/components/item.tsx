@@ -1,10 +1,9 @@
 import { CSSProperties, HTMLAttributes, forwardRef } from "react";
-import { GuideItem } from "../lib/types";
-
+import { InstructionState } from "../lib/instructions/instruction";
 type Props = {
-	item: GuideItem;
-	isOpacityEnabled?: boolean;
-	isDragging?: boolean;
+  item: InstructionState;
+  isOpacityEnabled?: boolean;
+  isDragging?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 const Item = forwardRef<HTMLDivElement, Props>(
   ({ item, isOpacityEnabled, isDragging, style, ...props }, ref) => {
@@ -28,7 +27,7 @@ const Item = forwardRef<HTMLDivElement, Props>(
             objectFit: "cover",
           }}
         >
-          {item.text}
+          {item.description}
         </div>
       </div>
     );

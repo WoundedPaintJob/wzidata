@@ -20,6 +20,7 @@ import useLevelStore from "@lib/stores/levelStore";
 import { InstructionState } from "../lib/instructions/instruction";
 import { InstructionType } from "../lib/enums";
 import { ConquerZoneInstructionState } from "../lib/instructions/conquerZone";
+import { ConquerBonusInstructionState } from "../lib/instructions/conquerBonus";
 
 const Guide = () => {
   const activeZone = useLevelStore((state) => state.ActiveZone);
@@ -52,21 +53,30 @@ const Guide = () => {
       const newItem: ConquerZoneInstructionState = {
         id: maxId + 1,
         description: `Path to ${activePath.Zones[activePath.Zones.length - 1].Name}`,
-        doPath: true,
         type: InstructionType.ConquerZone,
         done: false,
-        zoneId: activePath.Zones[activePath.Zones.length - 1].Id
+        zoneId: activePath.Zones[activePath.Zones.length - 1].Id,
+        doPath: true,
       };
       setItems([...items, newItem]);
     } else if (activeZone) {
       const newItem: ConquerZoneInstructionState = {
         id: maxId + 1,
-        description: `Conquer Zone ${activePath.Zones[activePath.Zones.length - 1].Name}`,
-        doPath: false,
+        description: `Conquer Zone ${activeZone.Name}`,
         type: InstructionType.ConquerZone,
         done: false,
-        zoneId: activePath.Zones[activePath.Zones.length - 1].Id
+        zoneId: activeZone.Id,
+        doPath: false,
       };
+      setItems([...items, newItem]);
+    } else if (activeBonus) {
+      const newItem: ConquerBonusInstructionState = {
+        id: maxId + 1,
+        description: `Conquer Bonus ${activeBonus.Name}`,
+        type: InstructionType.ConquerBonus,
+        done: false,
+        bonusId: activeBonus.Id
+      }
       setItems([...items, newItem]);
     }
   };
@@ -79,7 +89,7 @@ const Guide = () => {
       >
         <SortableContext items={items} strategy={verticalListSortingStrategy}>
           {items.map((id) => (
-            <SortableItem key={id.id} item={id} />
+            <SortableItem key={id.id} item={id} onClick={() => console.log("hej")} />
           ))}
         </SortableContext>
       </DndContext>

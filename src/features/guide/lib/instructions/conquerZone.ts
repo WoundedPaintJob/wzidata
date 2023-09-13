@@ -1,4 +1,4 @@
-import { Instruction, InstructionState, instructionSchema } from "./instruction";
+import { InstructionState, instructionSchema } from "./instruction";
 import { z } from 'zod'
 export const conquerZoneInstructionSchema = instructionSchema.extend({
   zoneId: z.number(),

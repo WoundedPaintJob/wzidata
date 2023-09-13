@@ -25,7 +25,7 @@ const MapZone = (props: {
   props.conqueredHospitals.forEach(
     (h) =>
       (hospitalSaves +=
-        hospitalSaveForZone(h, props.zone) * props.hospitalMultiplier)
+      hospitalSaveForZone(h, props.zone) * props.hospitalMultiplier)
   );
   const assetSize = 40;
   if (!props.zone) return <></>;
@@ -62,7 +62,7 @@ const MapZone = (props: {
       {drawImage && !props.zone.Conquered && (
         <image
           key={`${props.zone.Id}Ass`}
-          href={`${Settings.RewardUrl}${props.zone.Reward.Image}`}
+          href={`${Settings.RewardUrl}${props.zone.Reward.Image || ''}`}
           x={props.zone.Center.X - assetSize / 2}
           y={props.zone.Center.Y - assetSize / 2}
           width={assetSize}

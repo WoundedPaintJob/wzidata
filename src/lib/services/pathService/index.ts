@@ -64,8 +64,8 @@ export function getPath(
   });
   while (openSet.length > 0) {
     let current = openSet.reduce((prev, curr) =>
-      costs.get(prev) + heuristics.get(prev) <
-      costs.get(curr) + heuristics.get(curr)
+      (costs.get(prev) ?? 0) + (heuristics.get(prev) ?? 0) <
+        (costs.get(curr) ?? 0) + (heuristics.get(curr) ?? 0)
         ? prev
         : curr
     );
@@ -74,14 +74,15 @@ export function getPath(
         TotalCost: 0,
         Zones: [],
       };
-      while (current != null) {
+      let stop = false;
+      while (!stop) {
         if (current != startZone) {
           let cost = current.Cost;
           let hospitalSaves = 0;
           hospitals.forEach(
             (h) =>
               (hospitalSaves +=
-                hospitalSaveForZone(h, current) * hospitalMultiplier)
+              hospitalSaveForZone(h, current) * hospitalMultiplier)
           );
           cost -= hospitalSaves;
           cost = Math.max(cost, 0);
@@ -89,7 +90,9 @@ export function getPath(
           path.TotalCost += cost;
         }
         path.Zones.unshift(current);
-        current = parentZone.get(current);
+        if (parentZone.has(current))
+          current = parentZone.get(current) ?? current;
+        else stop = true;
       }
       return path;
     }
@@ -97,11 +100,12 @@ export function getPath(
     closedSet.push(current);
     for (const neighborId of current.ConnectedZones) {
       const neighbor = all.get(neighborId);
+      if (!neighbor) continue;
       if (closedSet.includes(neighbor)) continue;
-      const tentative = costs.get(current) + costs.get(neighbor);
+      const tentative = (costs.get(current) ?? 0) + (costs.get(neighbor) ?? 0);
       if (!openSet.includes(neighbor)) {
         openSet.push(neighbor);
-      } else if (tentative >= costs.get(neighbor)) {
+      } else if (tentative >= (costs.get(neighbor) ?? 0)) {
         continue;
       }
       parentZone.set(neighbor, current);
@@ -109,5 +113,5 @@ export function getPath(
       heuristics.set(neighbor, getHeuristics(neighbor, endZone));
     }
   }
-  return null;
+  return { TotalCost: 1e100, Zones: [] };
 }

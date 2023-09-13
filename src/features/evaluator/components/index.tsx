@@ -117,7 +117,7 @@ const Evaluator = () => {
   markets.forEach((market) => {
     totalMarketIncome += getMarketMoneyEstimate(
       market,
-      materials.get(market.BestMaterial.Type).Cost,
+      materials.get(market.BestMaterial.Type)?.Cost || 0,
       alloyMultiplier,
       itemMultiplier
     );

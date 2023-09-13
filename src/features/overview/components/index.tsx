@@ -8,7 +8,6 @@ import MercenaryCard from "./mercenaryCard";
 import MoneyCacheCard from "./moneyCacheCard";
 import TerritoriesCard from "./territoriesCard";
 import { isAssetConquered } from "@helpers/assetHelper";
-import usePlayerStore from "@lib/stores/playerStore";
 import ResourceCacheCard from "./resourceCacheCard";
 
 const OverView = () => {
@@ -30,9 +29,6 @@ const OverView = () => {
       ),
     []
   );
-  const advancements = usePlayerStore((state) => state.Advancements);
-  const artifacts = usePlayerStore((state) => state.Artifacts);
-  const techs = useLevelStore((state) => state.Techs);
   if (zoneRef.current.size == 0) return <></>;
   const zones = Array.from(zoneRef.current.values());
   const bonuses = Array.from(bonusRef.current.values());

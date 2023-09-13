@@ -1,8 +1,8 @@
 import { CSSProperties, HTMLAttributes, forwardRef } from "react";
-import { SortableItemType } from "../lib/types";
+import { GuideItem } from "../lib/types";
 
 type Props = {
-	item: SortableItemType;
+	item: GuideItem;
 	isOpacityEnabled?: boolean;
 	isDragging?: boolean;
 } & HTMLAttributes<HTMLDivElement>;

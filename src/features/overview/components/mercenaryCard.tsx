@@ -69,20 +69,20 @@ const MercenaryCard = (props: CardData) => {
   const biggestMercZone =
     remainingMercZones.length > 0
       ? remainingMercZones.reduce(function (prev, current) {
-          return prev.Reward.MercenaryCamp.ArmiesLeft >
+        return prev.Reward.MercenaryCamp.ArmiesLeft >
             current.Reward.MercenaryCamp.ArmiesLeft
-            ? prev
-            : current;
-        })
+          ? prev
+          : current;
+      })
       : null;
   const biggestMercBonus =
     remainingMercBonuses.length > 0
       ? remainingMercBonuses.reduce(function (prev, current) {
-          return prev.Reward.MercenaryCamp.ArmiesLeft >
+        return prev.Reward.MercenaryCamp.ArmiesLeft >
             current.Reward.MercenaryCamp.ArmiesLeft
-            ? prev
-            : current;
-        })
+          ? prev
+          : current;
+      })
       : null;
   let biggestLink = <></>;
   if (

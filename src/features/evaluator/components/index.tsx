@@ -1,7 +1,4 @@
 import Section from "@components/atoms/section";
-import StatRow from "@components/atoms/statrow";
-import { RewardType } from "@features/reward/lib/enums";
-import { formatNumber, formatPercentage } from "@helpers/numberHelper";
 import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import useLevelStore from "@lib/stores/levelStore";
@@ -27,7 +24,7 @@ const Evaluator = () => {
   const hospitalMap = useLevelStore((state) => state.Hospitals);
   const hospitals = Array.from(hospitalMap.values());
   const conqueredHospitals = hospitals.filter(
-    (h) => zoneMap.get(h.Zone).Conquered
+    (h) => (h.Zone && zoneMap.get(h.Zone)?.Conquered)
   );
   const markets = useLevelStore((state) => state.Markets);
   const materials = useLevelStore((state) => state.Materials);

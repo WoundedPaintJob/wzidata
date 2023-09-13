@@ -5,7 +5,7 @@ import {
   EvaluatorMercenaryCardProps,
 } from "../lib/types";
 import StatRow from "@components/atoms/statrow";
-import { formatNumber, formatPercentage } from "@helpers/numberHelper";
+import { formatNumber } from "@helpers/numberHelper";
 
 const EvaluatorSum = (props: {
   army: EvaluatorArmyCardProps;

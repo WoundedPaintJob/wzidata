@@ -10,6 +10,7 @@ const MapBonus = (props: { bonus: BonusState }) => {
   const setActive = useLevelStore((state) => state.SetActiveBonus);
   const assetSize = 40;
   const drawImage = shouldDrawImage(props.bonus.Reward, renderSettings);
+  if (!props.bonus.Svg) return <></>
   return (
     <g key={`Z${props.bonus.Id}G`} onClick={() => setActive(props.bonus)}>
       {props.bonus.Svg.Shapes.map((sh, index) => (
@@ -24,7 +25,7 @@ const MapBonus = (props: { bonus: BonusState }) => {
       {drawImage && !props.bonus.Conquered && (
         <image
           key={`${props.bonus.Id}Ass`}
-          href={`${Settings.RewardUrl}${props.bonus.Reward.Image}`}
+          href={`${Settings.RewardUrl}${props.bonus.Reward.Image||''}`}
           x={props.bonus.Svg.Center.X - assetSize / 2}
           y={props.bonus.Svg.Center.Y - assetSize / 2}
           width={assetSize}
@@ -34,17 +35,17 @@ const MapBonus = (props: { bonus: BonusState }) => {
       )}
       {renderSettings.get(RenderOptionType.MoneyPerSecond) &&
         props.bonus.Reward.MoneyPerSecond && (
-          <text
-            key={`${props.bonus.Id}Text`}
-            x={props.bonus.Svg.Center.X - 8}
-            y={props.bonus.Svg.Center.Y + 2}
-            fill="#FFF"
-            fontWeight={400}
-            fontSize={10}
-          >
-            {formatNumber(props.bonus.Reward.MoneyPerSecond)}
-          </text>
-        )}
+        <text
+          key={`${props.bonus.Id}Text`}
+          x={props.bonus.Svg.Center.X - 8}
+          y={props.bonus.Svg.Center.Y + 2}
+          fill="#FFF"
+          fontWeight={400}
+          fontSize={10}
+        >
+          {formatNumber(props.bonus.Reward.MoneyPerSecond)}
+        </text>
+      )}
     </g>
   );
 };

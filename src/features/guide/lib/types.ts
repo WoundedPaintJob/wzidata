@@ -1,10 +1,6 @@
 import { HTMLAttributes } from "react";
-
-export type SortableItemType = {
-	id: number;
-	text: string;
-};
+import { Instruction } from "./instructions/instruction";
 
 export type SortableItemProps = {
-	item: SortableItemType;
+  item: Instruction;
 } & HTMLAttributes<HTMLDivElement>;

@@ -26,7 +26,6 @@ export function getCheapestPath(
     jointStrikeMultiplier,
     hospitals
   );
-  console.log(cheapestPath.TotalCost);
   conqueredZones.forEach((z) => {
     const path = getPath(
       z,

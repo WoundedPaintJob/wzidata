@@ -5,7 +5,6 @@ import Item from "./item";
 const SortableItem = ({ item, ...props }: SortableItemProps) => {
   const {
     attributes,
-    isDragging,
     listeners,
     setNodeRef,
     transform,

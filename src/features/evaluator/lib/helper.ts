@@ -10,7 +10,6 @@ import {
   totalCostForZone,
 } from "@features/hospital/lib/helper";
 import { BonusState } from "@features/bonus/lib/types";
-import { z } from "zod";
 import { MaterialKind, MaterialType } from "@features/material/lib/enums";
 import { MaterialState } from "@features/material/lib/types";
 
@@ -65,13 +64,14 @@ export function getCacheCardProps(
   unconqueredZones
     .filter((z) => z.Reward && z.Reward.Cache)
     .forEach((zone) => {
-      if (zone.Reward.Cache.Armies)
+      if (zone.Reward && zone.Reward.Cache && zone.Reward.Cache.Armies)
         totalArmyCache += zone.Reward.Cache.Armies * armyCacheMultiplier;
-      if (zone.Reward.Cache.Money)
+      if (zone.Reward && zone.Reward.Cache && zone.Reward.Cache.Money)
         totalMoneycache += zone.Reward.Cache.Money * moneyCacheMultiplier;
-      if (zone.Reward.Cache.Materials) {
+      if (zone.Reward && zone.Reward.Cache && zone.Reward.Cache.Materials) {
         zone.Reward.Cache.Materials.forEach((mat) => {
           const stateMat = materials.get(mat.Type);
+          if (!stateMat) return;
           if (mat.Kind == MaterialKind.Ore) {
             totalResourceCache +=
               mat.Amount *
@@ -99,13 +99,14 @@ export function getCacheCardProps(
   unconqueredBonuses
     .filter((b) => b.Reward && b.Reward.Cache)
     .forEach((bonus) => {
-      if (bonus.Reward.Cache.Armies)
+      if (bonus.Reward && bonus.Reward.Cache && bonus.Reward.Cache.Armies)
         totalArmyCache += bonus.Reward.Cache.Armies * armyCacheMultiplier;
-      if (bonus.Reward.Cache.Money)
+      if (bonus.Reward && bonus.Reward.Cache && bonus.Reward.Cache.Money)
         totalMoneycache += bonus.Reward.Cache.Money * moneyCacheMultiplier;
-      if (bonus.Reward.Cache.Materials) {
+      if (bonus.Reward && bonus.Reward.Cache && bonus.Reward.Cache.Materials) {
         bonus.Reward.Cache.Materials.forEach((mat) => {
           const stateMat = materials.get(mat.Type);
+          if (!stateMat) return;
           if (mat.Kind == MaterialKind.Ore) {
             totalResourceCache +=
               mat.Amount *
@@ -149,8 +150,8 @@ export function getMercenaryCardProps(
   let remainingMercenaries = 0;
   let remainingCost = 0;
   unconqueredZones
-    .filter((z) => z.Reward && z.Reward.MercenaryCamp)
     .forEach((zone) => {
+      if (!zone.Reward || !zone.Reward.MercenaryCamp) return;
       remainingMercenaries +=
         zone.Reward.MercenaryCamp.ArmiesLeft * mercenaryMultiplier;
       remainingCost +=
@@ -160,8 +161,8 @@ export function getMercenaryCardProps(
         mercenaryDiscountMultiplier;
     });
   unconqueredBonuses
-    .filter((b) => b.Reward && b.Reward.MercenaryCamp)
     .forEach((bonus) => {
+      if (!bonus.Reward || !bonus.Reward.MercenaryCamp) return;
       remainingMercenaries +=
         bonus.Reward.MercenaryCamp.ArmiesLeft * mercenaryMultiplier;
       remainingCost +=

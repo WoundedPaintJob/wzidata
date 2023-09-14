@@ -68,11 +68,15 @@ const Guide = () => {
     addInstruction(newItem);
   }
   const textAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newInstructions = instructionArraySchema.safeParse(JSON.parse(e.target.value));
-    if (newInstructions.success)
-      setInstructions(newInstructions.data);
-    else {
-      console.log(newInstructions.error);
+    try {
+      const newInstructions = instructionArraySchema.safeParse(JSON.parse(e.target.value));
+      if (newInstructions.success)
+        setInstructions(newInstructions.data);
+      else {
+        console.error(newInstructions.error);
+      }
+    } catch (e) {
+      console.error(e);
     }
   }
   return (
@@ -82,14 +86,14 @@ const Guide = () => {
           {instructionArr.map((item) => <Item item={item} key={item.Id} isActive={item.Id == activeInstruction?.Id} />)}
         </Card>
         <Card>
-          <textarea value={instructions ? JSON.stringify(instructionArr, null, 2) : ''} onChange={textAreaChange} className="bg-background" />
+          <textarea value={instructions ? JSON.stringify(instructionArr) : ''} onChange={textAreaChange} className="bg-background w-full" />
+          <div className="flex mt-12 space-x-1">
+            <Button onClick={() => addCurrent()}>Add current</Button>
+            <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
+            <Button onClick={() => addText()}>Add Text</Button>
+          </div>
         </Card>
       </Section.CardList>
-      <div className="flex">
-        <Button onClick={() => addCurrent()}>Add current</Button>
-        <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
-        <Button onClick={() => addText()}>Add Text</Button>
-      </div>
     </Section>
   );
 };

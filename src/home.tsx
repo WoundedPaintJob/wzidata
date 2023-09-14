@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { Notifications } from "react-push-notification";
 import { AdvancementType } from "@features/advancement/lib/enums";
 import { getAdvancementValue } from "@features/advancement/lib/util";
+import Manual from "@features/manual/components";
 const Home = () => {
   enableMapSet();
   const name = useLevelStore((state) => state.Name);
@@ -67,6 +68,7 @@ const Home = () => {
             </div>
             <div className="md:col-span-6">
               <MapComponent />
+              <Manual />
             </div>
           </div>
         )}
@@ -78,6 +80,9 @@ const Home = () => {
             <div className="grid grid-cols-2">
               <MapFilter />
               <Highlights />
+            </div>
+            <div>
+              <Manual />
             </div>
           </>
         )}

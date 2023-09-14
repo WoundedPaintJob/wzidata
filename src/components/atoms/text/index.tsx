@@ -21,7 +21,7 @@ const Text = (props: TextProps) => {
     textSize == 'xs' && 'text-xs',
     textMode == 'default' && 'text-main',
     textMode == 'link' &&
-      'text-main hover:cursor-pointer hover:underline text-sm',
+    'text-main hover:cursor-pointer hover:underline text-sm',
     textMode == 'inactive' && 'text-subText',
     textMode == 'passive' && 'text-subText',
     'mr-1'
@@ -33,7 +33,7 @@ const Text = (props: TextProps) => {
       </span>
     );
   }
-  if (container == 'p') {
+  else {
     return (
       <p onClick={props.onClick} className={className}>
         {props.children}

@@ -18,7 +18,7 @@ const RenderOption = (props: { type: RenderOptionType }) => {
     : false;
   return (
     <div className="flex">
-      <CheckBox checked={checked} onClick={() => checkHandler(props.type)} />
+      <CheckBox checked={checked || false} onClick={() => checkHandler(props.type)} />
       <Text size="small" className="ml-1">
         {propsTypeToString(props.type)}
       </Text>

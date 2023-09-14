@@ -51,6 +51,7 @@ export const createPersistSlice: StateCreator<
         state.Recipes = data.Recipes;
         state.SuperCamp = data.SuperCamp;
         state.SuperCamp.Level = 1;
+        state.Instructions = data.Instructions;
       })
     );
   },
@@ -113,6 +114,7 @@ export const createPersistSlice: StateCreator<
         state.Recipes = data.Recipes;
         state.SuperCamp = data.SuperCamp;
         state.SuperCamp.Level = state.SuperCampLevel;
+        state.Instructions = data.Instructions;
       })
     );
   },

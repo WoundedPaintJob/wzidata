@@ -2,6 +2,7 @@ import { ArmyCampState } from "@features/armyCamp/lib/types";
 import { BonusState } from "@features/bonus/lib/types";
 import { CrafterState } from "@features/crafter/lib/types";
 import { DigSiteState } from "@features/digSite/lib/types";
+import { InstructionState } from "@features/guide/lib/instructions/instruction";
 import { HospitalState } from "@features/hospital/lib/types";
 import { LevelInfo } from "@features/level/lib/types";
 import { MarketState } from "@features/market/lib/types";
@@ -63,6 +64,7 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
       MineLevels: [],
       SuperCampLevel: 0,
       OwnedTechs: [],
+      Instructions: new Map<number, InstructionState>(),
     };
     data.Materials.forEach((material) => {
       const newMaterial = material as MaterialState;

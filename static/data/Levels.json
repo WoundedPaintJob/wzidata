@@ -18,6 +18,447 @@
     "Reward": null
   },
   {
+    "Name": "Floating Rocks",
+    "Id": 3,
+    "ImageWidth": 1777,
+    "ImageHeight": 1000,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "War Of The Worlds",
+    "Id": 4,
+    "ImageWidth": 3000,
+    "ImageHeight": 950,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Ursa:Luna",
+    "Id": 5,
+    "ImageWidth": 1470,
+    "ImageHeight": 1090,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Hardened Ursa:Luna",
+    "Id": 10005,
+    "ImageWidth": 1470,
+    "ImageHeight": 1090,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "Superpowers: You can now use 5 powers at a time to get double effect from them!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "Superpowers"
+    }
+  },
+  {
+    "Name": "Final Earth",
+    "Id": 6,
+    "ImageWidth": 1345,
+    "ImageHeight": 845,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 1.15,
+      "Ore": {
+        "Type": 1,
+        "Kind": "Ore",
+        "Name": "Copper",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-FFC000.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Drakemor\u0027s World",
+    "Id": 7,
+    "ImageWidth": 3000,
+    "ImageHeight": 2000,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 1.26,
+      "Ore": {
+        "Type": 2,
+        "Kind": "Ore",
+        "Name": "Tin",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-FFB1FC.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Peloponnesian War",
+    "Id": 8,
+    "ImageWidth": 1900,
+    "ImageHeight": 1100,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 1.31,
+      "Ore": {
+        "Type": 3,
+        "Kind": "Ore",
+        "Name": "Iron",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-65C0C5.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Hardened Peloponnesian War",
+    "Id": 10008,
+    "ImageWidth": 1900,
+    "ImageHeight": 1100,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "Better Draft Indicator: The circle that shows you where drafts are is now bigger and appears more often!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "SeeingCircles"
+    }
+  },
+  {
+    "Name": "K-PX",
+    "Id": 9,
+    "ImageWidth": 1120,
+    "ImageHeight": 1120,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 2.07,
+      "Ore": {
+        "Type": 4,
+        "Kind": "Ore",
+        "Name": "Zinc",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-907F2C.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "The Siege of Feldmere",
+    "Id": 10,
+    "ImageWidth": 2427,
+    "ImageHeight": 1389,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 3.2,
+      "Ore": {
+        "Type": 5,
+        "Kind": "Ore",
+        "Name": "Nickel",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-0017FF.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Hardened Siege of Feldmere",
+    "Id": 10010,
+    "ImageWidth": 2427,
+    "ImageHeight": 1389,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "The bonus armies received from watching ads is permanently increased by 50%!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "CouchPotato"
+    }
+  },
+  {
+    "Name": "Sengoku : Rise of Oda Nobunaga",
+    "Id": 11,
+    "ImageWidth": 3300,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 5.2,
+      "Ore": {
+        "Type": 6,
+        "Kind": "Ore",
+        "Name": "Lead",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-AD3A3A.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Copper Creek Castle",
+    "Id": 12,
+    "ImageWidth": 2200,
+    "ImageHeight": 2000,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 5.58,
+      "Ore": {
+        "Type": 7,
+        "Kind": "Ore",
+        "Name": "Silicon",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-47FF36.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Hardened Copper Creek Castle",
+    "Id": 10012,
+    "ImageWidth": 2200,
+    "ImageHeight": 2000,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "You received an Epic Triple Strike artifact!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "TheLegend"
+    }
+  },
+  {
+    "Name": "Geopolitics",
+    "Id": 13,
+    "ImageWidth": 3300,
+    "ImageHeight": 1900,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 5.61,
+      "Ore": {
+        "Type": 8,
+        "Kind": "Ore",
+        "Name": "Aluminum",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-C5C4AA.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Breaking Green",
+    "Id": 14,
+    "ImageWidth": 2200,
+    "ImageHeight": 1700,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 6.57,
+      "Ore": {
+        "Type": 9,
+        "Kind": "Ore",
+        "Name": "Silver",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-E9E9E9.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Far Land",
+    "Id": 15,
+    "ImageWidth": 3250,
+    "ImageHeight": 2300,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 7.57,
+      "Ore": {
+        "Type": 10,
+        "Kind": "Ore",
+        "Name": "Gold",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-FFEB00.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Hardened Far Land",
+    "Id": 10015,
+    "ImageWidth": 3250,
+    "ImageHeight": 2300,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "You received a mine doubler!  One of your mines will now permanently give twice as much ore.  You can switch which mine is doubled at any time.",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "RockCandy"
+    }
+  },
+  {
+    "Name": "Reconquest 1065",
+    "Id": 16,
+    "ImageWidth": 2500,
+    "ImageHeight": 2000,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 8.59,
+      "Ore": {
+        "Type": 11,
+        "Kind": "Ore",
+        "Name": "Platinum",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-FF00DB.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Fort Harbor",
+    "Id": 17,
+    "ImageWidth": 2900,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 9.28,
+      "Ore": {
+        "Type": 12,
+        "Kind": "Ore",
+        "Name": "Titanium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-00F5FF.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Europe 1066 AD",
+    "Id": 18,
+    "ImageWidth": 2490,
+    "ImageHeight": 1595,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 10.43,
+      "Ore": {
+        "Type": 13,
+        "Kind": "Ore",
+        "Name": "Thorium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-FF8E00.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "AD 1045: Roads of Silk and Iron",
+    "Id": 19,
+    "ImageWidth": 3300,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 11.38,
+      "Ore": {
+        "Type": 14,
+        "Kind": "Ore",
+        "Name": "Neodymium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-8600FF.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Old Town",
+    "Id": 20,
+    "ImageWidth": 3250,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 12.47,
+      "Ore": {
+        "Type": 15,
+        "Kind": "Ore",
+        "Name": "Chromium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-FF0026.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Hardened Old Town",
+    "Id": 10020,
+    "ImageWidth": 3250,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "The Supercamp now gives 10% more armies permanently!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "SuperArmies"
+    }
+  },
+  {
     "Name": "Orbis Veteribus Notus",
     "Id": 21,
     "ImageWidth": 3330,
@@ -38,6 +479,410 @@
       },
       "Type": "OreProduction"
     }
+  },
+  {
+    "Name": "Scandinavia and the Nordic Countries",
+    "Id": 22,
+    "ImageWidth": 3330,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 13.7,
+      "Ore": {
+        "Type": 17,
+        "Kind": "Ore",
+        "Name": "Lanthanum",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-734400.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Hardened Scandinavia and the Nordic Countries",
+    "Id": 10022,
+    "ImageWidth": 3330,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "You received a permanent 4th artifact slot for active artifacts!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "FourthBoy"
+    }
+  },
+  {
+    "Name": "Asia: Population Density",
+    "Id": 23,
+    "ImageWidth": 3300,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 13.34,
+      "Ore": {
+        "Type": 18,
+        "Kind": "Ore",
+        "Name": "Samarium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-D9D4AD.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Africa",
+    "Id": 24,
+    "ImageWidth": 3330,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 13.39,
+      "Ore": {
+        "Type": 19,
+        "Kind": "Ore",
+        "Name": "Terbium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-FF6260.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Rise and Fall of the Roman Empire",
+    "Id": 25,
+    "ImageWidth": 3000,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 12.79,
+      "Ore": {
+        "Type": 20,
+        "Kind": "Ore",
+        "Name": "Erbium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-FFCD6D.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Hardened Rise and Fall of the Roman Empire",
+    "Id": 10025,
+    "ImageWidth": 3000,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "All Arena rewards are permanently increased by 20%!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "Gladiator"
+    }
+  },
+  {
+    "Name": "Australia",
+    "Id": 26,
+    "ImageWidth": 3330,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 11.94,
+      "Ore": {
+        "Type": 21,
+        "Kind": "Ore",
+        "Name": "Yttrium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-059896.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Netherlands",
+    "Id": 27,
+    "ImageWidth": 3330,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 12.56,
+      "Ore": {
+        "Type": 22,
+        "Kind": "Ore",
+        "Name": "Dysprosium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-FDC7E5.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "China",
+    "Id": 28,
+    "ImageWidth": 3000,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": {
+      "Description": null,
+      "MaxTime": 12.82,
+      "Ore": {
+        "Type": 23,
+        "Kind": "Ore",
+        "Name": "Unobtanium",
+        "Cost": 0,
+        "Amount": 0,
+        "Multiplier": 0,
+        "Image": "Rock-1A20B0.png"
+      },
+      "Type": "OreProduction"
+    }
+  },
+  {
+    "Name": "Hardened China",
+    "Id": 10028,
+    "ImageWidth": 3000,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "All artifact dig times are permanently reduced by 10%!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "Molification"
+    }
+  },
+  {
+    "Name": "Afro-Eurasia Gargantuan",
+    "Id": 29,
+    "ImageWidth": 3320,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Triskelion",
+    "Id": 30,
+    "ImageWidth": 3200,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Hardened Triskelion",
+    "Id": 10030,
+    "ImageWidth": 3200,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "Attacks against you in battles are permanently decreased by 10%!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "Protection"
+    }
+  },
+  {
+    "Name": "United States",
+    "Id": 31,
+    "ImageWidth": 3330,
+    "ImageHeight": 2110,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Europe Huge",
+    "Id": 32,
+    "ImageWidth": 3330,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Hardened Europe Huge",
+    "Id": 10032,
+    "ImageWidth": 3330,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": true,
+    "Reward": {
+      "Description": "You received the Update All button, which can update all of your multi-levels at once instead of having to open each one!",
+      "MaxTime": null,
+      "Ore": null,
+      "Type": "Updater"
+    }
+  },
+  {
+    "Name": "Regio Coquus",
+    "Id": 33,
+    "ImageWidth": 1093,
+    "ImageHeight": 849,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Land of Bork",
+    "Id": 34,
+    "ImageWidth": 1670,
+    "ImageHeight": 1110,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Planetary Annihilation",
+    "Id": 35,
+    "ImageWidth": 3300,
+    "ImageHeight": 2000,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Kenorland",
+    "Id": 36,
+    "ImageWidth": 1524,
+    "ImageHeight": 1183,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Potatarchipelago",
+    "Id": 37,
+    "ImageWidth": 1330,
+    "ImageHeight": 1000,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Plateau Assault",
+    "Id": 38,
+    "ImageWidth": 1545,
+    "ImageHeight": 935,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Rise of Rome",
+    "Id": 39,
+    "ImageWidth": 2689,
+    "ImageHeight": 1574,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Expedition",
+    "Id": 40,
+    "ImageWidth": 1091,
+    "ImageHeight": 759,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Dodecahedron of Doom",
+    "Id": 41,
+    "ImageWidth": 3330,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "The Crusades",
+    "Id": 42,
+    "ImageWidth": 2438,
+    "ImageHeight": 1750,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Siege Of Pameromon",
+    "Id": 43,
+    "ImageWidth": 2150,
+    "ImageHeight": 1150,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Medieval Battleground",
+    "Id": 44,
+    "ImageWidth": 3300,
+    "ImageHeight": 2400,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Aklog World",
+    "Id": 45,
+    "ImageWidth": 3000,
+    "ImageHeight": 1745,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "King\u0027s Archipelago",
+    "Id": 46,
+    "ImageWidth": 3315,
+    "ImageHeight": 1592,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Seven Years War",
+    "Id": 47,
+    "ImageWidth": 3298,
+    "ImageHeight": 2365,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
+  },
+  {
+    "Name": "Thirty Years War",
+    "Id": 48,
+    "ImageWidth": 3330,
+    "ImageHeight": 2200,
+    "HaveData": true,
+    "IsHardened": false,
+    "Reward": null
   },
   {
     "Name": "Hex Earth",

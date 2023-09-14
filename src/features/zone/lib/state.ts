@@ -17,7 +17,6 @@ export const createZoneSlice: StateCreator<
         const stateZone = state.Zones.get(zone.Id);
         if (stateZone == undefined) return;
         stateZone.Conquered = newValue;
-        zone.Conquered = newValue;
         if (state.ActiveZone && state.ActiveZone.Id == zone.Id)
           state.ActiveZone.Conquered = newValue;
         zone.Bonuses.forEach((b) => {

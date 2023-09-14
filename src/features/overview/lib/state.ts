@@ -11,10 +11,10 @@ import { ArmyCampState } from '@features/armyCamp/lib/types';
 import { MineState } from '@features/mine/lib/types';
 
 export const createOverviewSlice: StateCreator<
-	LevelState,
-	[["zustand/devtools", never], ["zustand/subscribeWithSelector", never]],
-	[],
-	OverviewSlice
+  LevelState,
+  [["zustand/devtools", never], ["zustand/subscribeWithSelector", never]],
+  [],
+  OverviewSlice
 > = (set) => ({
   Id: -1,
   Name: "",
@@ -27,9 +27,9 @@ export const createOverviewSlice: StateCreator<
   SetActiveZone: (zone) =>
     set(
       produce((state: LevelState) => {
-        state.ActiveBonus = null;
-        state.ActiveMaterial = null;
-        state.ActivePath = null;
+        state.ActiveBonus = undefined;
+        state.ActiveMaterial = undefined;
+        state.ActivePath = undefined;
         state.ActiveZone = state.Zones.get(zone.Id);
       })
     ),
@@ -37,9 +37,9 @@ export const createOverviewSlice: StateCreator<
   SetActiveBonus: (bonus) =>
     set(
       produce((state: LevelState) => {
-        state.ActiveZone = null;
-        state.ActiveMaterial = null;
-        state.ActivePath = null;
+        state.ActiveZone = undefined;
+        state.ActiveMaterial = undefined;
+        state.ActivePath = undefined;
         state.ActiveBonus = state.Bonuses.get(bonus.Id);
       })
     ),
@@ -47,9 +47,9 @@ export const createOverviewSlice: StateCreator<
   SetActiveMaterial: (material) =>
     set(
       produce((state: LevelState) => {
-        state.ActiveZone = null;
-        state.ActiveBonus = null;
-        state.ActivePath = null;
+        state.ActiveZone = undefined;
+        state.ActiveBonus = undefined;
+        state.ActivePath = undefined;
         state.ActiveMaterial = state.Materials.get(material);
       })
     ),
@@ -71,7 +71,8 @@ export const createOverviewSlice: StateCreator<
     set(
       produce((state: LevelState) => {
         const te = state.Techs.flat().find((t) => t.Id == tech.Id);
-        te.Bought = !te.Bought;
+        if (te)
+          te.Bought = !te.Bought;
       })
     ),
   TechDisplay: TechDisplayMode.Market,
@@ -85,14 +86,16 @@ export const createOverviewSlice: StateCreator<
     set(
       produce((state: LevelState) => {
         const ac = state.ArmyCamps.get(armyCamp.Index);
-        ac.SuperCharged = !ac.SuperCharged;
+        if (ac)
+          ac.SuperCharged = !ac.SuperCharged;
       })
     ),
   SuperChargeMine: (mine: MineState) =>
     set(
       produce((state: LevelState) => {
         const mn = state.Mines.get(mine.Index);
-        mn.SuperCharged = !mn.SuperCharged;
+        if (mn)
+          mn.SuperCharged = !mn.SuperCharged;
       })
     ),
 });

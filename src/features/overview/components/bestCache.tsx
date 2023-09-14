@@ -85,7 +85,7 @@ const BestCache = (props: BestCacheProps) => {
       } else if (
         bestCacheBonusCost > 0 &&
         props.rewardProperty(bonus.Reward) / cost >
-          props.rewardProperty(bestCacheBonus.Reward) / bestCacheBonusCost
+        props.rewardProperty(bestCacheBonus.Reward) / bestCacheBonusCost
       ) {
         bestCacheBonus = bonus;
         bestCacheBonusCost = cost;
@@ -93,10 +93,10 @@ const BestCache = (props: BestCacheProps) => {
     });
   }
   if (
-    bestCacheZone != null &&
-    bestCacheBonus != null &&
+    bestCacheZone !== null &&
+    bestCacheBonus !== null &&
     props.rewardProperty(bestCacheBonus.Reward) / bestCacheBonusCost >
-      props.rewardProperty(bestCacheZone.Reward) / bestCacheZoneCost
+    props.rewardProperty(bestCacheZone.Reward) / bestCacheZoneCost
   ) {
     return (
       <StatRow

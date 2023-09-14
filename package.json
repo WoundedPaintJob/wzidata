@@ -18,7 +18,7 @@
     "@parcel/config-default": "^2.9.3",
     "@parcel/transformer-svg-react": "^2.9.3",
     "@storybook/blocks": "7.0.20",
-    "@storybook/builder-vite": "^7.4.0",
+    "@storybook/builder-vite": "^7.4.1",
     "@storybook/react": "7.0.20",
     "@storybook/react-vite": "7.0.20",
     "@storybook/testing-library": "0.0.14-next.2",
@@ -39,9 +39,6 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@dnd-kit/core": "^6.0.8",
-    "@dnd-kit/sortable": "^7.0.2",
-    "@dnd-kit/utilities": "^3.2.1",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "date-fns": "^2.30.0",

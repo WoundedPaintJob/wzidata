@@ -2,7 +2,8 @@ import { z } from "zod";
 
 export enum InstructionType {
   ConquerZone,
-  ConquerBonus
+  ConquerBonus,
+  Text
 }
 
 export const instructionTypeSchema = z.nativeEnum(InstructionType);

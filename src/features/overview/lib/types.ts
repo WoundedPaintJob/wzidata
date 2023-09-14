@@ -15,20 +15,20 @@ export interface OverviewProps {
   Id: number;
   ImageWidth: number;
   ImageHeight: number;
-  LevelRevision: number;
+  LevelRevision: number | null;
   Materials: Map<MaterialType, MaterialState>;
   Techs: TechState[][];
 }
 export interface OverviewSlice extends OverviewProps {
-  ActiveZone: ZoneState;
+  ActiveZone: ZoneState | undefined;
   SetActiveZone: (zone: ZoneState) => void;
-  ActiveBonus: BonusState;
+  ActiveBonus: BonusState | undefined;
   SetActiveBonus: (bonus: BonusState) => void;
-  ActiveMaterial: MaterialState;
+  ActiveMaterial: MaterialState | undefined;
   SetActiveMaterial: (material: MaterialType) => void;
   ActiveTab: Tabs;
   SetActiveTab: (tab: Tabs) => void;
-  ActivePath: MapPath;
+  ActivePath: MapPath | undefined;
   SetActivePath: (path: MapPath) => void;
   ToggleTech: (tech: TechState) => void;
   TechDisplay: TechDisplayMode;
@@ -54,7 +54,7 @@ export interface BiggestCacheProps {
   cacheBonuses: BonusState[];
 }
 export interface BestCacheProps {
-  rewardProperty: (reward: Reward) => number;
+  rewardProperty: (reward: Reward | null | undefined) => number;
   cacheZones: ZoneState[];
   cacheBonuses: BonusState[];
   zones: ZoneState[];

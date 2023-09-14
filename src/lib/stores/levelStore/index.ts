@@ -6,6 +6,7 @@ import { createPersistSlice } from "@lib/state/persistSlice";
 import { create } from "zustand";
 import { devtools, persist, subscribeWithSelector } from "zustand/middleware";
 import { LevelState } from "./types";
+import { createGuideSlice } from "@features/guide/lib/state";
 
 const useLevelStore = create<LevelState>()(
   devtools(
@@ -16,6 +17,7 @@ const useLevelStore = create<LevelState>()(
         ...createBonusSlice(...a),
         ...createAssetLevelSlice(...a),
         ...createPersistSlice(...a),
+        ...createGuideSlice(...a)
       })),
       {
         name: "level-storage",
@@ -30,8 +32,7 @@ const useLevelStore = create<LevelState>()(
                 Id: 2,
                 ImageWidth: 1270,
                 ImageHeight: 650,
-                ConqueredZones: [],
-              } as LevelState);
+              } as Partial<LevelState>);
             return {
               state: {
                 ...baseState,

@@ -1,99 +1,95 @@
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  PointerSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { useState } from "react";
-import SortableItem from "./sortableItem";
 import Section from "@components/atoms/section";
 import Button from "@components/atoms/button";
 import useLevelStore from "@lib/stores/levelStore";
-import { InstructionState } from "../lib/instructions/instruction";
 import { InstructionType } from "../lib/enums";
 import { ConquerZoneInstructionState } from "../lib/instructions/conquerZone";
 import { ConquerBonusInstructionState } from "../lib/instructions/conquerBonus";
+import Item from "./item";
+import Card from "@components/atoms/card";
+import { useState } from "react";
+import { TextInstructionState } from "../lib/instructions/text";
+import { instructionArraySchema } from "../lib/instructions/instruction";
 
 const Guide = () => {
   const activeZone = useLevelStore((state) => state.ActiveZone);
   const activeBonus = useLevelStore((state) => state.ActiveBonus);
   const activePath = useLevelStore((state) => state.ActivePath);
-  const [items, setItems] = useState<InstructionState[]>([]);
-  const sensors = useSensors(useSensor(PointerSensor), useSensor(TouchSensor));
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    if (!over) return;
-    const activeItem = items.find((item) => item.id === active.id);
-    const overItem = items.find((item) => item.id === over.id);
-    if (!activeItem || !overItem) {
-      return;
-    }
-    const activeIndex = items.findIndex((item) => item.id === active.id);
-    const overIndex = items.findIndex((item) => item.id === over.id);
-
-    if (activeIndex !== overIndex) {
-      setItems((prev) =>
-        arrayMove<InstructionState>(prev, activeIndex, overIndex)
-      );
-    }
-  }
+  const instructions = useLevelStore((state) => state.Instructions);
+  const addInstruction = useLevelStore((state) => state.AddInstruction);
+  const activeInstruction = useLevelStore((state) => state.ActiveInstruction);
+  const setInstructions = useLevelStore((state) => state.SetInstructions);
+  const instructionArr = Array.from(instructions.values());
+  const [message, setMessage] = useState('');
   const addCurrent = () => {
     let maxId = 0;
-    if (items.length > 0)
-      maxId = Math.max(...items.map((i) => i.id));
+    if (instructions.size > 0)
+      maxId = Math.max(...instructions.keys());
     if (activePath) {
       const newItem: ConquerZoneInstructionState = {
-        id: maxId + 1,
-        description: `Path to ${activePath.Zones[activePath.Zones.length - 1].Name}`,
-        type: InstructionType.ConquerZone,
-        done: false,
-        zoneId: activePath.Zones[activePath.Zones.length - 1].Id,
-        doPath: true,
+        Id: maxId + 1,
+        Description: `Path to ${activePath.Zones[activePath.Zones.length - 1].Name}`,
+        Type: InstructionType.ConquerZone,
+        Done: false,
+        ZoneIds: activePath.Zones.map((z) => z.Id),
       };
-      setItems([...items, newItem]);
+      addInstruction(newItem);
     } else if (activeZone) {
       const newItem: ConquerZoneInstructionState = {
-        id: maxId + 1,
-        description: `Conquer Zone ${activeZone.Name}`,
-        type: InstructionType.ConquerZone,
-        done: false,
-        zoneId: activeZone.Id,
-        doPath: false,
+        Id: maxId + 1,
+        Description: `Conquer Zone ${activeZone.Name}`,
+        Type: InstructionType.ConquerZone,
+        Done: false,
+        ZoneIds: [activeZone.Id],
       };
-      setItems([...items, newItem]);
+      addInstruction(newItem);
     } else if (activeBonus) {
       const newItem: ConquerBonusInstructionState = {
-        id: maxId + 1,
-        description: `Conquer Bonus ${activeBonus.Name}`,
-        type: InstructionType.ConquerBonus,
-        done: false,
-        bonusId: activeBonus.Id
+        Id: maxId + 1,
+        Description: `Conquer Bonus ${activeBonus.Name}`,
+        Type: InstructionType.ConquerBonus,
+        Done: false,
+        BonusId: activeBonus.Id
       }
-      setItems([...items, newItem]);
+      addInstruction(newItem);
     }
   };
+  const addText = () => {
+    let maxId = 0;
+    if (instructions.size > 0)
+      maxId = Math.max(...instructions.keys());
+    const newItem: TextInstructionState = {
+      Id: maxId + 1,
+      Description: message,
+      Type: InstructionType.Text,
+      Done: false,
+      ZoneId: activeZone ? activeZone.Id : null,
+      BonusId: activeBonus ? activeBonus.Id : null,
+    }
+    addInstruction(newItem);
+  }
+  const textAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newInstructions = instructionArraySchema.safeParse(JSON.parse(e.target.value));
+    if (newInstructions.success)
+      setInstructions(newInstructions.data);
+    else {
+      console.log(newInstructions.error);
+    }
+  }
   return (
     <Section>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext items={items} strategy={verticalListSortingStrategy}>
-          {items.map((id) => (
-            <SortableItem key={id.id} item={id} onClick={() => console.log("hej")} />
-          ))}
-        </SortableContext>
-      </DndContext>
-      <Button onClick={() => addCurrent()}>Add current</Button>
+      <Section.CardList>
+        <Card>
+          {instructionArr.map((item) => <Item item={item} key={item.Id} isActive={item.Id == activeInstruction?.Id} />)}
+        </Card>
+        <Card>
+          <textarea value={instructions ? JSON.stringify(instructionArr, null, 2) : ''} onChange={textAreaChange} className="bg-background" />
+        </Card>
+      </Section.CardList>
+      <div className="flex">
+        <Button onClick={() => addCurrent()}>Add current</Button>
+        <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
+        <Button onClick={() => addText()}>Add Text</Button>
+      </div>
     </Section>
   );
 };

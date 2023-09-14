@@ -10,7 +10,7 @@ const ZoneHeader = (props: { zoneId: number }) => {
     <div className="flex">
       <ZoneLink zone={zone} />
       <CheckBox
-        checked={zone.Conquered}
+        checked={zone.Conquered || false}
         onClick={() => toggleConquered(zone)}
       />
     </div>

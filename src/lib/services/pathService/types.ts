@@ -1,7 +1,6 @@
-import { ZoneState } from '@features/zone/lib/types';
+import { ZoneState } from "@features/zone/lib/types";
 
 export type PathZone = {
   Zone: ZoneState;
-  Heuristics: number;
-  Parent: PathZone;
+  Counted: boolean;
 };

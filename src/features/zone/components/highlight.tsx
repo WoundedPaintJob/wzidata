@@ -2,7 +2,10 @@ import Card from "@components/atoms/card";
 import StatRow from "@components/atoms/statrow";
 import Text from "@components/atoms/text";
 import BonusLink from "@features/bonus/components/link";
-import { hospitalSaveForZone } from "@features/hospital/lib/helper";
+import {
+  hospitalSaveForZone,
+  totalCostForZone,
+} from "@features/hospital/lib/helper";
 import RewardDetails from "@features/reward/components/details";
 import { formatNumber } from "@helpers/numberHelper";
 import { getCheapestPath } from "@lib/services/pathService";
@@ -22,8 +25,8 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
   const artifacts = usePlayerStore((state) => state.Artifacts);
   const techs = useLevelStore((state) => state.Techs);
   if (!props.zone || allZones == undefined) return <></>;
-  const conqueredHospitals = hospitals.filter(
-    (h) => allZones.get(h.Zone).Conquered
+  const conqueredHospitals = hospitals.filter((h) =>
+    h.Zone ? allZones.get(h.Zone)?.Conquered : false
   );
 
   const hospitalMultiplier = getMultiplier(
@@ -38,21 +41,14 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
     artifacts,
     techs
   );
-  let cost = props.zone.Cost;
-  let zoneHospitalSaves = 0;
-  conqueredHospitals.forEach(
-    (h) =>
-      (zoneHospitalSaves +=
-				hospitalSaveForZone(h, props.zone) * hospitalMultiplier)
+  const cost = totalCostForZone(
+    props.zone,
+    conqueredHospitals,
+    hospitalMultiplier,
+    jointStrikeMultiplier,
+    props.zone.ConnectedZones.filter((z) => allZones.get(z)?.Conquered).length >
+      1
   );
-  cost -= zoneHospitalSaves;
-  cost = Math.max(cost, 0);
-  if (
-    props.zone.ConnectedZones.filter((z) => allZones.get(z).Conquered).length >
-		1
-  )
-    cost *= jointStrikeMultiplier;
-
   return (
     <Card>
       <Card.Header>{props.zone.Name}</Card.Header>
@@ -75,12 +71,14 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
             )
           }
         >
-					Find Path
+          Find Path
         </Button>
         <RewardDetails reward={props.zone.Reward} />
 
         <Text>Bonuses</Text>
-        {props.zone.Bonuses.map((b) => (
+        {props.zone.Bonuses.slice().sort(
+          (a, b) => a.ZoneIds.length - b.ZoneIds.length
+        ).map((b) => (
           <BonusLink key={b.Id} bonus={b} />
         ))}
       </Card.Body>

@@ -50,14 +50,117 @@ export function getCheapestPath(
       cheapestPath = path;
     }
   });
-  return cheapestPath;
-  return evaluateCaptureNeighbours(
-    cheapestPath,
+  return evaluateRemoveNeighbours(
+    evaluateCaptureNeighbours(
+      cheapestPath,
+      allZones,
+      hospitalMultiplier,
+      jointStrikeMultiplier,
+      hospitals
+    ),
     allZones,
     hospitalMultiplier,
     jointStrikeMultiplier,
     hospitals
   );
+}
+export function reversePath(
+  endZone: ZoneState,
+  allZones: Map<number, ZoneState>,
+  hospitalMultiplier: number,
+  jointStrikeMultiplier: number,
+  hospitals: HospitalState[]
+) {
+  let openSet = new Set<ZoneState>();
+  openSet.add(endZone);
+  const closedSet = new Set<ZoneState>();
+  const costs = new Map<ZoneState, number>();
+  const parentZone = new Map<ZoneState, ZoneState>();
+  allZones.forEach((zone) => {
+    costs.set(
+      zone,
+      totalCostForZone(
+        zone,
+        hospitals,
+        hospitalMultiplier,
+        jointStrikeMultiplier,
+        zone.ConnectedZones.filter((z) => {
+          return allZones.get(z)?.Conquered;
+        }).length > 1
+      )
+    );
+  });
+  while (openSet.size > 0) {
+    let current: ZoneState = openSet.values().next().value;
+    let minScore: number = Infinity;
+    openSet.forEach((zone) => {
+      const score = costs.get(zone)!;
+      if (score < minScore) {
+        minScore = score;
+        current = zone;
+      }
+    });
+    if (current.Conquered) {
+      const path: MapPath = {
+        TotalCost: 0,
+        Zones: [],
+      };
+      const zones = reconstructPath(endZone, current, parentZone);
+      zones.reverse().forEach((zone) => {
+        const cost = totalCostForZone(
+          zone.Zone,
+          hospitals,
+          hospitalMultiplier,
+          jointStrikeMultiplier,
+          zone.Zone.ConnectedZones.filter((z) => {
+            return (
+              allZones.get(z)?.Conquered ||
+              zones.filter((iz) => iz.Counted && iz.Zone.Id == z).length > 0
+            );
+          }).length > 1
+        );
+        path.TotalCost += cost;
+        path.Zones.push(zone.Zone);
+        zone.Counted = true;
+      });
+      return evaluateRemoveNeighbours(
+        evaluateCaptureNeighbours(
+          path,
+          allZones,
+          hospitalMultiplier,
+          jointStrikeMultiplier,
+          hospitals
+        ),
+        allZones,
+        hospitalMultiplier,
+        jointStrikeMultiplier,
+        hospitals
+      );
+    }
+    closedSet.add(current);
+    openSet.delete(current);
+    for (const neighborId of current.ConnectedZones) {
+      const neighbor = allZones.get(neighborId);
+      if (!neighbor) continue;
+      if (closedSet.has(neighbor)) continue;
+      const newCost = totalCostForZone(
+        neighbor,
+        hospitals,
+        hospitalMultiplier,
+        jointStrikeMultiplier,
+        false
+      );
+      const tentative = (costs.get(current) ?? 0) + newCost;
+      if (!openSet.has(neighbor)) {
+        openSet.add(neighbor);
+      } else if (tentative >= (costs.get(neighbor) ?? 0)) {
+        continue;
+      }
+      parentZone.set(neighbor, current);
+      costs.set(neighbor, tentative);
+    }
+  }
+  return { TotalCost: Infinity, Zones: [] };
 }
 export function getPath(
   startZone: ZoneState,
@@ -122,20 +225,7 @@ export function getPath(
         path.Zones.push(zone.Zone);
         zone.Counted = true;
       });
-      //return path;
-      return evaluateRemoveNeighbours(
-        evaluateCaptureNeighbours(
-          path,
-          allZones,
-          hospitalMultiplier,
-          jointStrikeMultiplier,
-          hospitals
-        ),
-        allZones,
-        hospitalMultiplier,
-        jointStrikeMultiplier,
-        hospitals
-      );
+      return path;
     }
     closedSet.add(current);
     openSet.delete(current);
@@ -245,7 +335,7 @@ function evaluateRemoveNeighbours(
   jointStrikeMultiplier: number,
   hospitals: HospitalState[]
 ) {
-  for (let i = 0; i < path.Zones.length; i++) {
+  for (let i = 1; i < path.Zones.length; i++) {
     const currentZone = path.Zones[i];
     const nextZone = path.Zones[i + 1];
     if (!nextZone) return path;

@@ -6,17 +6,16 @@ import { MapPath } from "../lib/types";
 import Button from "@components/atoms/button";
 
 const PathHighlight = (props: { path: MapPath }) => {
+  if (props.path.Zones.length == 0) return <></>;
   const conquerZones = useLevelStore((state) => state.ConquerZones);
   return (
     <Card>
       <Card.Header>
-				Path to {props.path.Zones[props.path.Zones.length - 1].Name}
+        Path to {props.path.Zones[props.path.Zones.length - 1].Name}
       </Card.Header>
       <Card.Body>
         <StatRow name="Cost" value={formatNumber(props.path.TotalCost)} />
-        <Button onClick={() => conquerZones(props.path.Zones)}>
-					Conquer
-        </Button>
+        <Button onClick={() => conquerZones(props.path.Zones)}>Conquer</Button>
       </Card.Body>
     </Card>
   );

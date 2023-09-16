@@ -8,7 +8,7 @@ import {
 } from "@features/hospital/lib/helper";
 import RewardDetails from "@features/reward/components/details";
 import { formatNumber } from "@helpers/numberHelper";
-import { getCheapestPath } from "@lib/services/pathService";
+import { getCheapestPath, reversePath } from "@lib/services/pathService";
 import useLevelStore from "@lib/stores/levelStore";
 import usePlayerStore from "@lib/stores/playerStore";
 import { getMultiplier } from "@lib/services/multiplierService";
@@ -61,7 +61,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
         <Button
           onClick={() =>
             setPath(
-              getCheapestPath(
+              reversePath(
                 props.zone,
                 allZones,
                 hospitalMultiplier,
@@ -76,11 +76,11 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
         <RewardDetails reward={props.zone.Reward} />
 
         <Text>Bonuses</Text>
-        {props.zone.Bonuses.slice().sort(
-          (a, b) => a.ZoneIds.length - b.ZoneIds.length
-        ).map((b) => (
-          <BonusLink key={b.Id} bonus={b} />
-        ))}
+        {props.zone.Bonuses.slice()
+          .sort((a, b) => a.ZoneIds.length - b.ZoneIds.length)
+          .map((b) => (
+            <BonusLink key={b.Id} bonus={b} />
+          ))}
       </Card.Body>
     </Card>
   );

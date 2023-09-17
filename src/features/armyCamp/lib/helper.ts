@@ -30,13 +30,13 @@ export function getTotalArmyCampProduction(
   superCampMultiplier: number
 ) {
   let totalProduced =
-		superCamp.Levels[superCamp.Level - 1].Produced *
-		multiplier *
-		superCampMultiplier;
+    superCamp.Levels[superCamp.Level - 1].Produced *
+    multiplier *
+    superCampMultiplier;
   armyCamps.forEach((camp) => {
-    totalProduced += isAssetConquered(camp, zones, bonuses)
-      ? armiesProducedAtLevel(camp, revision) * multiplier
-      : 0;
+    if (isAssetConquered(camp, zones, bonuses)) {
+      totalProduced += armiesProducedAtLevel(camp, revision) * multiplier;
+    }
   });
   return totalProduced;
 }

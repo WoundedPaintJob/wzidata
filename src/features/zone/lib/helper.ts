@@ -25,10 +25,12 @@ export function getZoneColor(
   if (activeZone && activeZone.ConnectedZones.some((z) => z == zone.Id))
     return "#B0FFA1";
   if (partOfPath) return "#EEDDAA";
-  if (settings.get(RenderOptionType.MostExpensive))
+  if (settings.get(RenderOptionType.MostExpensive)) {
+    if (zone.Cost < hospitalSaves) return "#87CEEB";
     return getColorFromPercentage(zone.Cost / mostExpensive);
+  }
   if (settings.get(RenderOptionType.FreeZones) && zone.Cost < hospitalSaves)
-    return "#FFAAAA";
+    return "#87CEEB";
   if (drawBonusZones) {
     if (settings.get(RenderOptionType.Arena) && zone.BonusRewards.Arena)
       return "#B384C8";

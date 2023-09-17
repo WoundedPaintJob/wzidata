@@ -38,7 +38,7 @@ const Tech = (props: {
         <MaterialDetails
           materials={props.tech.Materials}
           multiplier={props.costMultiplier}
-          roundNumber={"default"}
+          roundNumber={"rounded"}
         />
       </Card.Body>
     </Card>

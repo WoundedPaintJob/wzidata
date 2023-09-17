@@ -4,7 +4,8 @@ import { hospitalsSavedAtLevel } from "../lib/helper";
 import { HospitalState } from "../lib/types";
 import { Settings } from "src/settings";
 
-const HospitalDetails = (props: { hospital: HospitalState }) => {
+const HospitalDetails = (props: { hospital: HospitalState | undefined }) => {
+  if (!props.hospital) return <></>;
   return (
     <div className="flex">
       <img src={`${Settings.RewardUrl}Hospital.png`} className="w-6 h-6" />

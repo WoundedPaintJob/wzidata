@@ -11,44 +11,43 @@ const BestCache = (props: BestCacheProps) => {
 
   const unconqueredZones = props.zones.filter((z) => !z.Conquered);
   const conqueredZones = props.zones.filter((z) => z.Conquered);
-  let bestCacheZone: ZoneState = null;
+  let bestCacheZone: ZoneState | null = null;
   let bestCacheZoneCost = 1e100;
-  if (props.cacheZones.length > 0) {
-    props.cacheZones.forEach((zone) => {
-      const cost = totalCostForZone(
-        zone,
-        props.conqueredHospitals,
-        props.hospitalMultiplier,
-        props.jointStrikeMultiplier,
-        conqueredZones.filter((z) => zone.ConnectedZones.includes(z.Id))
-          .length > 1
-      );
-      if (bestCacheZone == null) {
-        bestCacheZone = zone;
-        bestCacheZoneCost = cost;
-      } else if (cost == 0) {
-        if (bestCacheZoneCost == 0) {
-          if (
-            props.rewardProperty(zone.Reward) >
-            props.rewardProperty(zone.Reward)
-          ) {
-            bestCacheZone = zone;
-            bestCacheZoneCost = cost;
-          }
-        } else {
+  props.cacheZones.forEach((zone) => {
+    const cost = totalCostForZone(
+      zone,
+      props.conqueredHospitals,
+      props.hospitalMultiplier,
+      props.jointStrikeMultiplier,
+      conqueredZones.filter((z) => zone.ConnectedZones.includes(z.Id)).length >
+        1
+    );
+    if (bestCacheZone == null) {
+      bestCacheZone = zone;
+      bestCacheZoneCost = cost;
+    } else if (cost == 0) {
+      if (bestCacheZoneCost == 0) {
+        if (
+          props.rewardProperty(zone.Reward) >
+          props.rewardProperty(bestCacheZone.Reward)
+        ) {
           bestCacheZone = zone;
           bestCacheZoneCost = cost;
         }
-      } else if (
-        props.rewardProperty(zone.Reward) > props.rewardProperty(zone.Reward)
-      ) {
+      } else {
         bestCacheZone = zone;
         bestCacheZoneCost = cost;
       }
-    });
-  }
+    } else if (
+      props.rewardProperty(zone.Reward) >
+      props.rewardProperty(bestCacheZone.Reward)
+    ) {
+      bestCacheZone = zone;
+      bestCacheZoneCost = cost;
+    }
+  });
 
-  let bestCacheBonus: BonusState = null;
+  let bestCacheBonus: BonusState | null = null;
   let bestCacheBonusCost = 1e100;
   if (props.cacheBonuses.length > 0) {
     props.cacheBonuses.forEach((bonus) => {
@@ -85,7 +84,7 @@ const BestCache = (props: BestCacheProps) => {
       } else if (
         bestCacheBonusCost > 0 &&
         props.rewardProperty(bonus.Reward) / cost >
-        props.rewardProperty(bestCacheBonus.Reward) / bestCacheBonusCost
+          props.rewardProperty(bestCacheBonus.Reward) / bestCacheBonusCost
       ) {
         bestCacheBonus = bonus;
         bestCacheBonusCost = cost;
@@ -93,10 +92,10 @@ const BestCache = (props: BestCacheProps) => {
     });
   }
   if (
-    bestCacheZone !== null &&
-    bestCacheBonus !== null &&
+    bestCacheZone != null &&
+    bestCacheBonus != null &&
     props.rewardProperty(bestCacheBonus.Reward) / bestCacheBonusCost >
-    props.rewardProperty(bestCacheZone.Reward) / bestCacheZoneCost
+      props.rewardProperty(bestCacheZone.Reward) / bestCacheZoneCost
   ) {
     return (
       <StatRow

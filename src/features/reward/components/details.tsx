@@ -10,11 +10,13 @@ import MineDetails from "@features/mine/components/details";
 import CacheDetails from "@features/cache/components/details";
 import ArenaDetails from "@features/arena/components/details";
 import ArmyCampDetails from "@features/armyCamp/components/details";
+import MercenaryCampDetails from "@features/mercenaryCamp/components/details";
 
 const RewardDetails = (props: { reward: Reward }) => {
   const armyCamps = useLevelStore((state) => state.ArmyCamps);
   const hospitals = useLevelStore((state) => state.Hospitals);
   const markets = useLevelStore((state) => state.Markets);
+  const mercenaryCamps = useLevelStore((state) => state.MercenaryCamps);
   const mines = useLevelStore((state) => state.Mines);
   return (
     <>
@@ -24,17 +26,26 @@ const RewardDetails = (props: { reward: Reward }) => {
         <StatRow name="$/s" value={formatNumber(props.reward.MoneyPerSecond)} />
       )}
       {props.reward.Arena && <ArenaDetails arena={props.reward.Arena} />}
-      {props.reward.ArmyCamp && <ArmyCampDetails armyCamp={armyCamps.get(props.reward.ArmyCamp.Index)} />}
+      {props.reward.ArmyCamp && (
+        <ArmyCampDetails
+          armyCamp={armyCamps.get(props.reward.ArmyCamp.Index)}
+        />
+      )}
       {props.reward.Cache && <CacheDetails cache={props.reward.Cache} />}
       {props.reward.Hospital && (
         <HospitalDetails
           hospital={hospitals.get(props.reward.Hospital.Index)}
         />
       )}
-      {props.reward.Mine && <MineDetails mine={mines.get(props.reward.Mine.Index)} />}
+      {props.reward.Mine && (
+        <MineDetails mine={mines.get(props.reward.Mine.Index)} />
+      )}
       {props.reward.Market && (
-        <MarketDetails
-          market={markets.get(props.reward.Market.Index)}
+        <MarketDetails market={markets.get(props.reward.Market.Index)} />
+      )}
+      {props.reward.MercenaryCamp && (
+        <MercenaryCampDetails
+          mercenaryCamp={mercenaryCamps.get(props.reward.MercenaryCamp.Name)}
         />
       )}
       {props.reward.Recipe && <RecipeDetails recipe={props.reward.Recipe} />}

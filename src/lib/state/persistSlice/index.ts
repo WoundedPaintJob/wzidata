@@ -5,10 +5,10 @@ import { RenderOptionType } from "@lib/types/enums";
 import { produce } from "immer";
 
 export const createPersistSlice: StateCreator<
-	LevelState,
-	[["zustand/devtools", never], ["zustand/subscribeWithSelector", never]],
-	[],
-	PersistSlice
+  LevelState,
+  [["zustand/devtools", never], ["zustand/subscribeWithSelector", never]],
+  [],
+  PersistSlice
 > = (set) => ({
   ConqueredZones: [],
   HospitalLevels: [],
@@ -62,32 +62,47 @@ export const createPersistSlice: StateCreator<
         state.ActiveBonus = undefined;
         state.ActivePath = undefined;
         state.ConqueredZones.forEach((cz) => {
-          data.Zones.get(cz).Conquered = true;
+          const zone = data.Zones.get(cz);
+          if (zone) zone.Conquered = true;
         });
         state.ConqueredZones.forEach((cz) => {
-          data.Zones.get(cz).Bonuses.forEach((b) => {
-            if (
-              b.ZoneIds.filter((zone) => !data.Zones.get(zone).Conquered)
-                .length == 0
-            )
-              data.Bonuses.get(b.Id).Conquered = true;
-          });
+
+          const zone = data.Zones.get(cz);
+          if (zone) {
+            zone.Bonuses.forEach((b) => {
+              if (
+                b.ZoneIds.filter((iz) => {
+                  const inZone = data.Zones.get(iz);
+                  if (inZone) return !inZone.Conquered
+                  throw "No Zone in Bonus";
+                })
+                  .length == 0
+              ) {
+                const dataBonus = data.Bonuses.get(b.Id);
+                if (dataBonus) dataBonus.Conquered = true;
+              }
+            });
+          }
         });
         state.HospitalLevels.forEach((h, index) => {
-          data.Hospitals.get(index + 1).Level = h;
+          const dataHospital = data.Hospitals.get(index + 1);
+          if (dataHospital) dataHospital.Level = h;
         });
         state.OwnedTechs.forEach((t) => {
-          data.Techs.flat().find((it) => it.Id == t).Bought = true;
+          const dataTech = data.Techs.flat().find((it) => it.Id == t);
+          if (dataTech) dataTech.Bought = true;
         });
         for (let i = 0; i <= freeTechs; i++) {
           const te = data.Techs.flat().find((t) => t.Id == i);
           if (te) te.Bought = true;
         }
         state.ArmyCampLevels.forEach((ac, index) => {
-          data.ArmyCamps.get(index + 1).Level = ac;
+          const dataArmyCamp = data.ArmyCamps.get(index + 1);
+          if (dataArmyCamp) dataArmyCamp.Level = ac;
         });
         state.MineLevels.forEach((ac, index) => {
-          data.Mines.get(index + 1).Level = ac;
+          const dataMine = data.Mines.get(index + 1);
+          if (dataMine) dataMine.Level = ac;
         });
         state.StoredRenderOptions.forEach((ro) => {
           state.RenderOptions.set(ro, true);

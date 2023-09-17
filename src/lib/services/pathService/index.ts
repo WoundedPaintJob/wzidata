@@ -1,5 +1,4 @@
 import {
-  hospitalSaveForZone,
   totalCostForZone,
 } from "@features/hospital/lib/helper";
 import { HospitalState } from "@features/hospital/lib/types";
@@ -71,7 +70,7 @@ export function reversePath(
   jointStrikeMultiplier: number,
   hospitals: HospitalState[]
 ) {
-  let openSet = new Set<ZoneState>();
+  const openSet = new Set<ZoneState>();
   openSet.add(endZone);
   const closedSet = new Set<ZoneState>();
   const costs = new Map<ZoneState, number>();
@@ -91,15 +90,16 @@ export function reversePath(
     );
   });
   while (openSet.size > 0) {
-    let current: ZoneState = openSet.values().next().value;
-    let minScore: number = Infinity;
+    let current: ZoneState | undefined;
+    let minScore = Infinity;
     openSet.forEach((zone) => {
-      const score = costs.get(zone)!;
+      const score = costs.get(zone) || 0;
       if (score < minScore) {
         minScore = score;
         current = zone;
       }
     });
+    if (!current) throw "No current in path";
     if (current.Conquered) {
       const path: MapPath = {
         TotalCost: 0,
@@ -143,14 +143,17 @@ export function reversePath(
       const neighbor = allZones.get(neighborId);
       if (!neighbor) continue;
       if (closedSet.has(neighbor)) continue;
-      const newCost = totalCostForZone(
-        neighbor,
-        hospitals,
-        hospitalMultiplier,
-        jointStrikeMultiplier,
-        false
-      );
-      const tentative = (costs.get(current) ?? 0) + newCost;
+      let tentative = costs.get(current) ?? 0;
+      if (neighbor.Conquered) {
+        const newCost = totalCostForZone(
+          neighbor,
+          hospitals,
+          hospitalMultiplier,
+          jointStrikeMultiplier,
+          false
+        );
+        tentative += newCost;
+      }
       if (!openSet.has(neighbor)) {
         openSet.add(neighbor);
       } else if (tentative >= (costs.get(neighbor) ?? 0)) {
@@ -170,7 +173,7 @@ export function getPath(
   jointStrikeMultiplier: number,
   hospitals: HospitalState[]
 ): MapPath {
-  let openSet = new Set<ZoneState>();
+  const openSet = new Set<ZoneState>();
   openSet.add(startZone);
   const closedSet = new Set<ZoneState>();
   const heuristics = new Map<ZoneState, number>();
@@ -193,8 +196,8 @@ export function getPath(
     if (zone.Conquered) closedSet.add(zone);
   });
   while (openSet.size > 0) {
-    let current: ZoneState = openSet.values().next().value;
-    let minScore: number = Infinity;
+    let current: ZoneState | undefined;
+    let minScore = Infinity;
     openSet.forEach((zone) => {
       const score = (costs.get(zone) ?? 0) + (heuristics.get(zone) ?? 0);
       if (score < minScore) {
@@ -202,6 +205,7 @@ export function getPath(
         current = zone;
       }
     });
+    if (!current) throw "No current in path";
     if (current === endZone) {
       const path: MapPath = {
         TotalCost: 0,
@@ -314,14 +318,15 @@ function evaluateCaptureNeighbours(
           );
         }).length > 1
       );
-      let newCost = nextOldCost - (neighborCost + nextCost);
+      const newCost = nextOldCost - (neighborCost + nextCost);
       if (newCost > bestCost) {
         bestCost = newCost;
         bestNeighbor = neighbor;
       }
     }
     if (bestCost > 0) {
-      path.Zones.splice(i + 1, 0, bestNeighbor!);
+      if (!bestNeighbor) throw "No best neighbor";
+      path.Zones.splice(i + 1, 0, bestNeighbor);
       path.TotalCost -= bestCost;
       i++;
     }
@@ -398,7 +403,7 @@ function reconstructPath(
   endZone: ZoneState,
   parentZone: Map<ZoneState, ZoneState>
 ): PathZone[] {
-  let path: PathZone[] = [];
+  const path: PathZone[] = [];
   let currentZone: ZoneState | undefined = endZone;
   while (currentZone && currentZone !== startZone) {
     path.unshift({ Zone: currentZone, Counted: false });

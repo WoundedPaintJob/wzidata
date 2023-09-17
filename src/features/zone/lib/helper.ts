@@ -6,8 +6,8 @@ import { RenderOptionType } from "@lib/types/enums";
 export function getZoneColor(
   zone: ZoneState,
   settings: Map<RenderOptionType, boolean>,
-  activeZone: ZoneState,
-  activeBonus: BonusState,
+  activeZone: ZoneState | undefined,
+  activeBonus: BonusState | undefined,
   mostExpensive: number,
   hospitalSaves: number,
   partOfPath: boolean
@@ -16,8 +16,8 @@ export function getZoneColor(
   if (activeZone && activeZone.Id == zone.Id) return "#39FF14";
   if (
     activeBonus &&
-		activeBonus.ZoneIds &&
-		activeBonus.ZoneIds.includes(zone.Id)
+    activeBonus.ZoneIds &&
+    activeBonus.ZoneIds.includes(zone.Id)
   )
     return "#39FF14";
   if (settings.get(RenderOptionType.Conquered) && zone.Conquered)
@@ -38,12 +38,12 @@ export function getZoneColor(
       return "#E3ADF7";
     if (
       settings.get(RenderOptionType.CacheMoney) &&
-			zone.BonusRewards.MoneyCache
+      zone.BonusRewards.MoneyCache
     )
       return "#FFC1A1";
     if (
       settings.get(RenderOptionType.CacheResource) &&
-			zone.BonusRewards.ResourceCache
+      zone.BonusRewards.ResourceCache
     )
       return "#30C7C7";
     if (settings.get(RenderOptionType.Crafter) && zone.BonusRewards.Crafter)
@@ -56,7 +56,7 @@ export function getZoneColor(
       return "#4FA0D8";
     if (
       settings.get(RenderOptionType.MercenaryCamp) &&
-			zone.BonusRewards.MercenaryCamp
+      zone.BonusRewards.MercenaryCamp
     )
       return "#D881F8";
     if (settings.get(RenderOptionType.Mine) && zone.BonusRewards.Mine)
@@ -77,17 +77,17 @@ export function shouldDrawImage(
   if (!reward) return false;
   if (
     settings.get(RenderOptionType.CacheArmy) &&
-		reward.Type == RewardType.ArmyCache
+    reward.Type == RewardType.ArmyCache
   )
     return true;
   if (
     settings.get(RenderOptionType.CacheMoney) &&
-		reward.Type == RewardType.MoneyCache
+    reward.Type == RewardType.MoneyCache
   )
     return true;
   if (
     settings.get(RenderOptionType.CacheResource) &&
-		reward.Type == RewardType.ResourceCache
+    reward.Type == RewardType.ResourceCache
   )
     return true;
   if (settings.get(RenderOptionType.ArmyCamp) && reward.ArmyCamp) return true;

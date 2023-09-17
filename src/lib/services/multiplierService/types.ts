@@ -2,31 +2,35 @@ import { ArtifactType } from "@features/artifact/lib/enums";
 import { AdvancementType } from "@features/advancement/lib/enums";
 import { TechType } from "@features/tech/lib/enums";
 export enum MultiplierType {
-	ArmyCampCost,
-	ArmyCampProduction,
-	Cache,
-	CacheArmies,
-	CacheMoney,
-	CacheResources,
-	DigSpeed,
-	DraftSize,
-	HospitalEffect,
-	JointStrike,
-	MercenaryProduction,
-	MercenaryDiscount,
-	MineProduction,
-	MineDiscount,
-	SellAlloy,
-	SellItem,
-	SellOre,
-	TechDiscount,
+  ArmyCampCost,
+  ArmyCampProduction,
+  Cache,
+  CacheArmies,
+  CacheMoney,
+  CacheResources,
+  CrafterDiscount,
+  CrafterSpeed,
+  DigSpeed,
+  DraftSize,
+  HospitalEffect,
+  JointStrike,
+  MercenaryProduction,
+  MercenaryDiscount,
+  MineProduction,
+  MineDiscount,
+  SellAlloy,
+  SellItem,
+  SellOre,
+  SmelterDiscount,
+  SmelterSpeed,
+  TechDiscount,
 }
 
 export type MultiplierGroup = {
-	Artifact?: ArtifactType;
-	Advancement?: AdvancementType;
-	Tech?: TechType;
-	Positive: boolean;
+  Artifact?: ArtifactType;
+  Advancement?: AdvancementType;
+  Tech?: TechType;
+  Positive: boolean;
 };
 
 export const MultiplierGroups = new Map<MultiplierType, MultiplierGroup>([
@@ -78,6 +82,23 @@ export const MultiplierGroups = new Map<MultiplierType, MultiplierGroup>([
       Artifact: ArtifactType.CacheResourcesIncreased,
       Advancement: AdvancementType.CacheResourceIncreased,
       Positive: true,
+    },
+  ],
+  [
+    MultiplierType.CrafterDiscount,
+    {
+      Artifact: ArtifactType.CrafterIngredientsReducedBy,
+      Tech: TechType.CrafterIngredents,
+      Positive: false,
+    },
+  ],
+  [
+    MultiplierType.CrafterSpeed,
+    {
+      Artifact: ArtifactType.CrafterSpeedIncreasedBy,
+      Advancement: AdvancementType.CrafterSpeed,
+      Tech: TechType.CrafterSpeed,
+      Positive: false,
     },
   ],
   [
@@ -170,6 +191,23 @@ export const MultiplierGroups = new Map<MultiplierType, MultiplierGroup>([
       Advancement: AdvancementType.OreSellValuesIncreased,
       Tech: TechType.OreSellValues,
       Positive: true,
+    },
+  ],
+  [
+    MultiplierType.SmelterDiscount,
+    {
+      Artifact: ArtifactType.SmelterIngredientsReduced,
+      Tech: TechType.SmelterIngredents,
+      Positive: false,
+    },
+  ],
+  [
+    MultiplierType.SmelterSpeed,
+    {
+      Artifact: ArtifactType.SmelterSpeedIncreased,
+      Advancement: AdvancementType.SmelterSpeed,
+      Tech: TechType.SmelterSpeed,
+      Positive: false,
     },
   ],
   [

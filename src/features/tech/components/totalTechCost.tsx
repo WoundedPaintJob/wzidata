@@ -28,6 +28,10 @@ const TotalTechRemaining = (props: {
   materials: Material[];
   markets: Map<number, MarketState>;
   techDiscountMultiplier: number;
+  crafterDiscountMultiplier: number;
+  crafterSpeedMultiplier: number;
+  smelterDiscountMultiplier: number;
+  smelterSpeedMultiplier: number;
   knownMaterials: Map<MaterialType, MaterialState>;
   recipes: Map<MaterialType, RecipeState>;
   cacheMultiplier: number;
@@ -38,23 +42,28 @@ const TotalTechRemaining = (props: {
     const knownMat = props.knownMaterials.get(material.Type);
     if (material.Kind !== MaterialKind.Ore) {
       const recipe = props.recipes.get(material.Type);
-      craftTime = intervalToDuration({
-        start: 0,
-        end: 1000 * recipe.Time
-      });
-      recipe.Requires.forEach((recipeMat) => {
-        if (!nextMats.some((im) => im.Type == recipeMat.Type))
-          nextMats.push({
-            Name: recipeMat.Name,
-            Image: recipeMat.Image,
-            Type: recipeMat.Type,
-            Kind: recipeMat.Kind,
-            Amount: 0
-          });
-        nextMats.find((im) => im.Type == recipeMat.Type).Amount +=
-          recipeMat.Amount * material.Amount;
-      });
+      if (recipe) {
+        craftTime = intervalToDuration({
+          start: 0,
+          end: 1000 * recipe.Time * (material.Kind == MaterialKind.Alloy ? props.smelterSpeedMultiplier : props.crafterSpeedMultiplier)
+        });
+        recipe.Requires.forEach((recipeMat) => {
+          if (!nextMats.some((im) => im.Type == recipeMat.Type))
+            nextMats.push({
+              Name: recipeMat.Name,
+              Image: recipeMat.Image,
+              Type: recipeMat.Type,
+              Kind: recipeMat.Kind,
+              Amount: 0,
+              Cost: recipeMat.Cost,
+              Multiplier: 1
+            });
+          const newMat = nextMats.find((im) => im.Type == recipeMat.Type);
+          if (newMat) newMat.Amount += Math.ceil(recipeMat.Amount * material.Amount * (material.Kind == MaterialKind.Alloy ? props.smelterDiscountMultiplier : props.crafterDiscountMultiplier));
+        });
+      }
     }
+    if (!knownMat) return <></>
     return (
       <div key={material.Type} className="mt-2">
         <MaterialDetails
@@ -66,7 +75,7 @@ const TotalTechRemaining = (props: {
           <Text size="xsmall">Time: {formatDuration(craftTime)}</Text>
         )}
         <Text size="xsmall">
-					On map: {knownMat.TotalOnMap * props.cacheMultiplier}
+          On map: {knownMat.TotalOnMap * props.cacheMultiplier}
         </Text>
       </div>
     );
@@ -78,6 +87,10 @@ const TotalTechRemaining = (props: {
         <TotalTechCosts
           materials={nextMats}
           techDiscountMultiplier={props.techDiscountMultiplier}
+          crafterDiscountMultiplier={props.crafterDiscountMultiplier}
+          crafterSpeedMultiplier={props.crafterSpeedMultiplier}
+          smelterDiscountMultiplier={props.smelterDiscountMultiplier}
+          smelterSpeedMultiplier={props.smelterSpeedMultiplier}
           knownMaterials={props.knownMaterials}
           recipes={props.recipes}
           markets={props.markets}
@@ -92,14 +105,18 @@ const TotalTechCosts = (props: {
   materials: Material[];
   markets: Map<number, MarketState>;
   techDiscountMultiplier: number;
+  crafterDiscountMultiplier: number;
+  crafterSpeedMultiplier: number;
+  smelterDiscountMultiplier: number;
+  smelterSpeedMultiplier: number;
   knownMaterials: Map<MaterialType, MaterialState>;
   recipes: Map<MaterialType, RecipeState>;
   cacheMultiplier: number;
 }) => {
   let mats = props.materials;
-  const groupedMats = [];
+  const groupedMats: React.ReactElement[] = [];
   props.markets.forEach((market) => {
-    const marketMats = [];
+    const marketMats: Material[] = [];
     market.Materials.forEach((material) => {
       const mat = mats.find((m) => m.Type == material.Type);
       if (mat !== undefined) {
@@ -132,6 +149,10 @@ const TotalTechCosts = (props: {
             materials={mats}
             key="mats"
             techDiscountMultiplier={props.techDiscountMultiplier}
+            crafterDiscountMultiplier={props.crafterDiscountMultiplier}
+            crafterSpeedMultiplier={props.crafterSpeedMultiplier}
+            smelterDiscountMultiplier={props.smelterDiscountMultiplier}
+            smelterSpeedMultiplier={props.smelterSpeedMultiplier}
             knownMaterials={props.knownMaterials}
             recipes={props.recipes}
             markets={props.markets}

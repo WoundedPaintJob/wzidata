@@ -2,33 +2,17 @@ import Section from "@components/atoms/section";
 import MapBonus from "@features/bonus/components/mapBonus";
 import MapPath from "@features/path/components/mapPath";
 import useLevelStore from "@lib/stores/levelStore";
-import { useEffect, useRef } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import MapZone from "../../zone/components/mapZone";
 import { Settings } from "src/settings";
 import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import usePlayerStore from "@lib/stores/playerStore";
+import { isAssetConquered } from "@helpers/assetHelper";
 
 const MapComponent = () => {
-  const settingsRef = useRef(useLevelStore((state) => state.RenderOptions));
-  useEffect(
-    () =>
-      useLevelStore.subscribe(
-        (state) => state.RenderOptions,
-        (newVal) => (settingsRef.current = newVal)
-      ),
-    []
-  );
-  const pathRef = useRef(useLevelStore((state) => state.ActivePath));
-  useEffect(
-    () =>
-      useLevelStore.subscribe(
-        (state) => state.ActivePath,
-        (newVal) => (pathRef.current = newVal)
-      ),
-    []
-  );
+  const settings = useLevelStore((state) => state.RenderOptions);
+  const activePath = useLevelStore((state) => state.ActivePath);
   const zoneMap = useLevelStore((state) => state.Zones);
   const zones = Array.from(zoneMap.values());
   const bonusMap = useLevelStore((state) => state.Bonuses);
@@ -40,9 +24,7 @@ const MapComponent = () => {
   const hospitals = Array.from(hospitalMap.values());
   const activeZone = useLevelStore((state) => state.ActiveZone);
   const activeBonus = useLevelStore((state) => state.ActiveBonus);
-  const conqueredHospitals = hospitals.filter(
-    (h) => zoneMap.get(h.Zone).Conquered
-  );
+  const conqueredHospitals = hospitals.filter((h) => isAssetConquered(h, zoneMap, bonusMap));
   const hospitalMultiplier = getMultiplier(
     MultiplierType.HospitalEffect,
     usePlayerStore((state) => state.Advancements),
@@ -53,7 +35,7 @@ const MapComponent = () => {
   const mostExpensive = zones
     .filter((z) => !z.Conquered)
     .reduce((prev, current) => (prev.Cost > current.Cost ? prev : current));
-  if (settingsRef.current == undefined) return <></>;
+  if (settings == undefined) return <></>;
   return (
     <Section>
       <Section.Body>
@@ -79,8 +61,8 @@ const MapComponent = () => {
                   conqueredHospitals={conqueredHospitals}
                   hospitalMultiplier={hospitalMultiplier}
                   partOfPath={
-                    pathRef.current &&
-										pathRef.current.Zones.some((z) => z.Id == zone.Id)
+                    activePath &&
+                    activePath.Zones.some((z) => z.Id == zone.Id) || false
                   }
                   activeZone={activeZone}
                   activeBonus={activeBonus}
@@ -89,7 +71,7 @@ const MapComponent = () => {
               {bonuses.map((b) => (
                 <MapBonus key={`B${b.Id}`} bonus={b} />
               ))}
-              {pathRef.current && <MapPath zones={pathRef.current.Zones} />}
+              {activePath && <MapPath zones={activePath.Zones} />}
             </svg>
           </TransformComponent>
         </TransformWrapper>

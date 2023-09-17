@@ -3,12 +3,11 @@ import StatRow from "@components/atoms/statrow";
 import Text from "@components/atoms/text";
 import BonusLink from "@features/bonus/components/link";
 import {
-  hospitalSaveForZone,
   totalCostForZone,
 } from "@features/hospital/lib/helper";
 import RewardDetails from "@features/reward/components/details";
 import { formatNumber } from "@helpers/numberHelper";
-import { getCheapestPath, reversePath } from "@lib/services/pathService";
+import { reversePath } from "@lib/services/pathService";
 import useLevelStore from "@lib/stores/levelStore";
 import usePlayerStore from "@lib/stores/playerStore";
 import { getMultiplier } from "@lib/services/multiplierService";
@@ -47,7 +46,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
     hospitalMultiplier,
     jointStrikeMultiplier,
     props.zone.ConnectedZones.filter((z) => allZones.get(z)?.Conquered).length >
-      1
+    1
   );
   return (
     <Card>

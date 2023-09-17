@@ -16,7 +16,7 @@ import { SmelterState } from "@features/smelter/lib/types";
 import { TechState } from "@features/tech/lib/types";
 import { ZoneState } from "@features/zone/lib/types";
 import { LevelProps } from "@lib/stores/levelStore/types";
-import { RenderOptionType } from "@lib/types/enums";
+import { AssetType, RenderOptionType } from "@lib/types/enums";
 import { levelDataSchema } from "@lib/types/levelData";
 
 export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
@@ -24,7 +24,7 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
   const parseResult = levelDataSchema.safeParse(await levelData.json());
   if (parseResult.success == false) {
     console.log(parseResult.error);
-    return;
+    throw parseResult.error;
   } else {
     const data = parseResult.data;
     const result: LevelProps = {
@@ -50,7 +50,16 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
       ConqueredZones: [],
       StoredRenderOptions: [],
       Materials: new Map<MaterialType, MaterialState>(),
-      SuperCamp: data.SuperCamp,
+      SuperCamp: {
+        Index: 1,
+        Level: 0,
+        Name: "SuperCamp",
+        Type: AssetType.ArmyCamp,
+        Levels: data.SuperCamp.Levels,
+        UpgradeCosts: [],
+        Zone: null,
+        Bonus: null,
+      },
       RenderOptions: new Map<RenderOptionType, boolean>([
         [RenderOptionType.Conquered, true],
         [RenderOptionType.Market, true],
@@ -78,44 +87,58 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
     });
     data.Zones.forEach((zone) => {
       const newZone = zone as ZoneState;
-      if (newZone.StartingZone) newZone.Conquered = true;
+      newZone.Conquered = newZone.StartingZone;
       newZone.Bonuses = [];
       if (newZone.Reward.Cache && newZone.Reward.Cache.Materials.length > 0) {
         newZone.Reward.Cache.Materials.forEach((mat) => {
-          result.Materials.get(mat.Type).CacheZones.set(newZone, mat.Amount);
-          result.Materials.get(mat.Type).TotalOnMap += mat.Amount;
+          const resMat = result.Materials.get(mat.Type);
+          if (resMat) {
+            resMat.CacheZones.set(newZone, mat.Amount);
+            resMat.TotalOnMap += mat.Amount;
+          }
         });
       }
       if (newZone.Reward.Mine) {
         newZone.Reward.Mine.Materials.forEach((mat) => {
-          result.Materials.get(mat.Type).MineZones.set(newZone, mat.Amount);
+          const resMat = result.Materials.get(mat.Type);
+          if (resMat)
+            resMat.MineZones.set(newZone, mat.Amount);
         });
         if (newZone.Reward.Recipe) {
-          result.Materials.get(newZone.Reward.Recipe.Produces.Type).RecipeZone =
-            newZone;
+          const resMat = result.Materials.get(newZone.Reward.Recipe.Produces.Type);
+          if (resMat)
+            resMat.RecipeZone = newZone;
         }
       }
       result.Zones.set(newZone.Id, newZone);
     });
     data.Bonuses.forEach((bonus) => {
       const newBonus = bonus as BonusState;
+      newBonus.Conquered = false;
       newBonus.ZoneIds.forEach((zoneId) => {
-        result.Zones.get(zoneId).Bonuses.push(newBonus);
+        const zone = result.Zones.get(zoneId);
+        if (zone)
+          zone.Bonuses.push(newBonus);
       });
       if (newBonus.Reward.Cache && newBonus.Reward.Cache.Materials.length > 0) {
         newBonus.Reward.Cache.Materials.forEach((mat) => {
-          result.Materials.get(mat.Type).CacheBonuses.set(newBonus, mat.Amount);
-          result.Materials.get(mat.Type).TotalOnMap += mat.Amount;
+          const resMat = result.Materials.get(mat.Type);
+          if (resMat) {
+            resMat.CacheBonuses.set(newBonus, mat.Amount);
+            resMat.TotalOnMap += mat.Amount;
+          }
         });
       }
       if (newBonus.Reward.Mine) {
         newBonus.Reward.Mine.Materials.forEach((mat) => {
-          result.Materials.get(mat.Type).MineBonuses.set(newBonus, mat.Amount);
+          const resMat = result.Materials.get(mat.Type);
+          if (resMat)
+            resMat.MineBonuses.set(newBonus, mat.Amount);
         });
         if (newBonus.Reward.Recipe) {
-          result.Materials.get(
-            newBonus.Reward.Recipe.Produces.Type
-          ).RecipeBonus = newBonus;
+          const resMat = result.Materials.get(newBonus.Reward.Recipe.Produces.Type);
+          if (resMat)
+            resMat.RecipeBonus = newBonus;
         }
       }
       result.Bonuses.set(newBonus.Id, newBonus);
@@ -167,10 +190,16 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
     });
     data.Recipes.forEach((recipe) => {
       const newRecipe = recipe as RecipeState;
-      result.Materials.get(newRecipe.Produces.Type).Recipe = newRecipe;
+      const resMat = result.Materials.get(newRecipe.Produces.Type);
+      if (resMat) {
+        resMat.Recipe = newRecipe;
+      }
       result.Recipes.set(newRecipe.Produces.Type, newRecipe);
-      recipe.Requires.forEach((requiredMat) =>
-        result.Materials.get(requiredMat.Type).Produces.push(newRecipe)
+      newRecipe.Requires.forEach((requiredMat) => {
+        const reqMat = result.Materials.get(requiredMat.Type);
+        if (reqMat)
+          reqMat.Produces.push(newRecipe)
+      }
       );
     });
     return result;

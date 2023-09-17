@@ -28,6 +28,10 @@ const TechList = () => {
       techs
     ) -
     1;
+  const crafterDiscountMultiplier = getMultiplier(MultiplierType.CrafterDiscount, advancements, artifacts, techs);
+  const crafterSpeedMultiplier = getMultiplier(MultiplierType.CrafterSpeed, advancements, artifacts, techs);
+  const smelterDiscountMultiplier = getMultiplier(MultiplierType.SmelterDiscount, advancements, artifacts, techs);
+  const smelterSpeedMultiplier = getMultiplier(MultiplierType.SmelterSpeed, advancements, artifacts, techs);
   const techDisplay = useLevelStore((state) => state.TechDisplay);
   const interestingTechs = getTechsToDisplay(techs.flat(), techDisplay);
   const markets = useLevelStore().Markets;
@@ -50,10 +54,15 @@ const TechList = () => {
                   Image: m.Image,
                   Type: m.Type,
                   Amount: 0,
+                  Cost: m.Cost,
+                  Kind: m.Kind,
+                  Multiplier: m.Multiplier,
                 });
-              materials.find((im) => im.Type == m.Type).Amount += Math.ceil(
-                m.Amount * techDiscountMultiplier
-              );
+              const newMat = materials.find((im) => im.Type == m.Type);
+              if (newMat)
+                newMat.Amount += Math.ceil(
+                  m.Amount * techDiscountMultiplier
+                );
             });
           }
         }
@@ -86,6 +95,10 @@ const TechList = () => {
             <TotalTechCosts
               materials={materials}
               techDiscountMultiplier={techDiscountMultiplier}
+              crafterDiscountMultiplier={crafterDiscountMultiplier}
+              crafterSpeedMultiplier={crafterSpeedMultiplier}
+              smelterDiscountMultiplier={smelterDiscountMultiplier}
+              smelterSpeedMultiplier={smelterSpeedMultiplier}
               knownMaterials={knownMaterials}
               recipes={recipes}
               markets={markets}

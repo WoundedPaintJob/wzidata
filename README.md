@@ -39,6 +39,5 @@ Should contain the zod schema for the asset
 ## Issues
 - Show mine production in highlight
 - Hardened bonuses
-- Add smelter and crafter speed to tech list
-- When showing most expensive, make free ones baby blue
 - Powers
+- Less rerender

@@ -13,8 +13,8 @@ const MapZone = (props: {
   mostExpensive: number;
   conqueredHospitals: HospitalState[];
   hospitalMultiplier: number;
-  activeZone: ZoneState;
-  activeBonus: BonusState;
+  activeZone: ZoneState | undefined;
+  activeBonus: BonusState | undefined;
   partOfPath: boolean;
 }) => {
   const renderSettings = useLevelStore((state) => state.RenderOptions);
@@ -23,9 +23,7 @@ const MapZone = (props: {
 
   let hospitalSaves = 0;
   props.conqueredHospitals.forEach(
-    (h) =>
-      (hospitalSaves +=
-      hospitalSaveForZone(h, props.zone) * props.hospitalMultiplier)
+    (h) => hospitalSaves += hospitalSaveForZone(h, props.zone) * props.hospitalMultiplier
   );
   const assetSize = 40;
   if (!props.zone) return <></>;

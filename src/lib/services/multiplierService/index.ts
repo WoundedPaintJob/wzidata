@@ -16,11 +16,13 @@ export function getMultiplier(
     let multiplier = 1;
     if (group.Artifact) {
       const artifact = artifacts.find((a) => a.Type == group.Artifact);
-      if (artifact.Owned) multiplier += artifact.Values[artifact.Rarity];
+      if (artifact)
+        if (artifact.Owned) multiplier += artifact.Values[artifact.Rarity];
     }
     if (group.Advancement) {
       const advancement = advancements.find((a) => a.Type == group.Advancement);
-      multiplier += getAdvancementValue(advancement);
+      if (advancement)
+        multiplier += getAdvancementValue(advancement);
     }
     if (group.Tech) {
       const techss = techs.flat().filter((t) => t.Type == group.Tech);
@@ -33,11 +35,13 @@ export function getMultiplier(
   let multiplier = 1;
   if (group.Artifact) {
     const artifact = artifacts.find((a) => a.Type == group.Artifact);
-    if (artifact.Owned) multiplier *= 1 - artifact.Values[artifact.Rarity];
+    if (artifact)
+      if (artifact.Owned) multiplier *= 1 - artifact.Values[artifact.Rarity];
   }
   if (group.Advancement) {
     const advancement = advancements.find((a) => a.Type == group.Advancement);
-    multiplier *= 1 - getAdvancementValue(advancement);
+    if (advancement)
+      multiplier *= 1 - getAdvancementValue(advancement);
   }
   if (group.Tech) {
     const techss = techs.flat().filter((t) => t.Type == group.Tech);

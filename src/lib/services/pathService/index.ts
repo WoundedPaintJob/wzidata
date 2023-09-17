@@ -144,7 +144,7 @@ export function reversePath(
       if (!neighbor) continue;
       if (closedSet.has(neighbor)) continue;
       let tentative = costs.get(current) ?? 0;
-      if (neighbor.Conquered) {
+      if (!neighbor.Conquered) {
         const newCost = totalCostForZone(
           neighbor,
           hospitals,

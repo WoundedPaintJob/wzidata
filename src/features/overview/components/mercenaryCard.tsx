@@ -1,12 +1,15 @@
 import Card from "@components/atoms/card";
 import StatRow from "@components/atoms/statrow";
-import { RewardType } from "@features/reward/lib/enums";
 import { formatNumber, formatPercentage } from "@helpers/numberHelper";
 import useLevelStore from "@lib/stores/levelStore";
 import usePlayerStore from "@lib/stores/playerStore";
 import { CardData } from "../lib/types";
 import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
+import { ZoneState } from "@features/zone/lib/types";
+import { BonusState } from "@features/bonus/lib/types";
+import { Reward } from "@features/reward/lib/types";
+
 
 const MercenaryCard = (props: CardData) => {
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
@@ -30,87 +33,105 @@ const MercenaryCard = (props: CardData) => {
     techs
   );
   const remainingMercZones = unconqueredZones.filter(
-    (z) => z.Reward.Type == RewardType.MercenaryCamp
+    (z) => z.Reward.MercenaryCamp
   );
   const remainingMercBonuses = unconqueredBonuses.filter(
-    (b) => b.Reward.Type == RewardType.MercenaryCamp
+    (b) => b.Reward.MercenaryCamp
   );
+  function rewardProperty(reward: Reward) {
+    return reward.MercenaryCamp ? reward.MercenaryCamp.ArmiesLeft : 0;
+  }
   const totalMercenaries =
     props.zones
       .map((z) =>
-        z.Reward.MercenaryCamp ? z.Reward.MercenaryCamp.ArmiesLeft : 0
+        rewardProperty(z.Reward)
       )
       .reduce((a, b) => a + b * mercMultiplier, 0) +
     props.bonuses
       .map((b) =>
-        b.Reward.MercenaryCamp ? b.Reward.MercenaryCamp.ArmiesLeft : 0
+        rewardProperty(b.Reward)
       )
       .reduce((a, b) => a + b * mercMultiplier, 0);
   let remainingMercenaries = 0;
   let remainingMercenaryCost = 0;
   remainingMercZones.forEach((z) => {
-    remainingMercenaries += z.Reward.MercenaryCamp.ArmiesLeft * mercMultiplier;
-    remainingMercenaryCost +=
-      z.Reward.MercenaryCamp.ArmiesLeft *
-      mercMultiplier *
-      z.Reward.MercenaryCamp.CostPerArmy *
-      mercDiscountMultiplier;
+    if (z.Reward.MercenaryCamp) {
+      remainingMercenaries += z.Reward.MercenaryCamp.ArmiesLeft * mercMultiplier;
+      remainingMercenaryCost +=
+        z.Reward.MercenaryCamp.ArmiesLeft *
+        mercMultiplier *
+        z.Reward.MercenaryCamp.CostPerArmy *
+        mercDiscountMultiplier;
+    }
   });
   remainingMercBonuses.forEach((b) => {
-    remainingMercenaries += b.Reward.MercenaryCamp.ArmiesLeft * mercMultiplier;
-    remainingMercenaryCost +=
-      b.Reward.MercenaryCamp.ArmiesLeft *
-      mercMultiplier *
-      b.Reward.MercenaryCamp.CostPerArmy *
-      mercDiscountMultiplier;
+    if (b.Reward.MercenaryCamp) {
+      remainingMercenaries += b.Reward.MercenaryCamp.ArmiesLeft * mercMultiplier;
+      remainingMercenaryCost +=
+        b.Reward.MercenaryCamp.ArmiesLeft *
+        mercMultiplier *
+        b.Reward.MercenaryCamp.CostPerArmy *
+        mercDiscountMultiplier;
+    }
   });
   const totalArmies = props.zones.map((z) => z.Cost).reduce((a, b) => a + b);
 
-  const biggestMercZone =
-    remainingMercZones.length > 0
-      ? remainingMercZones.reduce(function (prev, current) {
-        return prev.Reward.MercenaryCamp.ArmiesLeft >
-            current.Reward.MercenaryCamp.ArmiesLeft
-          ? prev
-          : current;
-      })
-      : null;
-  const biggestMercBonus =
-    remainingMercBonuses.length > 0
-      ? remainingMercBonuses.reduce(function (prev, current) {
-        return prev.Reward.MercenaryCamp.ArmiesLeft >
-            current.Reward.MercenaryCamp.ArmiesLeft
-          ? prev
-          : current;
-      })
-      : null;
+  let biggestMercZone: ZoneState | null = null;
+  if (remainingMercZones.length > 0) {
+    remainingMercZones.forEach((zone) => {
+      if (biggestMercZone == null || rewardProperty(zone.Reward) > rewardProperty(biggestMercZone.Reward)) {
+        biggestMercZone = zone;
+      }
+    })
+  }
+  let biggestMercBonus: BonusState | null = null;
+  if (remainingMercBonuses.length > 0) {
+    remainingMercBonuses.forEach((bonus) => {
+      if (biggestMercBonus == null || rewardProperty(bonus.Reward) > rewardProperty(biggestMercBonus.Reward)) {
+        biggestMercBonus = bonus;
+      }
+    })
+  }
   let biggestLink = <></>;
   if (
-    (biggestMercBonus != null &&
-      biggestMercZone != null &&
-      biggestMercBonus.Reward.MercenaryCamp.ArmiesLeft >
-        biggestMercZone.Reward.MercenaryCamp.ArmiesLeft) ||
-    biggestMercBonus != null
-  )
+    biggestMercBonus != null &&
+    biggestMercZone != null &&
+    rewardProperty((biggestMercBonus as BonusState).Reward) >
+    rewardProperty((biggestMercZone as ZoneState).Reward)) {
+    const bonus = (biggestMercBonus as BonusState);
     biggestLink = (
       <StatRow
-        name={`${biggestMercBonus.Name} (B)`}
+        name={`${bonus.Name} (B)`}
         value={formatNumber(
-          biggestMercBonus.Reward.MercenaryCamp.ArmiesLeft * mercMultiplier
+          rewardProperty(bonus.Reward) * mercMultiplier
         )}
-        onClick={() => setActiveBonus(biggestMercBonus)}
+        onClick={() => setActiveBonus(bonus)}
       />
     );
-  else if (biggestMercZone != null)
+  }
+  else if (biggestMercZone != null) {
+    const zone = (biggestMercZone as ZoneState);
     biggestLink = (
       <StatRow
-        name={biggestMercZone.Name}
+        name={zone.Name}
         value={formatNumber(
-          biggestMercZone.Reward.MercenaryCamp.ArmiesLeft * mercMultiplier
+          rewardProperty(zone.Reward) * mercMultiplier
         )}
-        onClick={() => setActiveZone(biggestMercZone)}
+        onClick={() => setActiveZone(zone)}
       />
     );
+  } else if (biggestMercBonus != null) {
+    const bonus = (biggestMercBonus as BonusState);
+    biggestLink = (
+      <StatRow
+        name={`${bonus.Name} (B)`}
+        value={formatNumber(
+          rewardProperty(bonus.Reward) * mercMultiplier
+        )}
+        onClick={() => setActiveBonus(bonus)}
+      />
+    );
+  }
   return (
     <Card>
       <Card.SmallHeader>Mercenaries</Card.SmallHeader>
@@ -126,7 +147,7 @@ const MercenaryCard = (props: CardData) => {
           percentage={formatPercentage(remainingMercenaries / totalMercenaries)}
         />
         <StatRow
-          name="Remaining Cost"
+          name="Cost"
           value={formatNumber(remainingMercenaryCost)}
         />
         {biggestLink}

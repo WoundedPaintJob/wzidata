@@ -20,8 +20,11 @@ export function getZoneColor(
     activeBonus.ZoneIds.includes(zone.Id)
   )
     return "#39FF14";
-  if (settings.get(RenderOptionType.Conquered) && zone.Conquered)
+  if (settings.get(RenderOptionType.Conquered) && zone.Conquered) {
+    if (activeZone && activeZone.ConnectedZones.some((z) => z == zone.Id))
+      return "#DFC940";
     return "#FFA500";
+  }
   if (activeZone && activeZone.ConnectedZones.some((z) => z == zone.Id))
     return "#B0FFA1";
   if (partOfPath) return "#EEDDAA";

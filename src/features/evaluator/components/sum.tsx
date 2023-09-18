@@ -17,11 +17,10 @@ const EvaluatorSum = (props: {
     <Card>
       <Card.Body>
         <StatRow
-          name="Army diff"
+          name="Armies left"
           value={formatNumber(
-            props.army.estimatedRemainingCost -
-              (props.cache.remainingArmyCache +
-                props.mercenaries.remainingMercenaries)
+            (props.cache.remainingArmyCache +
+              props.mercenaries.remainingMercenaries) - props.army.estimatedRemainingCost
           )}
         />
         <StatRow
@@ -29,12 +28,11 @@ const EvaluatorSum = (props: {
           value={formatNumber(props.totalmarketIncome)}
         />
         <StatRow
-          name="Money diff"
-          value={formatNumber(
-            props.mercenaries.remainingCost -
-              (props.cache.remainingMoneyCache +
-                props.cache.remainingResourceCache +
-                props.totalmarketIncome)
+          name="Money left"
+          value={formatNumber((props.cache.remainingMoneyCache +
+            props.cache.remainingResourceCache +
+            props.totalmarketIncome) -
+            props.mercenaries.remainingCost
           )}
         />
       </Card.Body>

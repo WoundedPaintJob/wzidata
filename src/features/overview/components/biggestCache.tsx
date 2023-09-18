@@ -8,24 +8,24 @@ import { formatNumber } from "@helpers/numberHelper";
 const BiggestCache = (props: BiggestCacheProps) => {
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
   const setActiveBonus = useLevelStore((state) => state.SetActiveBonus);
-  let biggestCacheZone: ZoneState = null;
+  let biggestCacheZone: ZoneState | null = null;
   if (props.cacheZones.length > 0) {
     props.cacheZones.forEach((zone) => {
       if (
         biggestCacheZone == null ||
         props.rewardProperty(zone.Reward) >
-          props.rewardProperty(biggestCacheZone.Reward)
+        props.rewardProperty(biggestCacheZone.Reward)
       )
         biggestCacheZone = zone;
     });
   }
-  let biggestCacheBonus: BonusState = null;
+  let biggestCacheBonus: BonusState | null = null;
   if (props.cacheBonuses.length > 0) {
     props.cacheBonuses.forEach((bonus) => {
       if (
         biggestCacheBonus == null ||
         props.rewardProperty(bonus.Reward) >
-          props.rewardProperty(biggestCacheBonus.Reward)
+        props.rewardProperty(biggestCacheBonus.Reward)
       )
         biggestCacheBonus = bonus;
     });
@@ -33,36 +33,39 @@ const BiggestCache = (props: BiggestCacheProps) => {
   if (
     biggestCacheZone != null &&
     biggestCacheBonus != null &&
-    props.rewardProperty(biggestCacheBonus.Reward) >
-      props.rewardProperty(biggestCacheZone.Reward)
+    props.rewardProperty((biggestCacheBonus as BonusState).Reward) >
+    props.rewardProperty((biggestCacheZone as ZoneState).Reward)
   ) {
+    const bonus = (biggestCacheBonus as BonusState)
     return (
       <StatRow
-        name={`${biggestCacheBonus.Name} (B)`}
+        name={`${bonus.Name} (B)`}
         value={formatNumber(
-          props.rewardProperty(biggestCacheBonus.Reward) * props.cacheMultiplier
+          props.rewardProperty(bonus.Reward) * props.cacheMultiplier
         )}
-        onClick={() => setActiveBonus(biggestCacheBonus)}
+        onClick={() => setActiveBonus(bonus)}
       />
     );
   } else if (biggestCacheZone != null) {
+    const zone = (biggestCacheZone as ZoneState);
     return (
       <StatRow
-        name={`${biggestCacheZone.Name}`}
+        name={`${zone.Name}`}
         value={formatNumber(
-          props.rewardProperty(biggestCacheZone.Reward) * props.cacheMultiplier
+          props.rewardProperty(zone.Reward) * props.cacheMultiplier
         )}
-        onClick={() => setActiveZone(biggestCacheZone)}
+        onClick={() => setActiveZone(zone)}
       />
     );
   } else if (biggestCacheBonus != null) {
+    const bonus = (biggestCacheBonus as BonusState)
     return (
       <StatRow
-        name={`${biggestCacheBonus.Name} (B)`}
+        name={`${bonus.Name} (B)`}
         value={formatNumber(
-          props.rewardProperty(biggestCacheBonus.Reward) * props.cacheMultiplier
+          props.rewardProperty(bonus.Reward) * props.cacheMultiplier
         )}
-        onClick={() => setActiveBonus(biggestCacheBonus)}
+        onClick={() => setActiveBonus(bonus)}
       />
     );
   }

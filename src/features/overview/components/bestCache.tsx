@@ -5,6 +5,7 @@ import useLevelStore from "@lib/stores/levelStore";
 import StatRow from "@components/atoms/statrow";
 import { formatNumber } from "@helpers/numberHelper";
 import { totalCostForZone } from "@features/hospital/lib/helper";
+import { formatName } from "@helpers/nameHelper";
 const BestCache = (props: BestCacheProps) => {
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
   const setActiveBonus = useLevelStore((state) => state.SetActiveBonus);
@@ -20,7 +21,7 @@ const BestCache = (props: BestCacheProps) => {
       props.hospitalMultiplier,
       props.jointStrikeMultiplier,
       conqueredZones.filter((z) => zone.ConnectedZones.includes(z.Id)).length >
-        1
+      1
     );
     if (bestCacheZone == null) {
       bestCacheZone = zone;
@@ -84,7 +85,7 @@ const BestCache = (props: BestCacheProps) => {
       } else if (
         bestCacheBonusCost > 0 &&
         props.rewardProperty(bonus.Reward) / cost >
-          props.rewardProperty(bestCacheBonus.Reward) / bestCacheBonusCost
+        props.rewardProperty(bestCacheBonus.Reward) / bestCacheBonusCost
       ) {
         bestCacheBonus = bonus;
         bestCacheBonusCost = cost;
@@ -94,39 +95,42 @@ const BestCache = (props: BestCacheProps) => {
   if (
     bestCacheZone != null &&
     bestCacheBonus != null &&
-    props.rewardProperty(bestCacheBonus.Reward) / bestCacheBonusCost >
-      props.rewardProperty(bestCacheZone.Reward) / bestCacheZoneCost
+    props.rewardProperty((bestCacheBonus as BonusState).Reward) / bestCacheBonusCost >
+    props.rewardProperty((bestCacheZone as ZoneState).Reward) / bestCacheZoneCost
   ) {
+    const bonus = (bestCacheBonus as BonusState);
     return (
       <StatRow
-        name={`${bestCacheBonus.Name} (B)`}
+        name={`${formatName(bonus.Name)} (B)`}
         value={formatNumber(
-          props.rewardProperty(bestCacheBonus.Reward) * props.cacheMultiplier
+          props.rewardProperty(bonus.Reward) * props.cacheMultiplier
         )}
         percentage={formatNumber(bestCacheBonusCost)}
-        onClick={() => setActiveBonus(bestCacheBonus)}
+        onClick={() => setActiveBonus(bonus)}
       />
     );
   } else if (bestCacheZone != null) {
+    const zone = (bestCacheZone as ZoneState);
     return (
       <StatRow
-        name={`${bestCacheZone.Name}`}
+        name={`${formatName(zone.Name)}`}
         value={formatNumber(
-          props.rewardProperty(bestCacheZone.Reward) * props.cacheMultiplier
+          props.rewardProperty(zone.Reward) * props.cacheMultiplier
         )}
         percentage={formatNumber(bestCacheZoneCost)}
-        onClick={() => setActiveZone(bestCacheZone)}
+        onClick={() => setActiveZone(zone)}
       />
     );
   } else if (bestCacheBonus != null) {
+    const bonus = (bestCacheBonus as BonusState);
     return (
       <StatRow
-        name={`${bestCacheBonus.Name} (B)`}
+        name={`${formatName(bonus.Name)} (B)`}
         value={formatNumber(
-          props.rewardProperty(bestCacheBonus.Reward) * props.cacheMultiplier
+          props.rewardProperty(bonus.Reward) * props.cacheMultiplier
         )}
         percentage={formatNumber(bestCacheBonusCost)}
-        onClick={() => setActiveBonus(bestCacheBonus)}
+        onClick={() => setActiveBonus(bonus)}
       />
     );
   }

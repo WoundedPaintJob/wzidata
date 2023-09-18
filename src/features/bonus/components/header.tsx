@@ -8,13 +8,13 @@ const BonusHeader = (props: { bonusId: number }) => {
     return <></>
   const toggleConquered = useLevelStore((state) => state.ConquerBonus);
   return (
-    <div className="flex">
+    <>
       <BonusLink bonus={bonus} />
       <CheckBox
         checked={bonus.Conquered || false}
         onClick={() => toggleConquered(bonus)}
       />
-    </div>
+    </>
   );
 };
 export default BonusHeader;

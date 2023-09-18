@@ -40,8 +40,10 @@ const Market = (props: { market: MarketState }) => {
             <MaterialDetails materials={props.market.Materials} />
           </div>
           <div>
-            <Text size="small">Best:</Text>
-            <MaterialDetails materials={[props.market.BestMaterial]} />
+            <div className="flex">
+              <Text size="small">Best:</Text>
+              <MaterialDetails materials={[props.market.BestMaterial]} />
+            </div>
             <StatRow
               name="Profit"
               value={formatNumber(

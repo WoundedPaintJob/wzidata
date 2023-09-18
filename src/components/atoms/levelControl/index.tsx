@@ -9,7 +9,7 @@ const LevelControl = (props: LevelControlProps) => {
             Lvl Up
           </Text>
         ) : (
-          <Text mode="inactive">LvlUp</Text>
+          <Text mode="inactive" size='small'>LvlUp</Text>
         )}
       </div>
       <div>
@@ -18,7 +18,7 @@ const LevelControl = (props: LevelControlProps) => {
             Lvl Down
           </Text>
         ) : (
-          <Text mode="inactive">Lvl Down</Text>
+          <Text mode="inactive" size='small'>Lvl Down</Text>
         )}
       </div>
     </>

@@ -21,20 +21,22 @@ const ArmyCamp = (props: {
 }) => {
   const levelup = useLevelStore((state) => state.LevelUp);
   const leveldown = useLevelStore((state) => state.LevelDown);
-  const revision = useLevelStore((state) => state.LevelRevision);
+  const revision = useLevelStore((state) => state.LevelRevision) || 1;
   const toggleSuperCharge = useLevelStore((state) => state.SuperChargeArmyCamp);
   return (
     <Card>
-      <Card.Header>
-        <AssetHeader asset={props.armyCamp} />
-      </Card.Header>
       <Card.Body>
-        <div className="flex space-x-2">
-          <div>
+        <div className="grid grid-cols-2">
+          <div className="col-span-full">
+            <AssetHeader asset={props.armyCamp} />
+          </div>
+          <div className="col-span-1">
             <StatRow
               name="Level"
               value={`${props.armyCamp.Level}/${props.armyCamp.UpgradeCosts.length + 1}`}
             />
+          </div>
+          <div className="col-span-1">
             <StatRow
               name="A/S"
               value={formatNumber(
@@ -42,30 +44,32 @@ const ArmyCamp = (props: {
                 props.productionMultiplier
               )}
             />
-            <div className="flex">
-              <Text size="small">SC: </Text>
-              <CheckBox
-                checked={props.armyCamp.SuperCharged || false}
-                onClick={() => toggleSuperCharge(props.armyCamp)}
-              />
-            </div>
-            <LevelControl
-              CanLevelUp={canLevelUp(props.armyCamp)}
-              LevelUp={() => levelup(props.armyCamp)}
-              CanLevelDown={canLevelDown(props.armyCamp)}
-              LevelDown={() => leveldown(props.armyCamp)}
-            />
           </div>
-          <div>
-            {canLevelUp(props.armyCamp) && (
-              <>
-                <StatRow name="Upgrade" />
+          <div className="col-span-full flex">
+            <Text size="small">SuperCharge: </Text>
+            <CheckBox
+              checked={props.armyCamp.SuperCharged || false}
+              onClick={() => toggleSuperCharge(props.armyCamp)}
+            />
+
+          </div>
+          <LevelControl
+            CanLevelUp={canLevelUp(props.armyCamp)}
+            LevelUp={() => levelup(props.armyCamp)}
+            CanLevelDown={canLevelDown(props.armyCamp)}
+            LevelDown={() => leveldown(props.armyCamp)}
+          />
+          {canLevelUp(props.armyCamp) && (
+            <>
+              <div className="col-span-full">
                 <StatRow
-                  name="Cost"
+                  name="Upgrade cost"
                   value={formatNumber(
                     getAssetUpgradeCost(props.armyCamp) * props.costMultiplier
                   )}
                 />
+              </div>
+              <div className="col-span-1">
                 <StatRow
                   name="A/S"
                   value={formatNumber(
@@ -76,6 +80,8 @@ const ArmyCamp = (props: {
                     ) * props.productionMultiplier
                   )}
                 />
+              </div>
+              <div className="col-span-1">
                 <StatRow
                   name="$/A"
                   value={formatNumber(
@@ -91,12 +97,12 @@ const ArmyCamp = (props: {
                       props.productionMultiplier)
                   )}
                 />
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </Card.Body>
-    </Card>
+    </Card >
   );
 };
 export default ArmyCamp;

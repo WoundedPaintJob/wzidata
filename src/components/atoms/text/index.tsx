@@ -24,13 +24,13 @@ const Text = (props: TextProps) => {
     'text-main hover:cursor-pointer hover:underline text-sm',
     textMode == 'inactive' && 'text-subText',
     textMode == 'passive' && 'text-subText',
-    'mr-1'
+    'mr-1',
   );
-  if (container == 'span') {
+  if (container == 'div') {
     return (
-      <span onClick={props.onClick} className={className}>
+      <div onClick={props.onClick} className={className}>
         {props.children}
-      </span>
+      </div>
     );
   }
   else {

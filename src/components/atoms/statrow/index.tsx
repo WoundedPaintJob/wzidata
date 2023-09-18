@@ -4,7 +4,8 @@ const StatRowName = (props: { name: string; isLink?: boolean }) => {
     <Text
       size="small"
       mode={`${props.isLink ? 'link' : 'passive'}`}
-      container="span"
+      container="div"
+      className=''
     >
       {props.name}
     </Text>
@@ -13,7 +14,7 @@ const StatRowName = (props: { name: string; isLink?: boolean }) => {
 const StatRowValue = (props: { value?: string }) => {
   if (props.value) {
     return (
-      <Text size="small" container="span">
+      <Text size="small" container="div">
         {props.value}
       </Text>
     );
@@ -23,7 +24,7 @@ const StatRowValue = (props: { value?: string }) => {
 const StatRowPercentage = (props: { percentage?: string }) => {
   if (props.percentage) {
     return (
-      <Text size="xsmall" mode="passive" container="span">
+      <Text size="xsmall" mode="passive" container="div">
         ({props.percentage})
       </Text>
     );
@@ -39,7 +40,7 @@ export interface StatRowProps {
 
 const StatRow = (props: StatRowProps) => {
   return (
-    <div onClick={props.onClick}>
+    <div onClick={props.onClick} className="flex items-center">
       <StatRowName name={props.name} isLink={props.onClick != null} />
       <StatRowValue value={props.value} />
       <StatRowPercentage percentage={props.percentage} />

@@ -16,76 +16,77 @@ import CheckBox from "@components/atoms/checkbox";
 import { formatNumber } from "@helpers/numberHelper";
 
 const Mine = (props: {
-	mine: MineState;
-	productionMultiplier: number;
-	costMultiplier: number;
+  mine: MineState;
+  productionMultiplier: number;
+  costMultiplier: number;
 }) => {
   const levelup = useLevelStore((state) => state.LevelUp);
   const leveldown = useLevelStore((state) => state.LevelDown);
-  const revision = useLevelStore((state) => state.LevelRevision);
+  const revision = useLevelStore((state) => state.LevelRevision) || 1;
   const toggleSuperCharge = useLevelStore((state) => state.SuperChargeMine);
   return (
     <Card>
-      <Card.Header>
-        <AssetHeader asset={props.mine} />
-      </Card.Header>
       <Card.Body>
-        <div className="flex space-x-2">
-          <div>
+        <div className="grid grid-cols-2">
+          <div className="col-span-full">
+            <AssetHeader asset={props.mine} />
+          </div>
+          <div className="col-span-1">
             <StatRow
               name="Level"
-              value={`${props.mine.Level}/${
-                props.mine.UpgradeCosts.length + 1
-              }`}
+              value={`${props.mine.Level}/${props.mine.UpgradeCosts.length + 1}`}
             />
+          </div>
+          <div className="col-span-1">
             <MaterialDetails
               materials={props.mine.Materials}
               roundNumber={"precision"}
               multiplier={
                 mineMultiplierAtLevel(props.mine.Level, revision) *
-								props.productionMultiplier *
-								(props.mine.SuperCharged ? 20 : 1)
+                props.productionMultiplier *
+                (props.mine.SuperCharged ? 20 : 1)
               }
             />
-            <div className="flex">
-              <Text size="small">SC: </Text>
-              <CheckBox
-                checked={props.mine.SuperCharged || false}
-                onClick={() => toggleSuperCharge(props.mine)}
-              />
-            </div>
-            <LevelControl
-              CanLevelUp={canLevelUp(props.mine)}
-              LevelUp={() => levelup(props.mine)}
-              CanLevelDown={canLevelDown(props.mine)}
-              LevelDown={() => leveldown(props.mine)}
+          </div>
+          <div className="col-span-full flex">
+            <Text size="small">SuperCharge: </Text>
+            <CheckBox
+              checked={props.mine.SuperCharged || false}
+              onClick={() => toggleSuperCharge(props.mine)}
             />
           </div>
-          <div>
-            {canLevelUp(props.mine) && (
-              <>
-                <StatRow name="Upgrade" />
+          <LevelControl
+            CanLevelUp={canLevelUp(props.mine)}
+            LevelUp={() => levelup(props.mine)}
+            CanLevelDown={canLevelDown(props.mine)}
+            LevelDown={() => leveldown(props.mine)}
+          />
+          {canLevelUp(props.mine) && (
+            <>
+              <div className="col-span-full">
+                <StatRow
+                  name="Upgrade cost"
+                  value={formatNumber(
+                    getAssetUpgradeCost(props.mine) * props.costMultiplier
+                  )}
+                />
+              </div>
+              <div className="col-span-1 col-start-2">
                 <MaterialDetails
                   materials={props.mine.Materials}
                   roundNumber={"precision"}
                   multiplier={
                     mineMultiplierAtLevel(props.mine.Level + 1, revision) *
-										props.productionMultiplier *
-										(props.mine.SuperCharged ? 20 : 1)
+                    props.productionMultiplier *
+                    (props.mine.SuperCharged ? 20 : 1)
                   }
                 />
-                <StatRow
-                  name="Cost"
-                  value={formatNumber(
-                    getAssetUpgradeCost(props.mine) * props.costMultiplier
-                  )}
-                />
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </Card.Body>
-    </Card>
+    </Card >
   );
 };
 export default Mine;

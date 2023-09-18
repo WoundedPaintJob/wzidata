@@ -27,7 +27,8 @@ const Card = (props: CardProps) => {
     mode == "normal" && "bg-cardBackground",
     "text-main rounded",
     size == "normal" && "px-2 py-3  sm:px-4",
-    size == "small" && "px-1 py-1"
+    size == "small" && "px-1 py-1",
+    ''
   );
   return <div className={className}>{props.children}</div>;
 };

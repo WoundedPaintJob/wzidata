@@ -7,13 +7,13 @@ const ZoneHeader = (props: { zoneId: number }) => {
   const toggleConquered = useLevelStore((state) => state.ConquerZone);
   if (zone == undefined) return <></>;
   return (
-    <div className="flex">
+    <>
       <ZoneLink zone={zone} />
       <CheckBox
         checked={zone.Conquered || false}
         onClick={() => toggleConquered(zone)}
       />
-    </div>
+    </>
   );
 };
 export default ZoneHeader;

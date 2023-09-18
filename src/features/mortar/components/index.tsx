@@ -24,7 +24,6 @@ const Mortar = (props: { mortar: Mortar }) => {
     <Card>
       <AssetHeader asset={props.mortar} />
       <StatRow name="Cost" value={formatNumber(props.mortar.UpgradeCosts[0])} />
-      <Text>Best</Text>
       {bestZone && (
         <StatRow
           name={bestZone.Name}

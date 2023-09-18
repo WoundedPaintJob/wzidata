@@ -1,12 +1,12 @@
-import Section from '@components/atoms/section';
-import StatRow from '@components/atoms/statrow';
-import { formatNumber } from '@helpers/numberHelper';
-import { calculateMoneyCache } from '../lib/helper';
-import usePlayerStore from '@lib/stores/playerStore';
-import useLevelStore from '@lib/stores/levelStore';
-import { getMultiplier } from '@lib/services/multiplierService';
-import { MultiplierType } from '@lib/services/multiplierService/types';
-import { getTotalArmyCampProduction } from '@features/armyCamp/lib/helper';
+import Section from "@components/atoms/section";
+import StatRow from "@components/atoms/statrow";
+import { formatNumber } from "@helpers/numberHelper";
+import { calculateMoneyCache } from "../lib/helper";
+import usePlayerStore from "@lib/stores/playerStore";
+import useLevelStore from "@lib/stores/levelStore";
+import { getMultiplier } from "@lib/services/multiplierService";
+import { MultiplierType } from "@lib/services/multiplierService/types";
+import { getTotalArmyCampProduction } from "@features/armyCamp/lib/helper";
 
 const StatsTab = () => {
   const armyCamps = Array.from(
@@ -17,7 +17,7 @@ const StatsTab = () => {
   const advancements = usePlayerStore((state) => state.Advancements);
   const artifacts = usePlayerStore((state) => state.Artifacts);
   const techs = useLevelStore((state) => state.Techs);
-  const revision = useLevelStore((state) => state.LevelRevision);
+  const revision = useLevelStore((state) => state.LevelRevision) || 0;
   const superCamp = useLevelStore((state) => state.SuperCamp);
   const superCampMultiplier = 1.1;
   const campProductionMultiplier = getMultiplier(

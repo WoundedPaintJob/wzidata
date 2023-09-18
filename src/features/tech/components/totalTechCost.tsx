@@ -1,11 +1,11 @@
-import { Material, MaterialState } from '@features/material/lib/types';
-import Text from '@components/atoms/text';
-import MaterialDetails from '@features/material/components/details';
-import { MarketState } from '@features/market/lib/types';
-import { MaterialKind, MaterialType } from '@features/material/lib/enums';
-import { RecipeState } from '@features/recipe/lib/types';
-import { formatDuration, intervalToDuration } from 'date-fns';
-import AssetHeader from '@components/assetHeader';
+import { Material, MaterialState } from "@features/material/lib/types";
+import Text from "@components/atoms/text";
+import MaterialDetails from "@features/material/components/details";
+import { MarketState } from "@features/market/lib/types";
+import { MaterialKind, MaterialType } from "@features/material/lib/enums";
+import { RecipeState } from "@features/recipe/lib/types";
+import { formatDuration, intervalToDuration } from "date-fns";
+import AssetHeader from "@components/assetHeader";
 
 const TotalTechMarket = (props: {
   market: MarketState;
@@ -17,7 +17,7 @@ const TotalTechMarket = (props: {
       <AssetHeader asset={props.market} />
       <MaterialDetails
         materials={props.materials}
-        roundNumber='default'
+        roundNumber="default"
         multiplier={1}
       />
     </div>
@@ -45,7 +45,12 @@ const TotalTechRemaining = (props: {
       if (recipe) {
         craftTime = intervalToDuration({
           start: 0,
-          end: 1000 * recipe.Time * (material.Kind == MaterialKind.Alloy ? props.smelterSpeedMultiplier : props.crafterSpeedMultiplier)
+          end:
+            1000 *
+            recipe.Time *
+            (material.Kind == MaterialKind.Alloy
+              ? props.smelterSpeedMultiplier
+              : props.crafterSpeedMultiplier),
         });
         recipe.Requires.forEach((recipeMat) => {
           if (!nextMats.some((im) => im.Type == recipeMat.Type))
@@ -56,14 +61,21 @@ const TotalTechRemaining = (props: {
               Kind: recipeMat.Kind,
               Amount: 0,
               Cost: recipeMat.Cost,
-              Multiplier: 1
+              Multiplier: 1,
             });
           const newMat = nextMats.find((im) => im.Type == recipeMat.Type);
-          if (newMat) newMat.Amount += Math.ceil(recipeMat.Amount * material.Amount * (material.Kind == MaterialKind.Alloy ? props.smelterDiscountMultiplier : props.crafterDiscountMultiplier));
+          if (newMat)
+            newMat.Amount += Math.ceil(
+              recipeMat.Amount *
+                material.Amount *
+                (material.Kind == MaterialKind.Alloy
+                  ? props.smelterDiscountMultiplier
+                  : props.crafterDiscountMultiplier)
+            );
         });
       }
     }
-    if (!knownMat) return <></>
+    if (!knownMat) return <></>;
     return (
       <div key={material.Type} className="mt-2">
         <MaterialDetails
@@ -113,9 +125,12 @@ const TotalTechCosts = (props: {
   recipes: Map<MaterialType, RecipeState>;
   cacheMultiplier: number;
 }) => {
+  let markets = Array.from(props.markets.values()).sort(
+    (a, b) => a.Index - b.Index
+  );
   let mats = props.materials;
   const groupedMats: React.ReactElement[] = [];
-  props.markets.forEach((market) => {
+  markets.forEach((market) => {
     const marketMats: Material[] = [];
     market.Materials.forEach((material) => {
       const mat = mats.find((m) => m.Type == material.Type);

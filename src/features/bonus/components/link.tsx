@@ -12,7 +12,7 @@ const BonusLink = (props: BonusLinkProps) => {
   const setActiveBonus = useLevelStore((state) => state.SetActiveBonus);
   return (
     <Text onClick={() => setActiveBonus(props.bonus)} mode="link">
-      {formatName(props.bonus.Name, 20)} (B)
+      {formatName(props.bonus.Name, 16)} (B)
     </Text>
   );
 };

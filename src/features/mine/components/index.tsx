@@ -34,18 +34,9 @@ const Mine = (props: {
           <div className="col-span-1">
             <StatRow
               name="Level"
-              value={`${props.mine.Level}/${props.mine.UpgradeCosts.length + 1}`}
-            />
-          </div>
-          <div className="col-span-1">
-            <MaterialDetails
-              materials={props.mine.Materials}
-              roundNumber={"precision"}
-              multiplier={
-                mineMultiplierAtLevel(props.mine.Level, revision) *
-                props.productionMultiplier *
-                (props.mine.SuperCharged ? 20 : 1)
-              }
+              value={`${props.mine.Level}/${
+                props.mine.UpgradeCosts.length + 1
+              }`}
             />
           </div>
           <div className="col-span-full flex">
@@ -71,7 +62,21 @@ const Mine = (props: {
                   )}
                 />
               </div>
-              <div className="col-span-1 col-start-2">
+
+              <div className="col-span-1">
+                <Text size="small">Current:</Text>
+                <MaterialDetails
+                  materials={props.mine.Materials}
+                  roundNumber={"precision"}
+                  multiplier={
+                    mineMultiplierAtLevel(props.mine.Level, revision) *
+                    props.productionMultiplier *
+                    (props.mine.SuperCharged ? 20 : 1)
+                  }
+                />
+              </div>
+              <div className="col-span-1">
+                <Text size="small">Next:</Text>
                 <MaterialDetails
                   materials={props.mine.Materials}
                   roundNumber={"precision"}
@@ -84,9 +89,23 @@ const Mine = (props: {
               </div>
             </>
           )}
+          {!canLevelUp(props.mine) && (
+            <div className="col-span-1">
+              <Text size="small">Current:</Text>
+              <MaterialDetails
+                materials={props.mine.Materials}
+                roundNumber={"precision"}
+                multiplier={
+                  mineMultiplierAtLevel(props.mine.Level, revision) *
+                  props.productionMultiplier *
+                  (props.mine.SuperCharged ? 20 : 1)
+                }
+              />
+            </div>
+          )}
         </div>
       </Card.Body>
-    </Card >
+    </Card>
   );
 };
 export default Mine;

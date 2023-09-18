@@ -10,11 +10,12 @@ const DigSiteList = () => {
         <Section.Body>No digs</Section.Body>
       </Section>
     );
+  const digs = digSites.slice().sort((a, b) => a.Cost - b.Cost);
   return (
     <Section>
       <Section.Body>
         <Section.CardList>
-          {digSites.map((dig, k) => {
+          {digs.map((dig, k) => {
             return <DigSite key={k} digSite={dig} />;
           })}
         </Section.CardList>

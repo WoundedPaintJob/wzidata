@@ -16,10 +16,10 @@ import { AssetLevelSlice } from "./types";
 import { LevelState } from "@lib/stores/levelStore/types";
 
 export const createAssetLevelSlice: StateCreator<
-	LevelState,
-	[["zustand/devtools", never], ["zustand/subscribeWithSelector", never]],
-	[],
-	AssetLevelSlice
+  LevelState,
+  [["zustand/devtools", never], ["zustand/subscribeWithSelector", never]],
+  [],
+  AssetLevelSlice
 > = (set) => ({
   LevelUp: (asset: AssetWithLevelState) =>
     set(
@@ -28,13 +28,16 @@ export const createAssetLevelSlice: StateCreator<
           const camp = <SuperCampState>asset;
           if (camp.Level <= camp.Levels.length) state.SuperCamp.Level += 1;
         } else if (canLevelUp(asset)) {
-          if (asset.Type == AssetType.ArmyCamp)
-            state.ArmyCamps.get(asset.Index).Level += 1;
-          else if (asset.Type == AssetType.Hospital)
-            state.Hospitals.get(asset.Index).Level += 1;
-          else if (asset.Type == AssetType.Mine)
-            state.Mines.get(asset.Index).Level += 1;
-          else throw "Asset Level Not Implemented";
+          if (asset.Type == AssetType.ArmyCamp) {
+            const armyCamp = state.ArmyCamps.get(asset.Index);
+            if (armyCamp) armyCamp.Level += 1;
+          } else if (asset.Type == AssetType.Hospital) {
+            const hospital = state.Hospitals.get(asset.Index);
+            if (hospital) hospital.Level += 1;
+          } else if (asset.Type == AssetType.Mine) {
+            const mine = state.Mines.get(asset.Index);
+            if (mine) mine.Level += 1;
+          } else throw "Asset Level Not Implemented";
         }
       })
     ),
@@ -45,16 +48,40 @@ export const createAssetLevelSlice: StateCreator<
           const camp = <SuperCampState>asset;
           if (camp.Level > 1) state.SuperCamp.Level -= 1;
         } else if (canLevelDown(asset)) {
-          if (asset.Type == AssetType.ArmyCamp)
-            state.ArmyCamps.get(asset.Index).Level -= 1;
-          else if (asset.Type == AssetType.Hospital)
-            state.Hospitals.get(asset.Index).Level -= 1;
-          else if (asset.Type == AssetType.Mine)
-            state.Mines.get(asset.Index).Level -= 1;
-          else throw "Asset Level Not Implemented";
+          if (asset.Type == AssetType.ArmyCamp) {
+            const armyCamp = state.ArmyCamps.get(asset.Index);
+            if (armyCamp) armyCamp.Level -= 1;
+          } else if (asset.Type == AssetType.Hospital) {
+            const hospital = state.Hospitals.get(asset.Index);
+            if (hospital) hospital.Level -= 1;
+          } else if (asset.Type == AssetType.Mine) {
+            const mine = state.Mines.get(asset.Index);
+            if (mine) mine.Level -= 1;
+          } else throw "Asset Level Not Implemented";
         }
       })
     ),
+  LevelUpAll: (type: AssetType) =>
+    set(
+      produce((state: LevelState) => {
+        if (type == AssetType.Hospital) {
+          state.Hospitals.forEach((hospital) => {
+            if (canLevelUp(hospital)) hospital.Level += 1;
+          });
+        }
+      })
+    ),
+  LevelDownAll: (type: AssetType) =>
+    set(
+      produce((state: LevelState) => {
+        if (type == AssetType.Hospital) {
+          state.Hospitals.forEach((hospital) => {
+            if (canLevelDown(hospital)) hospital.Level -= 1;
+          });
+        }
+      })
+    ),
+  Arenas: [],
   ArmyCamps: new Map<number, ArmyCampState>(),
   Crafters: new Map<number, CrafterState>(),
   DigSites: [],
@@ -62,7 +89,17 @@ export const createAssetLevelSlice: StateCreator<
   Markets: new Map<number, MarketState>(),
   MercenaryCamps: new Map<string, MercenaryCampState>(),
   Mines: new Map<number, MineState>(),
+  Mortars: [],
   Recipes: new Map<MaterialType, RecipeState>(),
   Smelters: new Map<number, SmelterState>(),
-  SuperCamp: null,
+  SuperCamp: {
+    Index: 0,
+    Level: 0,
+    Levels: [],
+    Name: "",
+    Type: AssetType.ArmyCamp,
+    UpgradeCosts: [],
+    Zone: null,
+    Bonus: null,
+  },
 });

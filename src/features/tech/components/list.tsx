@@ -28,13 +28,33 @@ const TechList = () => {
       techs
     ) -
     1;
-  const crafterDiscountMultiplier = getMultiplier(MultiplierType.CrafterDiscount, advancements, artifacts, techs);
-  const crafterSpeedMultiplier = getMultiplier(MultiplierType.CrafterSpeed, advancements, artifacts, techs);
-  const smelterDiscountMultiplier = getMultiplier(MultiplierType.SmelterDiscount, advancements, artifacts, techs);
-  const smelterSpeedMultiplier = getMultiplier(MultiplierType.SmelterSpeed, advancements, artifacts, techs);
+  const crafterDiscountMultiplier = getMultiplier(
+    MultiplierType.CrafterDiscount,
+    advancements,
+    artifacts,
+    techs
+  );
+  const crafterSpeedMultiplier = getMultiplier(
+    MultiplierType.CrafterSpeed,
+    advancements,
+    artifacts,
+    techs
+  );
+  const smelterDiscountMultiplier = getMultiplier(
+    MultiplierType.SmelterDiscount,
+    advancements,
+    artifacts,
+    techs
+  );
+  const smelterSpeedMultiplier = getMultiplier(
+    MultiplierType.SmelterSpeed,
+    advancements,
+    artifacts,
+    techs
+  );
   const techDisplay = useLevelStore((state) => state.TechDisplay);
   const interestingTechs = getTechsToDisplay(techs.flat(), techDisplay);
-  const markets = useLevelStore().Markets;
+  const markets = useLevelStore((state) => state.Markets);
   const knownMaterials = useLevelStore().Materials;
   const recipes = useLevelStore().Recipes;
   if (techs.length == 0) return <div>No Techs</div>;
@@ -60,9 +80,7 @@ const TechList = () => {
                 });
               const newMat = materials.find((im) => im.Type == m.Type);
               if (newMat)
-                newMat.Amount += Math.ceil(
-                  m.Amount * techDiscountMultiplier
-                );
+                newMat.Amount += Math.ceil(m.Amount * techDiscountMultiplier);
             });
           }
         }

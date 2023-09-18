@@ -9,7 +9,7 @@ const ZoneLink = (props: ZoneLinkProps) => {
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
   return (
     <Text onClick={() => setActiveZone(props.zone)} mode="link" >
-      {formatName(props.zone.Name, 20)}
+      {formatName(props.zone.Name, 16)}
     </Text>
   );
 };

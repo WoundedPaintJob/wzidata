@@ -4,7 +4,7 @@ import { AssetState } from '@lib/types/assets';
 
 const AssetHeader = (props: { asset: AssetState }) => {
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-fit">
       {props.asset.Zone && <ZoneHeader zoneId={props.asset.Zone} />}
       {props.asset.Bonus && <BonusHeader bonusId={props.asset.Bonus} />}
     </div>

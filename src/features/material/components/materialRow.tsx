@@ -5,14 +5,14 @@ import Text from "@components/atoms/text";
 import MaterialImage from "./image";
 
 const MaterialRow = (props: {
-	material: Material;
-	multiplier?: number;
-	roundNumber?: "default" | "formatted" | "rounded" | "precision";
+  material: Material;
+  multiplier?: number;
+  roundNumber?: "default" | "formatted" | "rounded" | "precision";
 }) => {
   const setActiveMat = useLevelStore((state) => state.SetActiveMaterial);
   const mult = props.multiplier ? props.multiplier : 1;
   const round =
-		props.roundNumber !== undefined ? props.roundNumber : "formatted";
+    props.roundNumber !== undefined ? props.roundNumber : "formatted";
   const amount = props.material.Amount * mult;
   let amtStr = "";
   if (round == "default") {
@@ -26,7 +26,8 @@ const MaterialRow = (props: {
     <Text
       mode="link"
       onClick={() => setActiveMat(props.material.Type)}
-      className="flex"
+      className="flex items-center"
+      size='small'
     >
       <MaterialImage material={props.material} />
       {props.material.Amount > 0

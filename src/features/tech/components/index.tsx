@@ -4,6 +4,7 @@ import MaterialDetails from "@features/material/components/details";
 import useLevelStore from "@lib/stores/levelStore";
 import { TechState } from "../lib/types";
 import { Settings } from "src/settings";
+import { twMerge } from "tailwind-merge";
 
 const Tech = (props: {
   tech: TechState;
@@ -13,7 +14,7 @@ const Tech = (props: {
   const toggle = useLevelStore((state) => state.ToggleTech);
   return (
     <Card
-      size="small"
+      size={props.highlight ? 'small' : 'xsmall'}
       mode={
         props.tech.Bought && props.highlight
           ? "semi"
@@ -21,24 +22,28 @@ const Tech = (props: {
             ? "normal"
             : "passive"
       }
+      className={twMerge("table-cell", props.highlight ? '' : "collapse sm:visible")}
     >
       <Card.Body>
-        <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col">
           <img
             src={`${Settings.ResourceUrl}${props.tech.Image}`}
             alt={props.tech.Name}
             title={props.tech.Name}
-            className="m-1 w-4 sm:w-8 sm:m-2 bg-black"
+            className="m-1 w-4 sm:w-8 sm:m-2 bg-black collapse sm:visible"
           />
           <CheckBox
             checked={props.tech.Bought || false}
             onClick={() => toggle(props.tech)}
+            className={twMerge('m-1',
+              props.highlight ? '' : 'collapse sm:visible')}
           />
         </div>
         <MaterialDetails
           materials={props.tech.Materials}
           multiplier={props.costMultiplier}
           roundNumber={"rounded"}
+          className={props.highlight ? '' : 'collapse sm:visible'}
         />
       </Card.Body>
     </Card>

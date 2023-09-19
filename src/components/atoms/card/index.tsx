@@ -28,7 +28,8 @@ const Card = (props: CardProps) => {
     "text-main rounded",
     size == "normal" && "px-2 py-3  sm:px-4",
     size == "small" && "px-1 py-1",
-    ''
+    size == "xsmall" && "px-0 py-0",
+    props.className
   );
   return <div className={className}>{props.children}</div>;
 };

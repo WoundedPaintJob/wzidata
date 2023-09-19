@@ -35,11 +35,14 @@ const Home = () => {
           ImageWidth: level.ImageWidth,
           Name: level.Name,
           HaveData: true,
+          IsHardened: level.IsHardened,
+          Reward: level.Reward
         });
         const freeTechAdvancement = advancements.find(
           (a) => a.Type == AdvancementType.StartWithTech
         );
-        const freeTechs = getAdvancementValue(freeTechAdvancement);
+        let freeTechs = 0;
+        if (freeTechAdvancement) freeTechs = getAdvancementValue(freeTechAdvancement);
         load(data, freeTechs);
       }
     };
@@ -61,12 +64,12 @@ const Home = () => {
         </Section>
         <TabList />
         {!wideMap && (
-          <div className="grid grid-cols-1 md:grid-cols-8">
-            <div className="md:col-span-2">
+          <div className="grid grid-cols-1 lg:grid-cols-8">
+            <div className="col-span-1 lg:col-span-2">
               <MapFilter />
               <Highlights />
             </div>
-            <div className="md:col-span-6">
+            <div className="col-span-1 lg:col-span-6">
               <MapComponent />
               <Manual />
             </div>

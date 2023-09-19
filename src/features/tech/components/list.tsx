@@ -92,17 +92,17 @@ const TechList = () => {
             highlight={interestingTechs.includes(tech)}
           />
         );
-      } else row.push(<div key={`${r}-${c}`}></div>);
+      } else row.push(<div key={`${r}-${c}`} className="table-cell collapse sm:visible"></div>);
     }
     rows.push(row);
   }
   return (
     <Section>
       <Section.Body>
-        <div className="grid grid-cols-1 md:grid-cols-7 space-x-2">
-          <div className="col-span-5">
+        <div className="grid grid-cols-1 xl:grid-cols-7 space-x-2">
+          <div className="col-span-5 table-auto border-spacing-0 sm:border-spacing-1">
             {rows.map((r, index) => (
-              <div key={index} className="mb-1 grid grid-cols-10 gap-1">
+              <div key={index} className="table-row">
                 {r}
               </div>
             ))}

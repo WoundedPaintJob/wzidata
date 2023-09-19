@@ -5,7 +5,7 @@ const LevelControl = (props: LevelControlProps) => {
     <>
       <div>
         {props.CanLevelUp ? (
-          <Text mode="link" onClick={props.LevelUp}>
+          <Text mode="link" onClick={props.LevelUp} size='small'>
             Lvl Up
           </Text>
         ) : (
@@ -14,7 +14,7 @@ const LevelControl = (props: LevelControlProps) => {
       </div>
       <div>
         {props.CanLevelDown ? (
-          <Text mode="link" onClick={props.LevelDown}>
+          <Text mode="link" onClick={props.LevelDown} size='small'>
             Lvl Down
           </Text>
         ) : (

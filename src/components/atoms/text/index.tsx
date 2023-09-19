@@ -15,13 +15,12 @@ const Text = (props: TextProps) => {
   const textMode = props.mode ? props.mode : 'default';
   const className = twMerge(
     props.className,
-    textSize == 'md' && 'text-md',
-    textSize == 'lg' && 'text-xl',
-    textSize == 'sm' && 'text-sm',
+    textSize == 'md' && 'text-sm md:text-base',
+    textSize == 'lg' && 'text-l md:text-xl',
+    textSize == 'sm' && 'text-xs md:text-sm',
     textSize == 'xs' && 'text-xs',
     textMode == 'default' && 'text-main',
-    textMode == 'link' &&
-    'text-main hover:cursor-pointer hover:underline text-sm',
+    textMode == 'link' && 'text-main hover:cursor-pointer hover:underline',
     textMode == 'inactive' && 'text-subText',
     textMode == 'passive' && 'text-subText',
     'mr-1',

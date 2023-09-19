@@ -15,7 +15,7 @@ const SectionCardList = (props: PropsWithChildren) => {
 };
 const Section = (props: PropsWithChildren) => {
   return (
-    <div className="m-2 rounded bg-background px-4 py-4 sm:px-6">
+    <div className="m-2 rounded bg-background px-2 py-2 lg:px-6 lg:py-6">
       {props.children}
     </div>
   );

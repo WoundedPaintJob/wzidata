@@ -94,7 +94,7 @@ const TotalTechRemaining = (props: {
   });
   return (
     <>
-      <div className="mb-4 grid grid-cols-1 sm:grid-cols-2">{mats}</div>
+      <div className="mb-4 grid grid-cols-4">{mats}</div>
       {nextMats.length > 0 && (
         <TotalTechCosts
           materials={nextMats}
@@ -125,7 +125,7 @@ const TotalTechCosts = (props: {
   recipes: Map<MaterialType, RecipeState>;
   cacheMultiplier: number;
 }) => {
-  let markets = Array.from(props.markets.values()).sort(
+  const markets = Array.from(props.markets.values()).sort(
     (a, b) => a.Index - b.Index
   );
   let mats = props.materials;
@@ -153,7 +153,7 @@ const TotalTechCosts = (props: {
   return (
     <>
       {groupedMats.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-3">{groupedMats}</div>
+        <div className="grid grid-cols-3">{groupedMats}</div>
       )}
       {mats.length > 0 && (
         <div className="mt-2">

@@ -17,7 +17,11 @@ const PathHighlight = (props: { path: MapPath }) => {
       </Card.Header>
       <Card.Body>
         <StatRow name="Cost" value={formatNumber(props.path.TotalCost)} />
-        <StatRow name="Most expensive" value={formatNumber(mostExpensive.Cost)} />
+        <StatRow name="Required" value={formatNumber(props.path.ArmiesRequired)} />
+        <StatRow
+          name="Most expensive"
+          value={formatNumber(mostExpensive.Cost)}
+        />
         <Button onClick={() => conquerZones(props.path.Zones)}>Conquer</Button>
       </Card.Body>
     </Card>

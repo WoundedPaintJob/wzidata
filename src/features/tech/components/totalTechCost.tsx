@@ -6,6 +6,8 @@ import { MaterialKind, MaterialType } from "@features/material/lib/enums";
 import { RecipeState } from "@features/recipe/lib/types";
 import { formatDuration, intervalToDuration } from "date-fns";
 import AssetHeader from "@components/assetHeader";
+import Card from "@components/atoms/card";
+import Section from "@components/atoms/section";
 
 const TotalTechMarket = (props: {
   market: MarketState;
@@ -13,14 +15,16 @@ const TotalTechMarket = (props: {
   techDiscountMultiplier: number;
 }) => {
   return (
-    <div>
-      <AssetHeader asset={props.market} />
-      <MaterialDetails
-        materials={props.materials}
-        roundNumber="default"
-        multiplier={1}
-      />
-    </div>
+    <Card>
+      <Card.Body>
+        <AssetHeader asset={props.market} />
+        <MaterialDetails
+          materials={props.materials}
+          roundNumber="default"
+          multiplier={1}
+        />
+      </Card.Body>
+    </Card>
   );
 };
 
@@ -153,7 +157,7 @@ const TotalTechCosts = (props: {
   return (
     <>
       {groupedMats.length > 0 && (
-        <div className="grid grid-cols-3">{groupedMats}</div>
+        <Section.CardList>{groupedMats}</Section.CardList>
       )}
       {mats.length > 0 && (
         <div className="mt-2">

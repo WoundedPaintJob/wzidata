@@ -1,3 +1,4 @@
+import { twMerge } from "tailwind-merge";
 import { Material } from "../lib/types";
 import MaterialRow from "./materialRow";
 
@@ -8,7 +9,7 @@ const MaterialDetails = (props: {
   className?: string;
 }) => {
   return (
-    <div className={props.className}>
+    <div className={twMerge('ml-1', props.className)}>
       {props.materials.map((mat) => (
         <MaterialRow
           key={mat.Type}

@@ -100,7 +100,7 @@ const TechList = () => {
     <Section>
       <Section.Body>
         <div className="grid grid-cols-1 xl:grid-cols-7 space-x-2">
-          <div className="col-span-5 table-auto border-spacing-0 sm:border-spacing-1">
+          <div className="col-span-5 table w-fill border-spacing-0 sm:border-spacing-1">
             {rows.map((r, index) => (
               <div key={index} className="table-row">
                 {r}

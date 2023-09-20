@@ -1,6 +1,4 @@
-import {
-  totalCostForZone,
-} from "@features/hospital/lib/helper";
+import { totalCostForZone } from "@features/hospital/lib/helper";
 import { HospitalState } from "@features/hospital/lib/types";
 import { MapPath } from "@features/path/lib/types";
 import { ZoneState } from "@features/zone/lib/types";
@@ -69,7 +67,7 @@ export function reversePath(
   hospitalMultiplier: number,
   jointStrikeMultiplier: number,
   hospitals: HospitalState[]
-) {
+): MapPath {
   const openSet = new Set<ZoneState>();
   openSet.add(endZone);
   const closedSet = new Set<ZoneState>();
@@ -103,10 +101,11 @@ export function reversePath(
     if (current.Conquered) {
       const path: MapPath = {
         TotalCost: 0,
+        ArmiesRequired: 0,
         Zones: [],
       };
       const zones = reconstructPath(endZone, current, parentZone);
-      zones.reverse().forEach((zone) => {
+      zones.reverse().forEach((zone, index) => {
         const cost = totalCostForZone(
           zone.Zone,
           hospitals,
@@ -120,6 +119,8 @@ export function reversePath(
           }).length > 1
         );
         path.TotalCost += cost;
+        if (index < zones.length) path.ArmiesRequired += cost;
+        else path.ArmiesRequired += zone.Zone.Cost;
         path.Zones.push(zone.Zone);
         zone.Counted = true;
       });
@@ -163,7 +164,7 @@ export function reversePath(
       costs.set(neighbor, tentative);
     }
   }
-  return { TotalCost: Infinity, Zones: [] };
+  return { TotalCost: Infinity, ArmiesRequired: Infinity, Zones: [] };
 }
 export function getPath(
   startZone: ZoneState,
@@ -209,6 +210,7 @@ export function getPath(
     if (current === endZone) {
       const path: MapPath = {
         TotalCost: 0,
+        ArmiesRequired: 0,
         Zones: [],
       };
       const zones = reconstructPath(startZone, endZone, parentZone);
@@ -261,7 +263,7 @@ export function getPath(
       costs.set(neighbor, tentative);
     }
   }
-  return { TotalCost: Infinity, Zones: [] };
+  return { TotalCost: Infinity, ArmiesRequired: Infinity, Zones: [] };
 }
 
 function evaluateCaptureNeighbours(

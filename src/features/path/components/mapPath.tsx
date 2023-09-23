@@ -15,6 +15,7 @@ const MapPath = (props: { zones: ZoneState[] }) => {
         stroke="#39FF14"
         fill="none"
         strokeWidth="4"
+        id="path"
       />
     </>
   );

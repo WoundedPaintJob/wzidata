@@ -2,13 +2,19 @@ import Section from "@components/atoms/section";
 import MapBonus from "@features/bonus/components/mapBonus";
 import MapPath from "@features/path/components/mapPath";
 import useLevelStore from "@lib/stores/levelStore";
-import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import {
+  ReactZoomPanPinchRef,
+  TransformComponent,
+  TransformWrapper,
+  useControls,
+} from "react-zoom-pan-pinch";
 import MapZone from "../../zone/components/mapZone";
 import { Settings } from "src/settings";
 import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import usePlayerStore from "@lib/stores/playerStore";
 import { isAssetConquered } from "@helpers/assetHelper";
+import { useEffect, useRef } from "react";
 
 const MapComponent = () => {
   const settings = useLevelStore((state) => state.RenderOptions);
@@ -24,7 +30,17 @@ const MapComponent = () => {
   const hospitals = Array.from(hospitalMap.values());
   const activeZone = useLevelStore((state) => state.ActiveZone);
   const activeBonus = useLevelStore((state) => state.ActiveBonus);
-  const conqueredHospitals = hospitals.filter((h) => isAssetConquered(h, zoneMap, bonusMap));
+
+  const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
+  useEffect(() => {
+    if (transformComponentRef.current && activePath) {
+      const { zoomToElement, instance } = transformComponentRef.current;
+      zoomToElement("path", instance.transformState.scale);
+    }
+  }, [activePath]);
+  const conqueredHospitals = hospitals.filter((h) =>
+    isAssetConquered(h, zoneMap, bonusMap)
+  );
   const hospitalMultiplier = getMultiplier(
     MultiplierType.HospitalEffect,
     usePlayerStore((state) => state.Advancements),
@@ -39,7 +55,7 @@ const MapComponent = () => {
   return (
     <Section>
       <Section.Body>
-        <TransformWrapper>
+        <TransformWrapper ref={transformComponentRef}>
           <TransformComponent wrapperClass="w-full" contentClass="w-full">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -61,8 +77,9 @@ const MapComponent = () => {
                   conqueredHospitals={conqueredHospitals}
                   hospitalMultiplier={hospitalMultiplier}
                   partOfPath={
-                    activePath &&
-                    activePath.Zones.some((z) => z.Id == zone.Id) || false
+                    (activePath &&
+                      activePath.Zones.some((z) => z.Id == zone.Id)) ||
+                    false
                   }
                   activeZone={activeZone}
                   activeBonus={activeBonus}

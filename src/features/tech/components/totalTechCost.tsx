@@ -5,28 +5,10 @@ import { MarketState } from "@features/market/lib/types";
 import { MaterialKind, MaterialType } from "@features/material/lib/enums";
 import { RecipeState } from "@features/recipe/lib/types";
 import { formatDuration, intervalToDuration } from "date-fns";
-import AssetHeader from "@components/assetHeader";
-import Card from "@components/atoms/card";
 import Section from "@components/atoms/section";
+import TotalTechMarket from "./totalTechMarket";
 
-const TotalTechMarket = (props: {
-  market: MarketState;
-  materials: Material[];
-  techDiscountMultiplier: number;
-}) => {
-  return (
-    <Card>
-      <Card.Body>
-        <AssetHeader asset={props.market} />
-        <MaterialDetails
-          materials={props.materials}
-          roundNumber="default"
-          multiplier={1}
-        />
-      </Card.Body>
-    </Card>
-  );
-};
+
 
 const TotalTechRemaining = (props: {
   materials: Material[];

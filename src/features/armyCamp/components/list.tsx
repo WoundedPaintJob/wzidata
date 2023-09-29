@@ -2,42 +2,24 @@ import useLevelStore from "@lib/stores/levelStore";
 import { getTotalArmyCampProduction } from "../lib/helper";
 import Section from "@components/atoms/section";
 import ArmyCamp from ".";
-import usePlayerStore from "@lib/stores/playerStore";
 import StatRow from "@components/atoms/statrow";
 import { formatNumber, formatPercentage } from "@helpers/numberHelper";
-import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import SuperCamp from "./superCamp";
+import useArmyCamps from "@lib/state/hooks/useArmyCamps";
+import useMultiplier from "@lib/state/hooks/useMultiplier";
 
 const ArmyCampList = () => {
-  const armyCamps = Array.from(
-    useLevelStore((state) => state.ArmyCamps).values()
-  );
-  const advancements = usePlayerStore((state) => state.Advancements);
-  const artifacts = usePlayerStore((state) => state.Artifacts);
-  const techs = useLevelStore((state) => state.Techs);
-  const productionMultiplier = getMultiplier(
-    MultiplierType.ArmyCampProduction,
-    advancements,
-    artifacts,
-    techs
-  );
-  const costMultiplier = getMultiplier(
-    MultiplierType.ArmyCampCost,
-    advancements,
-    artifacts,
-    techs
-  );
-  const zones = useLevelStore((state) => state.Zones);
-  const bonuses = useLevelStore((state) => state.Bonuses);
-  const revision = useLevelStore((state) => state.LevelRevision);
+  const armyCamps = Array.from(useArmyCamps(false).values());
+  const conqueredArmyCamps = Array.from(useArmyCamps(true).values());
+  const productionMultiplier = useMultiplier(MultiplierType.ArmyCampProduction);
+  const costMultiplier = useMultiplier(MultiplierType.ArmyCampCost);
+  const revision = useLevelStore((state) => state.LevelRevision) || 0;
   const superCamp = useLevelStore((state) => state.SuperCamp);
   const superCampMultiplier = 1.1;
   const totalProduced = getTotalArmyCampProduction(
-    armyCamps,
+    conqueredArmyCamps,
     superCamp,
-    zones,
-    bonuses,
     productionMultiplier,
     revision,
     superCampMultiplier

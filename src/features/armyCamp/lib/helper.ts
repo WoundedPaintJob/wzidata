@@ -1,7 +1,4 @@
 import { ArmyCampState, SuperCampState } from "./types";
-import { isAssetConquered } from "@helpers/assetHelper";
-import { ZoneState } from "@features/zone/lib/types";
-import { BonusState } from "@features/bonus/lib/types";
 
 export function armiesProducedAtLevel(
   armyCamp: ArmyCampState,
@@ -23,8 +20,6 @@ export function armiesProducedAtLevel(
 export function getTotalArmyCampProduction(
   armyCamps: ArmyCampState[],
   superCamp: SuperCampState,
-  zones: Map<number, ZoneState>,
-  bonuses: Map<number, BonusState>,
   multiplier: number,
   revision: number,
   superCampMultiplier: number
@@ -34,9 +29,7 @@ export function getTotalArmyCampProduction(
     multiplier *
     superCampMultiplier;
   armyCamps.forEach((camp) => {
-    if (isAssetConquered(camp, zones, bonuses)) {
-      totalProduced += armiesProducedAtLevel(camp, revision) * multiplier;
-    }
+    totalProduced += armiesProducedAtLevel(camp, revision) * multiplier;
   });
   return totalProduced;
 }

@@ -1,5 +1,5 @@
-import { BonusState } from '@features/bonus/lib/types';
-import { ZoneState } from '@features/zone/lib/types';
+import { BonusState } from "@features/bonus/lib/types";
+import { ZoneState } from "@features/zone/lib/types";
 
 export function calculateMoneyCache(
   zones: Map<number, ZoneState>,

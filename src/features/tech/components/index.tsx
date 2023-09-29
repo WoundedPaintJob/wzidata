@@ -14,15 +14,15 @@ const Tech = (props: {
   const toggle = useLevelStore((state) => state.ToggleTech);
   return (
     <Card
-      size={props.highlight ? 'small' : 'xsmall'}
+      size={props.highlight ? "small" : "xsmall"}
       mode={
         props.tech.Bought && props.highlight
           ? "semi"
           : props.highlight
-            ? "normal"
-            : "passive"
+          ? "normal"
+          : "passive"
       }
-      className={twMerge("table-cell", props.highlight ? '' : "collapse sm:visible")}
+      className={twMerge("", props.highlight ? "" : "")}
     >
       <Card.Body>
         <div className="flex flex-col">
@@ -35,15 +35,13 @@ const Tech = (props: {
           <CheckBox
             checked={props.tech.Bought || false}
             onClick={() => toggle(props.tech)}
-            className={twMerge('m-1',
-              props.highlight ? '' : 'collapse sm:visible')}
+            className={twMerge("m-1", props.highlight ? "visible" : "collapse")}
           />
         </div>
         <MaterialDetails
           materials={props.tech.Materials}
           multiplier={props.costMultiplier}
           roundNumber={"rounded"}
-          className={props.highlight ? '' : 'collapse sm:visible'}
         />
       </Card.Body>
     </Card>

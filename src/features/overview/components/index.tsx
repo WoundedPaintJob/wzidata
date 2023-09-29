@@ -9,6 +9,7 @@ import MoneyCacheCard from "./moneyCacheCard";
 import TerritoriesCard from "./territoriesCard";
 import { isAssetConquered } from "@helpers/assetHelper";
 import ResourceCacheCard from "./resourceCacheCard";
+import StatsCard from "./statsCard";
 
 const OverView = () => {
   const zoneRef = useRef(useLevelStore((state) => state.Zones));
@@ -54,6 +55,7 @@ const OverView = () => {
             <MoneyCacheCard {...cardProps} />
             <ResourceCacheCard {...cardProps} />
             <MercenaryCard {...cardProps} />
+            <StatsCard />
           </Section.CardList>
         </Section.Body>
       </Section>

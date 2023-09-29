@@ -15,12 +15,13 @@ import useMultiplier from "@lib/state/hooks/useMultiplier";
 import useZoneMap from "@lib/state/hooks/useZoneMap";
 import useHospitals from "@lib/state/hooks/useHospitals";
 import useBonusMap from "@lib/state/hooks/useBonusMap";
+import useMostExpensive from "@lib/state/hooks/useMostExpensive";
 const MapComponent = () => {
   const settings = useLevelStore((state) => state.RenderOptions);
   const activePath = useLevelStore((state) => state.ActivePath);
-  const zoneMap = useZoneMap(true);
+  const zoneMap = useZoneMap(false);
   const zones = Array.from(zoneMap.values());
-  const bonusMap = useBonusMap(true);
+  const bonusMap = useBonusMap(false);
   const bonuses = Array.from(bonusMap.values());
   const imageWidth = useLevelStore((state) => state.ImageWidth);
   const imageHeight = useLevelStore((state) => state.ImageHeight);
@@ -35,11 +36,9 @@ const MapComponent = () => {
   }, [activePath]);
   const conqueredHospitals = useHospitals(true);
   const hospitalMultiplier = useMultiplier(MultiplierType.HospitalEffect);
+  const mostExpensive = useMostExpensive();
   if (zoneMap == null) return <></>;
-  const mostExpensive = zones
-    .filter((z) => !z.Conquered)
-    .reduce((prev, current) => (prev.Cost > current.Cost ? prev : current));
-  console.log(mostExpensive.Name);
+
   if (settings == undefined) return <></>;
   return (
     <Section>
@@ -62,7 +61,7 @@ const MapComponent = () => {
                 <MapZone
                   key={`Z${zone.Id}`}
                   zoneId={zone.Id}
-                  mostExpensive={mostExpensive.Cost}
+                  mostExpensive={mostExpensive ? mostExpensive.Cost : 0}
                   conqueredHospitals={conqueredHospitals}
                   hospitalMultiplier={hospitalMultiplier}
                   partOfPath={

@@ -1,108 +1,109 @@
 import Section from "@components/atoms/section";
 import useLevelStore from "@lib/stores/levelStore";
 import Tech from ".";
-import usePlayerStore from "@lib/stores/playerStore";
-import { Material } from "@features/material/lib/types";
 import TotalTechCosts from "./totalTechCost";
-import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import Text from "@components/atoms/text";
-import { getTechsToDisplay } from "../lib/helper";
+import { getTotalTechCost, isTechInteresting } from "../lib/helper";
 import TechDisplayModeChange from "./displayModeChange";
+import useMultiplier from "@lib/state/hooks/useMultiplier";
+import { twMerge } from "tailwind-merge";
+import { TechDisplayMode } from "@features/overview/lib/types";
 const TechList = () => {
-  const advancements = usePlayerStore((state) => state.Advancements);
-  const artifacts = usePlayerStore((state) => state.Artifacts);
   const techs = useLevelStore((state) => state.Techs);
-  const techDiscountMultiplier = getMultiplier(
-    MultiplierType.TechDiscount,
-    advancements,
-    artifacts,
-    techs
-  );
+  const techDiscountMultiplier = useMultiplier(MultiplierType.TechDiscount);
   const cacheMultiplier =
-    getMultiplier(MultiplierType.Cache, advancements, artifacts, techs) +
-    getMultiplier(
-      MultiplierType.CacheResources,
-      advancements,
-      artifacts,
-      techs
-    ) -
+    useMultiplier(MultiplierType.Cache) +
+    useMultiplier(MultiplierType.CacheResources) -
     1;
-  const crafterDiscountMultiplier = getMultiplier(
-    MultiplierType.CrafterDiscount,
-    advancements,
-    artifacts,
-    techs
+  const crafterDiscountMultiplier = useMultiplier(
+    MultiplierType.CrafterDiscount
   );
-  const crafterSpeedMultiplier = getMultiplier(
-    MultiplierType.CrafterSpeed,
-    advancements,
-    artifacts,
-    techs
+  const crafterSpeedMultiplier = useMultiplier(MultiplierType.CrafterSpeed);
+  const smelterDiscountMultiplier = useMultiplier(
+    MultiplierType.SmelterDiscount
   );
-  const smelterDiscountMultiplier = getMultiplier(
-    MultiplierType.SmelterDiscount,
-    advancements,
-    artifacts,
-    techs
-  );
-  const smelterSpeedMultiplier = getMultiplier(
-    MultiplierType.SmelterSpeed,
-    advancements,
-    artifacts,
-    techs
-  );
-  const techDisplay = useLevelStore((state) => state.TechDisplay);
-  const interestingTechs = getTechsToDisplay(techs.flat(), techDisplay);
+  const smelterSpeedMultiplier = useMultiplier(MultiplierType.SmelterSpeed);
+  const techDisplayMode = useLevelStore((state) => state.TechDisplay);
   const markets = useLevelStore((state) => state.Markets);
   const knownMaterials = useLevelStore().Materials;
   const recipes = useLevelStore().Recipes;
   if (techs.length == 0) return <div>No Techs</div>;
   const rows = [];
-  const materials: Material[] = [];
+  const smallRows = [];
+  const materials = getTotalTechCost(
+    techs,
+    techDisplayMode,
+    techDiscountMultiplier
+  );
   for (let r = 0; r < 12; r++) {
     const row = [];
+    const smallRow = [];
     for (let c = 0; c < 10; c++) {
+      let addedTech = false;
       if (techs[r] !== undefined && techs[r][c] !== undefined) {
         const tech = techs[r][c];
-        if (!tech.Bought) {
-          if (interestingTechs.includes(tech)) {
-            tech.Materials.forEach((m) => {
-              if (!materials.some((im) => im.Type == m.Type))
-                materials.push({
-                  Name: m.Name,
-                  Image: m.Image,
-                  Type: m.Type,
-                  Amount: 0,
-                  Cost: m.Cost,
-                  Kind: m.Kind,
-                  Multiplier: m.Multiplier,
-                });
-              const newMat = materials.find((im) => im.Type == m.Type);
-              if (newMat)
-                newMat.Amount += Math.ceil(m.Amount * techDiscountMultiplier);
-            });
-          }
+        if (isTechInteresting(tech, techDisplayMode)) {
+          addedTech = true;
+          smallRow.push(
+            <Tech
+              key={`${r}-${c}`}
+              tech={techs[r][c]}
+              costMultiplier={techDiscountMultiplier}
+              highlight={isTechInteresting(tech, techDisplayMode)}
+            />
+          );
         }
         row.push(
           <Tech
             key={`${r}-${c}`}
             tech={techs[r][c]}
             costMultiplier={techDiscountMultiplier}
-            highlight={interestingTechs.includes(tech)}
+            highlight={isTechInteresting(tech, techDisplayMode)}
           />
         );
-      } else row.push(<div key={`${r}-${c}`} className="table-cell collapse sm:visible"></div>);
+      } else row.push(<div key={`${r}-${c}`} className="collapse"></div>);
+      if (!addedTech) {
+        if (techDisplayMode == TechDisplayMode.Market) {
+          if ([0, 4, 5, 6, 7].includes(c))
+            smallRow.push(<div key={`${r}-${c}`} className="collapse"></div>);
+        } else if (techDisplayMode == TechDisplayMode.MarketPlusArmy) {
+          if ([0, 1, 4, 5, 6, 7].includes(c))
+            smallRow.push(<div key={`${r}-${c}`} className="collapse"></div>);
+        } else if (techDisplayMode == TechDisplayMode.Total) {
+          smallRow.push(<div key={`${r}-${c}`} className="collapse"></div>);
+        }
+      }
     }
     rows.push(row);
+    smallRows.push(smallRow);
   }
   return (
     <Section>
       <Section.Body>
         <div className="grid grid-cols-1 xl:grid-cols-7 space-x-2">
-          <div className="col-span-5 table w-fill border-spacing-0 sm:border-spacing-1">
+          <div className="hidden col-span-5 w-fill space-y-1 sm:grid">
             {rows.map((r, index) => (
-              <div key={index} className="table-row">
+              <div
+                key={index}
+                className={twMerge("grid space-x-1 grid-cols-10")}
+              >
+                {r}
+              </div>
+            ))}
+          </div>
+          <div className="col-span-5 w-fill space-y-1 grid sm:hidden">
+            {smallRows.map((r, index) => (
+              <div
+                key={index}
+                className={twMerge(
+                  "grid space-x-1",
+                  techDisplayMode == TechDisplayMode.Market && "grid-cols-5",
+                  techDisplayMode == TechDisplayMode.MarketPlusArmy &&
+                    "grid-cols-6",
+                  techDisplayMode == TechDisplayMode.Total && "grid-cols-10"
+                )}
+              >
                 {r}
               </div>
             ))}

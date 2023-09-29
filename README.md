@@ -38,7 +38,6 @@ Should contain the zod schema for the asset
 
 ## Issues
 
-- Move stats to overview
 - Map/hardened/ascension bonuses
 - Powers
 - mini view. next hospital, next merc.

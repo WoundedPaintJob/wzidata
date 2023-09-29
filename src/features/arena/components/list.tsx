@@ -11,7 +11,7 @@ const ArenaList = () => {
           {arenas.map((ar) => (
             <Arena
               arena={ar}
-              key={`AR${ar.Zone || 0}-{${ar.Bonus}-${ar.Template.Id}`}
+              key={`AR${ar.Zone}-{${ar.Bonus}-${ar.Template.Id}`}
             />
           ))}
         </Section.CardList>

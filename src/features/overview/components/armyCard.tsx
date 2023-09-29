@@ -3,6 +3,7 @@ import StatRow from "@components/atoms/statrow";
 import { formatNumber, formatPercentage } from "@helpers/numberHelper";
 import useLevelStore from "@lib/stores/levelStore";
 import { CardData } from "../lib/types";
+import useMostExpensive from "@lib/state/hooks/useMostExpensive";
 
 const ArmyCard = (props: CardData) => {
   const unconqueredZones = props.zones.filter((z) => !z.Conquered);
@@ -11,9 +12,7 @@ const ArmyCard = (props: CardData) => {
   const remainingArmies = unconqueredZones
     .map((z) => z.Cost)
     .reduce((a, b) => a + b);
-  const biggestCampZone = unconqueredZones.reduce(function (prev, current) {
-    return prev.Cost > current.Cost ? prev : current;
-  });
+  const biggestCampZone = useMostExpensive();
   return (
     <Card>
       <Card.SmallHeader>Armies</Card.SmallHeader>
@@ -24,11 +23,13 @@ const ArmyCard = (props: CardData) => {
           value={formatNumber(remainingArmies)}
           percentage={formatPercentage(remainingArmies / totalArmies)}
         />
-        <StatRow
-          name={biggestCampZone.Name}
-          value={formatNumber(biggestCampZone.Cost)}
-          onClick={() => setActiveZone(biggestCampZone)}
-        />
+        {biggestCampZone && (
+          <StatRow
+            name={biggestCampZone.Name}
+            value={formatNumber(biggestCampZone.Cost)}
+            onClick={() => setActiveZone(biggestCampZone)}
+          />
+        )}
       </Card.Body>
     </Card>
   );

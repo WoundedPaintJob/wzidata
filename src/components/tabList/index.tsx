@@ -12,7 +12,6 @@ import MercenaryList from "@features/mercenaryCamp/components/list";
 import MineList from "@features/mine/components/list";
 import MortarList from "@features/mortar/components/list";
 import OverView from "@features/overview/components";
-import StatsTab from "@features/stats/components";
 import TechList from "@features/tech/components/list";
 import { Tab } from "@headlessui/react";
 import useLevelStore from "@lib/stores/levelStore";
@@ -56,7 +55,6 @@ const TabList = () => {
         <TabHeader>Advancements</TabHeader>
         <TabHeader>Artifacts</TabHeader>
         <TabHeader>Evaluator</TabHeader>
-        <TabHeader>Stats</TabHeader>
         <TabHeader>Guide</TabHeader>
         <TabHeader>Levels</TabHeader>
       </Tab.List>
@@ -99,9 +97,6 @@ const TabList = () => {
         </Tab.Panel>
         <Tab.Panel>
           <Evaluator />
-        </Tab.Panel>
-        <Tab.Panel>
-          <StatsTab />
         </Tab.Panel>
         <Tab.Panel>
           <Guide />

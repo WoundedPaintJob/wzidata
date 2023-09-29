@@ -37,9 +37,9 @@ const useHospitals = (onlyConquered: boolean) => {
         if (onlyConquered) return zone.Conquered;
         return true;
       }
-      throw "No Zone for Hospital";
+      return false;
     }
-    throw "No Zone for Hospital";
+    return false;
   });
   return hospitals;
 };

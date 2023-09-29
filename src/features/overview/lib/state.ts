@@ -1,14 +1,14 @@
-import { MaterialType } from '@features/material/lib/enums';
-import { MaterialState } from '@features/material/lib/types';
-import { produce } from 'immer';
-import { StateCreator } from 'zustand';
-import { OverviewSlice, TechDisplayMode } from './types';
-import { MapPath } from '@features/path/lib/types';
-import { TechState } from '@features/tech/lib/types';
-import { LevelState } from '@lib/stores/levelStore/types';
-import { Tabs } from '@lib/types/enums';
-import { ArmyCampState } from '@features/armyCamp/lib/types';
-import { MineState } from '@features/mine/lib/types';
+import { MaterialType } from "@features/material/lib/enums";
+import { MaterialState } from "@features/material/lib/types";
+import { produce } from "immer";
+import { StateCreator } from "zustand";
+import { OverviewSlice, TechDisplayMode } from "./types";
+import { MapPath } from "@features/path/lib/types";
+import { TechState } from "@features/tech/lib/types";
+import { LevelState } from "@lib/stores/levelStore/types";
+import { Tabs } from "@lib/types/enums";
+import { ArmyCampState } from "@features/armyCamp/lib/types";
+import { MineState } from "@features/mine/lib/types";
 
 export const createOverviewSlice: StateCreator<
   LevelState,
@@ -30,7 +30,20 @@ export const createOverviewSlice: StateCreator<
         state.ActiveBonus = undefined;
         state.ActiveMaterial = undefined;
         state.ActivePath = undefined;
-        state.ActiveZone = state.Zones.get(zone.Id);
+        state.ActiveZone = undefined;
+        const newZone = state.Zones.get(zone.Id);
+        if (newZone) {
+          state.Zones.forEach((z) => {
+            if (z.Id != zone.Id && z.IsActive) {
+              z.IsActive = false;
+            }
+            if (newZone.ConnectedZones.includes(z.Id)) {
+              z.IsNextToActive = true;
+            } else if (z.IsNextToActive) z.IsNextToActive = false;
+          });
+          newZone.IsActive = true;
+          state.ActiveZone = newZone;
+        }
       })
     ),
   ActiveBonus: undefined,
@@ -40,7 +53,16 @@ export const createOverviewSlice: StateCreator<
         state.ActiveZone = undefined;
         state.ActiveMaterial = undefined;
         state.ActivePath = undefined;
-        state.ActiveBonus = state.Bonuses.get(bonus.Id);
+        const newBonus = state.Bonuses.get(bonus.Id);
+        if (newBonus) {
+          newBonus.IsActive = true;
+          state.Zones.forEach((z) => {
+            if (newBonus.ZoneIds.includes(z.Id)) z.IsActive = true;
+            else if (z.IsActive) z.IsActive = false;
+            if(z.IsNextToActive) z.IsNextToActive = false;
+          });
+          state.ActiveBonus = newBonus;
+        }
       })
     ),
   ActiveMaterial: undefined,
@@ -71,8 +93,7 @@ export const createOverviewSlice: StateCreator<
     set(
       produce((state: LevelState) => {
         const te = state.Techs.flat().find((t) => t.Id == tech.Id);
-        if (te)
-          te.Bought = !te.Bought;
+        if (te) te.Bought = !te.Bought;
       })
     ),
   TechDisplay: TechDisplayMode.Market,
@@ -86,16 +107,14 @@ export const createOverviewSlice: StateCreator<
     set(
       produce((state: LevelState) => {
         const ac = state.ArmyCamps.get(armyCamp.Index);
-        if (ac)
-          ac.SuperCharged = !ac.SuperCharged;
+        if (ac) ac.SuperCharged = !ac.SuperCharged;
       })
     ),
   SuperChargeMine: (mine: MineState) =>
     set(
       produce((state: LevelState) => {
         const mn = state.Mines.get(mine.Index);
-        if (mn)
-          mn.SuperCharged = !mn.SuperCharged;
+        if (mn) mn.SuperCharged = !mn.SuperCharged;
       })
     ),
 });

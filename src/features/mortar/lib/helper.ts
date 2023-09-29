@@ -19,12 +19,12 @@ export function mortarGetHitChanceFromDistance(distance: number) {
 export function getBestZoneForMortar(
   mortar: MortarState,
   zones: Map<number, ZoneState>
-) {
-  let bestZone: ZoneState = null;
+): ZoneState | null {
+  let bestZone: ZoneState | null = null;
   let bestReward = 0;
   mortar.NearbyZones.forEach((z) => {
     const zone = zones.get(z.ZoneId);
-    if (!zone.Conquered) {
+    if (zone && !zone.Conquered) {
       if (zone.Cost * mortarGetHitChanceFromDistance(z.Distance) > bestReward) {
         bestZone = zone;
         bestReward = zone.Cost * mortarGetHitChanceFromDistance(z.Distance);

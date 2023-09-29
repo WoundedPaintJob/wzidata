@@ -9,7 +9,10 @@ const ArenaList = () => {
       <Section.Body>
         <Section.CardList>
           {arenas.map((ar) => (
-            <Arena arena={ar} key={ar.Template.Id} />
+            <Arena
+              arena={ar}
+              key={`AR${ar.Zone || 0}-{${ar.Bonus}-${ar.Template.Id}`}
+            />
           ))}
         </Section.CardList>
       </Section.Body>

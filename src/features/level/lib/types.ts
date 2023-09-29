@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { levelRewardTypeSchema } from './enums';
 import { materialSchema } from '@features/material/lib/types';
 export const levelRewardSchema = z.object({
-  Description: z.string(),
+  Description: z.string().nullable(),
   MaxTime: z.number().optional(),
   Ore: materialSchema.optional(),
   Type: levelRewardTypeSchema

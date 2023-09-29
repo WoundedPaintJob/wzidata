@@ -1,4 +1,3 @@
-import { BonusState } from "@features/bonus/lib/types";
 import { RewardType } from "@features/reward/lib/enums";
 import { Reward } from "@features/reward/lib/types";
 import { ZoneState } from "@features/zone/lib/types";
@@ -6,27 +5,17 @@ import { RenderOptionType } from "@lib/types/enums";
 export function getZoneColor(
   zone: ZoneState,
   settings: Map<RenderOptionType, boolean>,
-  activeZone: ZoneState | undefined,
-  activeBonus: BonusState | undefined,
   mostExpensive: number,
   hospitalSaves: number,
   partOfPath: boolean
 ): string {
   const drawBonusZones = settings.get(RenderOptionType.BonusZones);
-  if (activeZone && activeZone.Id == zone.Id) return "#39FF14";
-  if (
-    activeBonus &&
-    activeBonus.ZoneIds &&
-    activeBonus.ZoneIds.includes(zone.Id)
-  )
-    return "#39FF14";
+  if (zone.IsActive) return "#39FF14";
   if (settings.get(RenderOptionType.Conquered) && zone.Conquered) {
-    if (activeZone && activeZone.ConnectedZones.some((z) => z == zone.Id))
-      return "#DFC940";
+    if (zone.IsNextToActive) return "#DFC940";
     return "#FFA500";
   }
-  if (activeZone && activeZone.ConnectedZones.some((z) => z == zone.Id))
-    return "#B0FFA1";
+  if (zone.IsNextToActive) return "#B0FFA1";
   if (partOfPath) return "#EEDDAA";
   if (settings.get(RenderOptionType.MostExpensive)) {
     if (zone.Cost < hospitalSaves) return "#87CEEB";

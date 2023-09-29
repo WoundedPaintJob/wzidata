@@ -3,12 +3,12 @@ import { createOverviewSlice } from "@features/overview/lib/state";
 import { createZoneSlice } from "@features/zone/lib/state";
 import { createAssetLevelSlice } from "@lib/state/assetLevelSlice";
 import { createPersistSlice } from "@lib/state/persistSlice";
-import { create } from "zustand";
+import { createWithEqualityFn } from "zustand/traditional";
 import { devtools, persist, subscribeWithSelector } from "zustand/middleware";
 import { LevelState } from "./types";
 import { createGuideSlice } from "@features/guide/lib/state";
 
-const useLevelStore = create<LevelState>()(
+const useLevelStore = createWithEqualityFn<LevelState>()(
   devtools(
     persist(
       subscribeWithSelector((...a) => ({
@@ -17,7 +17,7 @@ const useLevelStore = create<LevelState>()(
         ...createBonusSlice(...a),
         ...createAssetLevelSlice(...a),
         ...createPersistSlice(...a),
-        ...createGuideSlice(...a)
+        ...createGuideSlice(...a),
       })),
       {
         name: "level-storage",
@@ -73,7 +73,9 @@ const useLevelStore = create<LevelState>()(
           removeItem: (name) => localStorage.removeItem(name),
         },
       }
-    )
-  )
+    ),
+    { name: "levelStore" }
+  ),
+  Object.is
 );
 export default useLevelStore;

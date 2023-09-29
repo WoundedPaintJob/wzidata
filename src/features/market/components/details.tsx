@@ -1,7 +1,6 @@
 import Text from "@components/atoms/text";
 import MaterialDetails from "@features/material/components/details";
 import { MarketState } from "../lib/types";
-import MaterialRow from "@features/material/components/materialRow";
 
 const MarketDetails = (props: { market: MarketState | undefined }) => {
   if (!props.market) return <></>;

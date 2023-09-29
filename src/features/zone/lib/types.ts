@@ -1,7 +1,7 @@
-import { BonusState } from '@features/bonus/lib/types';
-import { rewardSchema } from '@features/reward/lib/types';
-import { pointSchema, svgSchema } from '@lib/types/image';
-import { z } from 'zod';
+import { BonusState } from "@features/bonus/lib/types";
+import { rewardSchema } from "@features/reward/lib/types";
+import { pointSchema, svgSchema } from "@lib/types/image";
+import { z } from "zod";
 
 export const zoneBonusRewardSchema = z.object({
   Arena: z.boolean(),
@@ -34,6 +34,8 @@ export const zoneSchema = z.object({
 export type Zone = z.infer<typeof zoneSchema>;
 export interface ZoneState extends Zone {
   Conquered: boolean;
+  IsActive: boolean;
+  IsNextToActive: boolean;
   Bonuses: BonusState[];
 }
 

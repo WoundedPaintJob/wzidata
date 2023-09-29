@@ -6,30 +6,25 @@ import {
   ReactZoomPanPinchRef,
   TransformComponent,
   TransformWrapper,
-  useControls,
 } from "react-zoom-pan-pinch";
 import MapZone from "../../zone/components/mapZone";
 import { Settings } from "src/settings";
-import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
-import usePlayerStore from "@lib/stores/playerStore";
-import { isAssetConquered } from "@helpers/assetHelper";
 import { useEffect, useRef } from "react";
-
+import useMultiplier from "@lib/state/hooks/useMultiplier";
+import useZoneMap from "@lib/state/hooks/useZoneMap";
+import useHospitals from "@lib/state/hooks/useHospitals";
+import useBonusMap from "@lib/state/hooks/useBonusMap";
 const MapComponent = () => {
   const settings = useLevelStore((state) => state.RenderOptions);
   const activePath = useLevelStore((state) => state.ActivePath);
-  const zoneMap = useLevelStore((state) => state.Zones);
+  const zoneMap = useZoneMap(true);
   const zones = Array.from(zoneMap.values());
-  const bonusMap = useLevelStore((state) => state.Bonuses);
+  const bonusMap = useBonusMap(true);
   const bonuses = Array.from(bonusMap.values());
   const imageWidth = useLevelStore((state) => state.ImageWidth);
   const imageHeight = useLevelStore((state) => state.ImageHeight);
   const levelId = useLevelStore((state) => state.Id);
-  const hospitalMap = useLevelStore((state) => state.Hospitals);
-  const hospitals = Array.from(hospitalMap.values());
-  const activeZone = useLevelStore((state) => state.ActiveZone);
-  const activeBonus = useLevelStore((state) => state.ActiveBonus);
 
   const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
   useEffect(() => {
@@ -38,19 +33,13 @@ const MapComponent = () => {
       zoomToElement("path", instance.transformState.scale);
     }
   }, [activePath]);
-  const conqueredHospitals = hospitals.filter((h) =>
-    isAssetConquered(h, zoneMap, bonusMap)
-  );
-  const hospitalMultiplier = getMultiplier(
-    MultiplierType.HospitalEffect,
-    usePlayerStore((state) => state.Advancements),
-    usePlayerStore((state) => state.Artifacts),
-    useLevelStore((state) => state.Techs)
-  );
-  if (zones == null) return <></>;
+  const conqueredHospitals = useHospitals(true);
+  const hospitalMultiplier = useMultiplier(MultiplierType.HospitalEffect);
+  if (zoneMap == null) return <></>;
   const mostExpensive = zones
     .filter((z) => !z.Conquered)
     .reduce((prev, current) => (prev.Cost > current.Cost ? prev : current));
+  console.log(mostExpensive.Name);
   if (settings == undefined) return <></>;
   return (
     <Section>
@@ -72,7 +61,7 @@ const MapComponent = () => {
               {zones.map((zone) => (
                 <MapZone
                   key={`Z${zone.Id}`}
-                  zone={zone}
+                  zoneId={zone.Id}
                   mostExpensive={mostExpensive.Cost}
                   conqueredHospitals={conqueredHospitals}
                   hospitalMultiplier={hospitalMultiplier}
@@ -81,8 +70,6 @@ const MapComponent = () => {
                       activePath.Zones.some((z) => z.Id == zone.Id)) ||
                     false
                   }
-                  activeZone={activeZone}
-                  activeBonus={activeBonus}
                 />
               ))}
               {bonuses.map((b) => (

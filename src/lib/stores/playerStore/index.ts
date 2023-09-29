@@ -11,6 +11,7 @@ import { ArtifactRarity } from "@features/artifact/lib/enums";
 import { PlayerState } from "./types";
 import useLevelStore from "../levelStore";
 import { LevelInfo } from "@features/level/lib/types";
+import { LevelRewardType } from "@features/level/lib/enums";
 
 const usePlayerStore = create<PlayerState>()(
   devtools(
@@ -22,6 +23,12 @@ const usePlayerStore = create<PlayerState>()(
           Id: -1,
           ImageWidth: 100,
           ImageHeight: 100,
+          HaveData: false,
+          IsHardened: false,
+          Reward: {
+            Type: LevelRewardType.OreProduction,
+            Description: "",
+          },
         },
         Advancements: advancementData as AdvancementState[],
         AdvancementLevels: [],
@@ -97,13 +104,19 @@ const usePlayerStore = create<PlayerState>()(
                   Id: -1,
                   ImageWidth: 100,
                   ImageHeight: 100,
+                  HaveData: false,
+                  IsHardened: false,
+                  Reward: {
+                    Type: LevelRewardType.OreProduction,
+                    Description: "",
+                  },
                 },
                 Advancements: [],
                 AdvancementLevels: [],
                 Artifacts: [],
                 ArtifactsOwned: [],
                 ArtifactRarity: [],
-              } as PlayerState);
+              } as Partial<PlayerState>);
             baseState.Levels = levelData as LevelInfo[];
             baseState.Advancements = advancementData as AdvancementState[];
             baseState.Artifacts = artifactData as ArtifactState[];
@@ -152,7 +165,8 @@ const usePlayerStore = create<PlayerState>()(
           }),
         }),
       }
-    )
+    ),
+    { name: "playerStore" }
   )
 );
 export default usePlayerStore;

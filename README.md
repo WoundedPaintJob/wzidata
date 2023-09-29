@@ -37,16 +37,18 @@ State information
 Should contain the zod schema for the asset
 
 ## Issues
+
 - Move stats to overview
 - Map/hardened/ascension bonuses
 - Powers
-- Less rerender
 - mini view. next hospital, next merc.
 - Show amounts needed in market view
 - Multiplier page
 - make sure path takes In js and run the extra steps more times
-- tech page,  add buy all i can, look at markets owned and then count.
+- tech page, add buy all i can, look at markets owned and then count.
 - tech make a separated mobile table
 - map make breakpoint for wider map earlier
 - keep showing permanent assets
 - make sure to calculate required correctly. Doesn't add last zone cost
+- max level for advancement
+- tech tree sum not working if no markets

@@ -88,6 +88,8 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
     data.Zones.forEach((zone) => {
       const newZone = zone as ZoneState;
       newZone.Conquered = newZone.StartingZone;
+      newZone.IsActive = false;
+      newZone.IsNextToActive = false;
       newZone.Bonuses = [];
       if (newZone.Reward.Cache && newZone.Reward.Cache.Materials.length > 0) {
         newZone.Reward.Cache.Materials.forEach((mat) => {
@@ -115,6 +117,7 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
     data.Bonuses.forEach((bonus) => {
       const newBonus = bonus as BonusState;
       newBonus.Conquered = false;
+      newBonus.IsActive = false;
       newBonus.ZoneIds.forEach((zoneId) => {
         const zone = result.Zones.get(zoneId);
         if (zone)

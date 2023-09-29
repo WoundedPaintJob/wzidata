@@ -12,6 +12,7 @@ export const bonusSchema = z.object({
 export type Bonus = z.infer<typeof bonusSchema>;
 export interface BonusState extends Bonus {
   Conquered: boolean;
+  IsActive: boolean;
 }
 
 export interface BonusProps {

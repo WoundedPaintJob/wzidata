@@ -1,9 +1,9 @@
-import Button from '@components/atoms/button';
-import AdvancementPhase from './advancementPhase';
-import usePlayerStore from '@lib/stores/playerStore';
-import Section from '@components/atoms/section';
+import Button from "@components/atoms/button";
+import AdvancementPhase from "./advancementPhase";
+import usePlayerStore from "@lib/stores/playerStore";
+import Section from "@components/atoms/section";
 const AdvancementList = () => {
-  const resetAdvancements = usePlayerStore((state) => state.ResetAdvancements)
+  const resetAdvancements = usePlayerStore((state) => state.ResetAdvancements);
   return (
     <>
       <AdvancementPhase phase={1} />

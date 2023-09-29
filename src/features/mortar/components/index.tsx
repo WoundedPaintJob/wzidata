@@ -6,7 +6,6 @@ import {
   getBestZoneForMortar,
   mortarGetHitChanceFromDistance,
 } from "../lib/helper";
-import Text from "@components/atoms/text";
 import StatRow from "@components/atoms/statrow";
 import { formatNumber, formatPercentage } from "@helpers/numberHelper";
 
@@ -16,9 +15,11 @@ const Mortar = (props: { mortar: Mortar }) => {
   const bestZone = getBestZoneForMortar(props.mortar, zones);
   let probability = 0;
   if (bestZone != null) {
-    probability = mortarGetHitChanceFromDistance(
-      props.mortar.NearbyZones.find((z) => z.ZoneId == bestZone.Id).Distance
+    const neighbourZone = props.mortar.NearbyZones.find(
+      (z) => z.ZoneId == bestZone.Id
     );
+    if (neighbourZone)
+      probability = mortarGetHitChanceFromDistance(neighbourZone.Distance);
   }
   return (
     <Card>

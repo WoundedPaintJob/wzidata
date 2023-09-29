@@ -34,7 +34,7 @@ const SuperCamp = (props: {
             />
           </div>
           <LevelControl
-            CanLevelUp={camp.Level <= camp.Levels.length}
+            CanLevelUp={camp.Level < camp.Levels.length}
             LevelUp={() => levelup(camp)}
             CanLevelDown={camp.Level > 1}
             LevelDown={() => leveldown(camp)}

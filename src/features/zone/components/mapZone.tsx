@@ -1,77 +1,73 @@
-import { BonusState } from "@features/bonus/lib/types";
 import { hospitalSaveForZone } from "@features/hospital/lib/helper";
 import { HospitalState } from "@features/hospital/lib/types";
 import { getZoneColor, shouldDrawImage } from "@features/zone/lib/helper";
-import { ZoneState } from "@features/zone/lib/types";
 import { formatNumber } from "@helpers/numberHelper";
 import useLevelStore from "@lib/stores/levelStore";
 import { RenderOptionType } from "@lib/types/enums";
 import { Settings } from "src/settings";
 
 const MapZone = (props: {
-  zone: ZoneState;
+  zoneId: number;
   mostExpensive: number;
   conqueredHospitals: HospitalState[];
   hospitalMultiplier: number;
-  activeZone: ZoneState | undefined;
-  activeBonus: BonusState | undefined;
   partOfPath: boolean;
 }) => {
+  const zone = useLevelStore((state) => state.Zones.get(props.zoneId));
   const renderSettings = useLevelStore((state) => state.RenderOptions);
   const setActive = useLevelStore((state) => state.SetActiveZone);
   const setConquered = useLevelStore((state) => state.ConquerZone);
 
+  if (!zone) return <></>;
   let hospitalSaves = 0;
   props.conqueredHospitals.forEach(
-    (h) => hospitalSaves += hospitalSaveForZone(h, props.zone) * props.hospitalMultiplier
+    (h) =>
+      (hospitalSaves += hospitalSaveForZone(h, zone) * props.hospitalMultiplier)
   );
   const assetSize = 40;
-  if (!props.zone) return <></>;
   const color = getZoneColor(
-    props.zone,
+    zone,
     renderSettings,
-    props.activeZone,
-    props.activeBonus,
     props.mostExpensive,
     hospitalSaves,
     props.partOfPath
   );
-  const drawImage = shouldDrawImage(props.zone.Reward, renderSettings);
+  const drawImage = shouldDrawImage(zone.Reward, renderSettings);
   return (
     <g
-      key={`Z${props.zone.Id}G`}
-      onClick={() => setActive(props.zone)}
+      key={`Z${zone.Id}G`}
+      onClick={() => setActive(zone)}
       onContextMenu={(e) => {
         e.preventDefault();
-        setConquered(props.zone);
+        setConquered(zone);
       }}
     >
-      {props.zone.Svg.Shapes.map((sh, index) => {
+      {zone.Svg.Shapes.map((sh, index) => {
         return (
           <polygon
-            key={`${props.zone.Id}${index}Pol`}
-            id={`${props.zone.Id}${index}`}
+            key={`${zone.Id}${index}Pol`}
+            id={`${zone.Id}${index}`}
             points={sh.Path}
             stroke="#000"
             fill={color}
           />
         );
       })}
-      {drawImage && !props.zone.Conquered && (
+      {drawImage && !zone.Conquered && (
         <image
-          key={`${props.zone.Id}Ass`}
-          href={`${Settings.RewardUrl}${props.zone.Reward.Image || ''}`}
-          x={props.zone.Center.X - assetSize / 2}
-          y={props.zone.Center.Y - assetSize / 2}
+          key={`${zone.Id}Ass`}
+          href={`${Settings.RewardUrl}${zone.Reward.Image || ""}`}
+          x={zone.Center.X - assetSize / 2}
+          y={zone.Center.Y - assetSize / 2}
           width={assetSize}
           height={assetSize}
         />
       )}
       {renderSettings.get(RenderOptionType.Cost) && (
         <text
-          key={`${props.zone.Id}Text`}
-          x={props.zone.Center.X - 20}
-          y={props.zone.Center.Y}
+          key={`${zone.Id}Text`}
+          x={zone.Center.X - 20}
+          y={zone.Center.Y}
           paintOrder="stroke"
           stroke="#FFF"
           strokeWidth="1px"
@@ -79,7 +75,7 @@ const MapZone = (props: {
           strokeLinejoin="miter"
           fontWeight={400}
         >
-          {formatNumber(props.zone.Cost)}
+          {formatNumber(zone.Cost)}
         </text>
       )}
     </g>

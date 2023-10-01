@@ -72,7 +72,7 @@ const MapComponent = () => {
                 />
               ))}
               {bonuses.map((b) => (
-                <MapBonus key={`B${b.Id}`} bonus={b} />
+                <MapBonus key={`B${b.Id}`} bonusId={b.Id} />
               ))}
               {activePath && <MapPath zones={activePath.Zones} />}
             </svg>

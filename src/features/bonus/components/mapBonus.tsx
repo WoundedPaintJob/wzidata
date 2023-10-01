@@ -1,51 +1,53 @@
 import useLevelStore from "@lib/stores/levelStore";
 import { shouldDrawImage } from "@features/zone/lib/helper";
-import { BonusState } from "../lib/types";
 import { Settings } from "src/settings";
 import { RenderOptionType } from "@lib/types/enums";
 import { formatNumber } from "@helpers/numberHelper";
+import useBonus from "@lib/state/hooks/useBonus";
 
-const MapBonus = (props: { bonus: BonusState }) => {
+const MapBonus = (props: { bonusId: number }) => {
+  const bonus = useBonus(props.bonusId);
   const renderSettings = useLevelStore((state) => state.RenderOptions);
   const setActive = useLevelStore((state) => state.SetActiveBonus);
   const assetSize = 40;
-  const drawImage = shouldDrawImage(props.bonus.Reward, renderSettings);
-  if (!props.bonus.Svg) return <></>
+  if (!bonus) return <></>;
+  const drawImage = shouldDrawImage(bonus.Reward, renderSettings);
+  if (!bonus.Svg) return <></>;
   return (
-    <g key={`Z${props.bonus.Id}G`} onClick={() => setActive(props.bonus)}>
-      {props.bonus.Svg.Shapes.map((sh, index) => (
+    <g key={`Z${bonus.Id}G`} onClick={() => setActive(bonus)}>
+      {bonus.Svg.Shapes.map((sh, index) => (
         <polygon
-          key={`B${props.bonus.Id}${index}Pol`}
-          id={`B${props.bonus.Id}`}
+          key={`B${bonus.Id}${index}Pol`}
+          id={`B${bonus.Id}`}
           points={sh.Path}
           stroke="#000"
           fill="#000"
         />
       ))}
-      {drawImage && !props.bonus.Conquered && (
+      {drawImage && !bonus.Conquered && (
         <image
-          key={`${props.bonus.Id}Ass`}
-          href={`${Settings.RewardUrl}${props.bonus.Reward.Image||''}`}
-          x={props.bonus.Svg.Center.X - assetSize / 2}
-          y={props.bonus.Svg.Center.Y - assetSize / 2}
+          key={`${bonus.Id}Ass`}
+          href={`${Settings.RewardUrl}${bonus.Reward.Image || ""}`}
+          x={bonus.Svg.Center.X - assetSize / 2}
+          y={bonus.Svg.Center.Y - assetSize / 2}
           width={assetSize}
           height={assetSize}
-          onClick={() => setActive(props.bonus)}
+          onClick={() => setActive(bonus)}
         />
       )}
       {renderSettings.get(RenderOptionType.MoneyPerSecond) &&
-        props.bonus.Reward.MoneyPerSecond && (
-        <text
-          key={`${props.bonus.Id}Text`}
-          x={props.bonus.Svg.Center.X - 8}
-          y={props.bonus.Svg.Center.Y + 2}
-          fill="#FFF"
-          fontWeight={400}
-          fontSize={10}
-        >
-          {formatNumber(props.bonus.Reward.MoneyPerSecond)}
-        </text>
-      )}
+        bonus.Reward.MoneyPerSecond && (
+          <text
+            key={`${bonus.Id}Text`}
+            x={bonus.Svg.Center.X - 8}
+            y={bonus.Svg.Center.Y + 2}
+            fill="#FFF"
+            fontWeight={400}
+            fontSize={10}
+          >
+            {formatNumber(bonus.Reward.MoneyPerSecond)}
+          </text>
+        )}
     </g>
   );
 };

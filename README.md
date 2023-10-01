@@ -51,3 +51,4 @@ Should contain the zod schema for the asset
 - make sure to calculate required correctly. Doesn't add last zone cost
 - max level for advancement
 - tech tree sum not working if no markets
+- bonuses not updating on map after conquer

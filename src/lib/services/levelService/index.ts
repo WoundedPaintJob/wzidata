@@ -52,7 +52,7 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
       Materials: new Map<MaterialType, MaterialState>(),
       SuperCamp: {
         Index: 1,
-        Level: 0,
+        Level: 1,
         Name: "SuperCamp",
         Type: AssetType.ArmyCamp,
         Levels: data.SuperCamp.Levels,
@@ -71,7 +71,7 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
       HospitalLevels: [],
       ArmyCampLevels: [],
       MineLevels: [],
-      SuperCampLevel: 0,
+      SuperCampLevel: 1,
       OwnedTechs: [],
       Instructions: new Map<number, InstructionState>(),
     };

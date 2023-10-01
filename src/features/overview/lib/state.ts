@@ -59,7 +59,7 @@ export const createOverviewSlice: StateCreator<
           state.Zones.forEach((z) => {
             if (newBonus.ZoneIds.includes(z.Id)) z.IsActive = true;
             else if (z.IsActive) z.IsActive = false;
-            if(z.IsNextToActive) z.IsNextToActive = false;
+            if (z.IsNextToActive) z.IsNextToActive = false;
           });
           state.ActiveBonus = newBonus;
         }
@@ -72,6 +72,10 @@ export const createOverviewSlice: StateCreator<
         state.ActiveZone = undefined;
         state.ActiveBonus = undefined;
         state.ActivePath = undefined;
+        state.Zones.forEach((z) => {
+          if (z.IsActive)
+            z.IsActive = false;
+        });
         state.ActiveMaterial = state.Materials.get(material);
       })
     ),
@@ -92,8 +96,17 @@ export const createOverviewSlice: StateCreator<
   ToggleTech: (tech: TechState) =>
     set(
       produce((state: LevelState) => {
-        const te = state.Techs.flat().find((t) => t.Id == tech.Id);
+        const te = state.Techs[tech.Row][tech.Column];
         if (te) te.Bought = !te.Bought;
+      })
+    ),
+  BuyMultipleTechs: (techs: TechState[]) =>
+    set(
+      produce((state: LevelState) => {
+        techs.forEach((t) => {
+          const te = state.Techs[t.Row][t.Column];
+          if (te) te.Bought = true;
+        })
       })
     ),
   TechDisplay: TechDisplayMode.Market,

@@ -31,6 +31,7 @@ export interface OverviewSlice extends OverviewProps {
   ActivePath: MapPath | undefined;
   SetActivePath: (path: MapPath) => void;
   ToggleTech: (tech: TechState) => void;
+  BuyMultipleTechs: (techs: TechState[]) => void;
   TechDisplay: TechDisplayMode;
   SetTechDisplay: (mode: TechDisplayMode) => void;
   SuperChargeArmyCamp: (armyCamp: ArmyCampState) => void;

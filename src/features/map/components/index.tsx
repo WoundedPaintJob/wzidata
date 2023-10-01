@@ -13,7 +13,7 @@ import { MultiplierType } from "@lib/services/multiplierService/types";
 import { useEffect, useRef } from "react";
 import useMultiplier from "@lib/state/hooks/useMultiplier";
 import useZoneMap from "@lib/state/hooks/useZoneMap";
-import useHospitals from "@lib/state/hooks/useHospitals";
+import useHospitals from "@lib/state/hooks/assets/useHospitals";
 import useBonusMap from "@lib/state/hooks/useBonusMap";
 import useMostExpensive from "@lib/state/hooks/useMostExpensive";
 const MapComponent = () => {

@@ -4,14 +4,17 @@ import Tech from ".";
 import TotalTechCosts from "./totalTechCost";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import Text from "@components/atoms/text";
-import { getTotalTechCost, isTechInteresting } from "../lib/helper";
+import { getBuyableTechs, getTotalTechCost, isTechInteresting } from "../lib/helper";
 import TechDisplayModeChange from "./displayModeChange";
 import useMultiplier from "@lib/state/hooks/useMultiplier";
 import { twMerge } from "tailwind-merge";
 import { TechDisplayMode } from "@features/overview/lib/types";
+import useMarkets from "@lib/state/hooks/assets/useMarkets";
+import Button from "@components/atoms/button";
 const TechList = () => {
   const techs = useLevelStore((state) => state.Techs);
   const techDiscountMultiplier = useMultiplier(MultiplierType.TechDiscount);
+  const buyMultipleTechs = useLevelStore((state) => state.BuyMultipleTechs);
   const cacheMultiplier =
     useMultiplier(MultiplierType.Cache) +
     useMultiplier(MultiplierType.CacheResources) -
@@ -25,17 +28,18 @@ const TechList = () => {
   );
   const smelterSpeedMultiplier = useMultiplier(MultiplierType.SmelterSpeed);
   const techDisplayMode = useLevelStore((state) => state.TechDisplay);
-  const markets = useLevelStore((state) => state.Markets);
+  const markets = useMarkets(false);
+  const conqueredMarkets = useMarkets(true);
   const knownMaterials = useLevelStore().Materials;
   const recipes = useLevelStore().Recipes;
   if (techs.length == 0) return <div>No Techs</div>;
   const rows = [];
   const smallRows = [];
-  const materials = getTotalTechCost(
-    techs,
-    techDisplayMode,
-    techDiscountMultiplier
-  );
+  const materials = getTotalTechCost(techs, techDisplayMode, techDiscountMultiplier);
+  function buyAvailable(): void {
+    const buyable = getBuyableTechs(techs, techDisplayMode, conqueredMarkets);
+    buyMultipleTechs(buyable);
+  }
   for (let r = 0; r < 12; r++) {
     const row = [];
     const smallRow = [];
@@ -100,7 +104,7 @@ const TechList = () => {
                   "grid space-x-1",
                   techDisplayMode == TechDisplayMode.Market && "grid-cols-5",
                   techDisplayMode == TechDisplayMode.MarketPlusArmy &&
-                    "grid-cols-6",
+                  "grid-cols-6",
                   techDisplayMode == TechDisplayMode.Total && "grid-cols-10"
                 )}
               >
@@ -109,6 +113,7 @@ const TechList = () => {
             ))}
           </div>
           <div className="pl-2 col-span-2">
+            <Button onClick={() => buyAvailable()}>Buy Available</Button>
             <TechDisplayModeChange />
             <Text size="body">Required</Text>
             <TotalTechCosts
@@ -126,7 +131,7 @@ const TechList = () => {
           </div>
         </div>
       </Section.Body>
-    </Section>
+    </Section >
   );
 };
 export default TechList;

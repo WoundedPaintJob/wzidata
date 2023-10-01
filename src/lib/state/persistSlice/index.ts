@@ -14,7 +14,7 @@ export const createPersistSlice: StateCreator<
   HospitalLevels: [],
   ArmyCampLevels: [],
   MineLevels: [],
-  SuperCampLevel: 0,
+  SuperCampLevel: 1,
   OwnedTechs: [],
   StoredRenderOptions: [],
   RenderOptions: new Map<RenderOptionType, boolean>(),

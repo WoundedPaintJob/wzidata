@@ -6,7 +6,7 @@ import StatRow from "@components/atoms/statrow";
 import { formatNumber, formatPercentage } from "@helpers/numberHelper";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import SuperCamp from "./superCamp";
-import useArmyCamps from "@lib/state/hooks/useArmyCamps";
+import useArmyCamps from "@lib/state/hooks/assets/useArmyCamps";
 import useMultiplier from "@lib/state/hooks/useMultiplier";
 
 const ArmyCampList = () => {

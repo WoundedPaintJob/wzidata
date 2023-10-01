@@ -12,7 +12,7 @@ import TotalTechMarket from "./totalTechMarket";
 
 const TotalTechRemaining = (props: {
   materials: Material[];
-  markets: Map<number, MarketState>;
+  markets: MarketState[];
   techDiscountMultiplier: number;
   crafterDiscountMultiplier: number;
   crafterSpeedMultiplier: number;
@@ -53,10 +53,10 @@ const TotalTechRemaining = (props: {
           if (newMat)
             newMat.Amount += Math.ceil(
               recipeMat.Amount *
-                material.Amount *
-                (material.Kind == MaterialKind.Alloy
-                  ? props.smelterDiscountMultiplier
-                  : props.crafterDiscountMultiplier)
+              material.Amount *
+              (material.Kind == MaterialKind.Alloy
+                ? props.smelterDiscountMultiplier
+                : props.crafterDiscountMultiplier)
             );
         });
       }
@@ -101,7 +101,7 @@ const TotalTechRemaining = (props: {
 
 const TotalTechCosts = (props: {
   materials: Material[];
-  markets: Map<number, MarketState>;
+  markets: MarketState[];
   techDiscountMultiplier: number;
   crafterDiscountMultiplier: number;
   crafterSpeedMultiplier: number;
@@ -111,12 +111,9 @@ const TotalTechCosts = (props: {
   recipes: Map<MaterialType, RecipeState>;
   cacheMultiplier: number;
 }) => {
-  const markets = Array.from(props.markets.values()).sort(
-    (a, b) => a.Index - b.Index
-  );
   let mats = props.materials;
   const groupedMats: React.ReactElement[] = [];
-  markets.forEach((market) => {
+  props.markets.forEach((market) => {
     const marketMats: Material[] = [];
     market.Materials.forEach((material) => {
       const mat = mats.find((m) => m.Type == material.Type);

@@ -4,7 +4,7 @@ import { getTotalArmyCampProduction } from "@features/armyCamp/lib/helper";
 import { calculateMoneyCache } from "@features/cache/lib/helper";
 import { formatNumber } from "@helpers/numberHelper";
 import { MultiplierType } from "@lib/services/multiplierService/types";
-import useArmyCamps from "@lib/state/hooks/useArmyCamps";
+import useArmyCamps from "@lib/state/hooks/assets/useArmyCamps";
 import useBonusMap from "@lib/state/hooks/useBonusMap";
 import useMultiplier from "@lib/state/hooks/useMultiplier";
 import useZoneMap from "@lib/state/hooks/useZoneMap";

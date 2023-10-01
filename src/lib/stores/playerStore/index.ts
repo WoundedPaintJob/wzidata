@@ -47,31 +47,33 @@ const usePlayerStore = create<PlayerState>()(
         LevelUpAdvancement: (advancement) =>
           set(
             produce((state: PlayerState) => {
-              state.Advancements.find(
+              const adv = state.Advancements.find(
                 (a) => a.Type == advancement.Type
-              ).Level += 1;
+              );
+              if (adv) adv.Level += 1;
             })
           ),
         LevelDownAdvancement: (advancement) =>
           set(
             produce((state: PlayerState) => {
-              state.Advancements.find(
+              const adv = state.Advancements.find(
                 (a) => a.Type == advancement.Type
-              ).Level -= 1;
+              );
+              if (adv) adv.Level -= 1;
             })
           ),
         SetArtifactRarity: (artifact, rarity) =>
           set(
             produce((state: PlayerState) => {
-              state.Artifacts.find((a) => a.Type == artifact.Type).Rarity =
-                rarity;
+              const arti = state.Artifacts.find((a) => a.Type == artifact.Type);
+              if (arti) arti.Rarity = rarity;
             })
           ),
         ToggleArtifactOwned: (artifact) =>
           set(
             produce((state: PlayerState) => {
               const arti = state.Artifacts.find((a) => a.Type == artifact.Type);
-              arti.Owned = !arti.Owned;
+              if (arti) arti.Owned = !arti.Owned;
             })
           ),
         ResetAdvancements: () =>
@@ -121,15 +123,15 @@ const usePlayerStore = create<PlayerState>()(
             baseState.Advancements = advancementData as AdvancementState[];
             baseState.Artifacts = artifactData as ArtifactState[];
             baseState.Advancements.forEach((a, k) => {
-              if (baseState.AdvancementLevels[k])
+              if (baseState.AdvancementLevels && baseState.AdvancementLevels[k])
                 a.Level = baseState.AdvancementLevels[k];
               else a.Level = -1;
             });
             baseState.Artifacts.forEach((a, k) => {
-              if (baseState.ArtifactRarity[k])
+              if (baseState.ArtifactRarity && baseState.ArtifactRarity[k])
                 a.Rarity = baseState.ArtifactRarity[k];
               else a.Rarity = ArtifactRarity.Common;
-              if (baseState.ArtifactsOwned[k])
+              if (baseState.ArtifactsOwned && baseState.ArtifactsOwned[k])
                 a.Owned = baseState.ArtifactsOwned[k];
               else a.Owned = false;
             });

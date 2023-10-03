@@ -2,6 +2,7 @@ import { hospitalSaveForZone } from "@features/hospital/lib/helper";
 import { HospitalState } from "@features/hospital/lib/types";
 import { getZoneColor, shouldDrawImage } from "@features/zone/lib/helper";
 import { formatNumber } from "@helpers/numberHelper";
+import useZone from "@lib/state/hooks/useZone";
 import useLevelStore from "@lib/stores/levelStore";
 import { RenderOptionType } from "@lib/types/enums";
 import { Settings } from "src/settings";
@@ -13,7 +14,7 @@ const MapZone = (props: {
   hospitalMultiplier: number;
   partOfPath: boolean;
 }) => {
-  const zone = useLevelStore((state) => state.Zones.get(props.zoneId));
+  const zone = useZone(props.zoneId);
   const renderSettings = useLevelStore((state) => state.RenderOptions);
   const setActive = useLevelStore((state) => state.SetActiveZone);
   const setConquered = useLevelStore((state) => state.ConquerZone);
@@ -36,6 +37,7 @@ const MapZone = (props: {
   return (
     <g
       key={`Z${zone.Id}G`}
+      id={`Z${zone.Id}G`}
       onClick={() => setActive(zone)}
       onContextMenu={(e) => {
         e.preventDefault();

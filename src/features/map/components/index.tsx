@@ -3,14 +3,13 @@ import MapBonus from "@features/bonus/components/mapBonus";
 import MapPath from "@features/path/components/mapPath";
 import useLevelStore from "@lib/stores/levelStore";
 import {
-  ReactZoomPanPinchRef,
   TransformComponent,
-  TransformWrapper,
+  useControls,
 } from "react-zoom-pan-pinch";
 import MapZone from "../../zone/components/mapZone";
 import { Settings } from "src/settings";
 import { MultiplierType } from "@lib/services/multiplierService/types";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import useMultiplier from "@lib/state/hooks/useMultiplier";
 import useZoneMap from "@lib/state/hooks/useZoneMap";
 import useHospitals from "@lib/state/hooks/assets/useHospitals";
@@ -26,11 +25,10 @@ const MapComponent = () => {
   const imageWidth = useLevelStore((state) => state.ImageWidth);
   const imageHeight = useLevelStore((state) => state.ImageHeight);
   const levelId = useLevelStore((state) => state.Id);
+  const { zoomToElement, instance } = useControls();
 
-  const transformComponentRef = useRef<ReactZoomPanPinchRef | null>(null);
   useEffect(() => {
-    if (transformComponentRef.current && activePath) {
-      const { zoomToElement, instance } = transformComponentRef.current;
+    if (activePath) {
       zoomToElement("path", instance.transformState.scale);
     }
   }, [activePath]);
@@ -43,41 +41,39 @@ const MapComponent = () => {
   return (
     <Section>
       <Section.Body>
-        <TransformWrapper ref={transformComponentRef}>
-          <TransformComponent wrapperClass="w-full" contentClass="w-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox={`0 0 ${imageWidth} ${imageHeight}`}
-              className="w-full border"
-              preserveAspectRatio="xMidYMid meet"
-              onContextMenu={(e) => {
-                e.preventDefault();
-              }}
-            >
-              {Settings.RenderMap && (
-                <image href={`./data/${levelId}/Image.png`} />
-              )}
-              {zones.map((zone) => (
-                <MapZone
-                  key={`Z${zone.Id}`}
-                  zoneId={zone.Id}
-                  mostExpensive={mostExpensive ? mostExpensive.Cost : 0}
-                  conqueredHospitals={conqueredHospitals}
-                  hospitalMultiplier={hospitalMultiplier}
-                  partOfPath={
-                    (activePath &&
-                      activePath.Zones.some((z) => z.Id == zone.Id)) ||
-                    false
-                  }
-                />
-              ))}
-              {bonuses.map((b) => (
-                <MapBonus key={`B${b.Id}`} bonusId={b.Id} />
-              ))}
-              {activePath && <MapPath zones={activePath.Zones} />}
-            </svg>
-          </TransformComponent>
-        </TransformWrapper>
+        <TransformComponent wrapperClass="w-full" contentClass="w-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox={`0 0 ${imageWidth} ${imageHeight}`}
+            className="w-full border"
+            preserveAspectRatio="xMidYMid meet"
+            onContextMenu={(e) => {
+              e.preventDefault();
+            }}
+          >
+            {Settings.RenderMap && (
+              <image href={`./data/${levelId}/Image.png`} />
+            )}
+            {zones.map((zone) => (
+              <MapZone
+                key={`Z${zone.Id}`}
+                zoneId={zone.Id}
+                mostExpensive={mostExpensive ? mostExpensive.Cost : 0}
+                conqueredHospitals={conqueredHospitals}
+                hospitalMultiplier={hospitalMultiplier}
+                partOfPath={
+                  (activePath &&
+                    activePath.Zones.some((z) => z.Id == zone.Id)) ||
+                  false
+                }
+              />
+            ))}
+            {bonuses.map((b) => (
+              <MapBonus key={`B${b.Id}`} bonusId={b.Id} />
+            ))}
+            {activePath && <MapPath zones={activePath.Zones} />}
+          </svg>
+        </TransformComponent>
       </Section.Body>
     </Section>
   );

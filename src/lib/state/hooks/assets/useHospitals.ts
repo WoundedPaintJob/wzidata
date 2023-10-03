@@ -1,4 +1,5 @@
 import useLevelStore from "@lib/stores/levelStore";
+import { useEffect, useState } from "react";
 
 const useHospitals = (onlyConquered: boolean) => {
   const hospitalMap = useLevelStore(
@@ -30,7 +31,8 @@ const useHospitals = (onlyConquered: boolean) => {
       return allEqual;
     }
   );
-  const hospitals = Array.from(hospitalMap.values()).filter((h) => {
+  const allHospitals = Array.from(hospitalMap.values());
+  const [hospitals, setHospitals] = useState(allHospitals.filter((h) => {
     if (h.Zone) {
       const zone = zoneMap.get(h.Zone);
       if (zone) {
@@ -40,7 +42,23 @@ const useHospitals = (onlyConquered: boolean) => {
       return false;
     }
     return false;
-  });
+  }));
+  useEffect(() => {
+    const newHospitals = allHospitals.filter((h) => {
+      if (h.Zone) {
+        const zone = zoneMap.get(h.Zone);
+        if (zone) {
+          if (onlyConquered) return zone.Conquered;
+          return true;
+        }
+        return false;
+      }
+      return false;
+    });
+    if (newHospitals !== hospitals) {
+      setHospitals(newHospitals);
+    }
+  }, [zoneMap, hospitalMap]);
   return hospitals;
 };
 export default useHospitals;

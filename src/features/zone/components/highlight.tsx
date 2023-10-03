@@ -14,6 +14,7 @@ import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import { ZoneState } from "../lib/types";
 import Button from "@components/atoms/button";
+import { useControls } from "react-zoom-pan-pinch";
 
 const ZoneHighlight = (props: { zone: ZoneState }) => {
   const allZones = useLevelStore((state) => state.Zones);
@@ -23,6 +24,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
   const advancements = usePlayerStore((state) => state.Advancements);
   const artifacts = usePlayerStore((state) => state.Artifacts);
   const techs = useLevelStore((state) => state.Techs);
+  const { zoomToElement, instance } = useControls();
   if (!props.zone || allZones == undefined) return <></>;
   const conqueredHospitals = hospitals.filter((h) =>
     h.Zone ? allZones.get(h.Zone)?.Conquered : false
@@ -57,21 +59,28 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
           value={formatNumber(props.zone.Cost)}
           percentage={formatNumber(cost)}
         />
-        <Button
-          onClick={() =>
-            setPath(
-              reversePath(
-                props.zone,
-                allZones,
-                hospitalMultiplier,
-                jointStrikeMultiplier,
-                conqueredHospitals
+        <div className="flex space-x-1">
+          <Button
+            onClick={() =>
+              setPath(
+                reversePath(
+                  props.zone,
+                  allZones,
+                  hospitalMultiplier,
+                  jointStrikeMultiplier,
+                  conqueredHospitals
+                )
               )
-            )
-          }
-        >
-          Find Path
-        </Button>
+            }
+          >
+            Find Path
+          </Button>
+          <Button onClick={() => {
+            zoomToElement(`Z${props.zone.Id}G`, instance.transformState.scale);
+          }}>
+            Focus
+          </Button>
+        </div>
         <RewardDetails reward={props.zone.Reward} />
 
         <Text>Bonuses</Text>
@@ -81,7 +90,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
             <BonusLink key={b.Id} bonus={b} />
           ))}
       </Card.Body>
-    </Card>
+    </Card >
   );
 };
 export default ZoneHighlight;

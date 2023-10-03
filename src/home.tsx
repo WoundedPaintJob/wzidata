@@ -14,6 +14,7 @@ import { Notifications } from "react-push-notification";
 import { AdvancementType } from "@features/advancement/lib/enums";
 import { getAdvancementValue } from "@features/advancement/lib/util";
 import Manual from "@features/manual/components";
+import { TransformWrapper } from "react-zoom-pan-pinch";
 const Home = () => {
   enableMapSet();
   const name = useLevelStore((state) => state.Name);
@@ -63,32 +64,35 @@ const Home = () => {
           </Section.Header>
         </Section>
         <TabList />
-        {!wideMap && (
-          <div className="grid grid-cols-1 lg:grid-cols-8">
-            <div className="col-span-1 lg:col-span-2">
-              <MapFilter />
-              <Highlights />
+
+        <TransformWrapper>
+          {!wideMap && (
+            <div className="grid grid-cols-1 lg:grid-cols-8">
+              <div className="col-span-1 lg:col-span-2">
+                <MapFilter />
+                <Highlights />
+              </div>
+              <div className="col-span-1 lg:col-span-6">
+                <MapComponent />
+                <Manual />
+              </div>
             </div>
-            <div className="col-span-1 lg:col-span-6">
-              <MapComponent />
-              <Manual />
-            </div>
-          </div>
-        )}
-        {wideMap && (
-          <>
-            <div>
-              <MapComponent />
-            </div>
-            <div className="grid grid-cols-2">
-              <MapFilter />
-              <Highlights />
-            </div>
-            <div>
-              <Manual />
-            </div>
-          </>
-        )}
+          )}
+          {wideMap && (
+            <>
+              <div>
+                <MapComponent />
+              </div>
+              <div className="grid grid-cols-2">
+                <MapFilter />
+                <Highlights />
+              </div>
+              <div>
+                <Manual />
+              </div>
+            </>
+          )}
+        </TransformWrapper>
       </div>
     </div>
   );

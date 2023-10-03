@@ -46,13 +46,39 @@ export const createGuideSlice: StateCreator<
         state.ActivePath = undefined;
         if (instruction.Type == InstructionType.ConquerBonus) {
           const bonusInstruction = instruction as ConquerBonusInstructionState;
-          state.ActiveBonus = state.Bonuses.get(bonusInstruction.BonusId);
+          const newBonus = state.Bonuses.get(bonusInstruction.BonusId);
+          if (newBonus) {
+            newBonus.IsActive = true;
+            state.Zones.forEach((z) => {
+              if (newBonus.ZoneIds.includes(z.Id)) z.IsActive = true;
+              else if (z.IsActive) z.IsActive = false;
+              if (z.IsNextToActive) z.IsNextToActive = false;
+            });
+            state.ActiveBonus = newBonus;
+          }
         } else if (instruction.Type == InstructionType.ConquerZone) {
           const zoneInstruction = instruction as ConquerZoneInstructionState;
           if (zoneInstruction.ZoneIds) {
-            if (zoneInstruction.ZoneIds.length == 1)
-              state.ActiveZone = state.Zones.get(zoneInstruction.ZoneIds[0]);
+            if (zoneInstruction.ZoneIds.length == 1) {
+              const newZone = state.Zones.get(zoneInstruction.ZoneIds[0]);
+              if (newZone) {
+                state.Zones.forEach((z) => {
+                  if (z.Id != newZone.Id && z.IsActive) {
+                    z.IsActive = false;
+                  }
+                  if (newZone.ConnectedZones.includes(z.Id)) {
+                    z.IsNextToActive = true;
+                  } else if (z.IsNextToActive) z.IsNextToActive = false;
+                });
+                newZone.IsActive = true;
+                state.ActiveZone = newZone;
+              }
+            }
             else {
+              state.Zones.forEach((z) => {
+                if (z.IsActive) z.IsActive = false;
+                if (z.IsNextToActive) z.IsNextToActive = false;
+              });
               const zones: ZoneState[] = [];
               zoneInstruction.ZoneIds.forEach((z) => {
                 const stateZone = state.Zones.get(z);
@@ -60,16 +86,41 @@ export const createGuideSlice: StateCreator<
               });
               state.ActivePath = {
                 Zones: zones,
-                TotalCost: 0
+                TotalCost: 0,
+                ArmiesRequired: 0
               };
             }
           }
         } else if (instruction.Type == InstructionType.Text) {
+
           const instr = instruction as TextInstructionState;
-          if (instr.ZoneId)
-            state.ActiveZone = state.Zones.get(instr.ZoneId);
-          if (instr.BonusId)
-            state.ActiveBonus = state.Bonuses.get(instr.BonusId);
+          if (instr.ZoneId) {
+            const newZone = state.Zones.get(instr.ZoneId);
+            if (newZone) {
+              state.Zones.forEach((z) => {
+                if (z.Id != newZone.Id && z.IsActive) {
+                  z.IsActive = false;
+                }
+                if (newZone.ConnectedZones.includes(z.Id)) {
+                  z.IsNextToActive = true;
+                } else if (z.IsNextToActive) z.IsNextToActive = false;
+              });
+              newZone.IsActive = true;
+              state.ActiveZone = newZone;
+            }
+          }
+          if (instr.BonusId) {
+            const newBonus = state.Bonuses.get(instr.BonusId);
+            if (newBonus) {
+              newBonus.IsActive = true;
+              state.Zones.forEach((z) => {
+                if (newBonus.ZoneIds.includes(z.Id)) z.IsActive = true;
+                else if (z.IsActive) z.IsActive = false;
+                if (z.IsNextToActive) z.IsNextToActive = false;
+              });
+              state.ActiveBonus = newBonus;
+            }
+          }
         }
       })
     ),

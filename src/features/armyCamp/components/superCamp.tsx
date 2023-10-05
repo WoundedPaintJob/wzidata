@@ -34,7 +34,7 @@ const SuperCamp = (props: {
             />
           </div>
           <LevelControl
-            CanLevelUp={camp.Level < camp.Levels.length}
+            CanLevelUp={camp.Level < camp.Levels.length - 1}
             LevelUp={() => levelup(camp)}
             CanLevelDown={camp.Level > 1}
             LevelDown={() => leveldown(camp)}
@@ -60,8 +60,8 @@ const SuperCamp = (props: {
                   name="$/A"
                   value={formatNumber(
                     camp.Levels[camp.Level].Cost /
-                      (camp.Levels[camp.Level].Produced * multiplier -
-                        camp.Levels[camp.Level - 1].Produced * multiplier)
+                    (camp.Levels[camp.Level].Produced * multiplier -
+                      camp.Levels[camp.Level - 1].Produced * multiplier)
                   )}
                 />
               </div>

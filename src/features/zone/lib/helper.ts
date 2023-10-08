@@ -66,22 +66,23 @@ export function getZoneColor(
 }
 export function shouldDrawImage(
   reward: Reward,
-  settings: Map<RenderOptionType, boolean>
+  settings: Map<RenderOptionType, boolean>,
+  isConquered: boolean
 ): boolean {
   if (!reward) return false;
   if (
     settings.get(RenderOptionType.CacheArmy) &&
-    reward.Type == RewardType.ArmyCache
+    reward.Type == RewardType.ArmyCache && !isConquered
   )
     return true;
   if (
     settings.get(RenderOptionType.CacheMoney) &&
-    reward.Type == RewardType.MoneyCache
+    reward.Type == RewardType.MoneyCache&& !isConquered
   )
     return true;
   if (
     settings.get(RenderOptionType.CacheResource) &&
-    reward.Type == RewardType.ResourceCache
+    reward.Type == RewardType.ResourceCache&& !isConquered
   )
     return true;
   if (settings.get(RenderOptionType.ArmyCamp) && reward.ArmyCamp) return true;
@@ -94,7 +95,7 @@ export function shouldDrawImage(
     return true;
   if (settings.get(RenderOptionType.Mine) && reward.Mine) return true;
   if (settings.get(RenderOptionType.Mortar) && reward.Mortar) return true;
-  if (settings.get(RenderOptionType.Recipe) && reward.Recipe) return true;
+  if (settings.get(RenderOptionType.Recipe) && reward.Recipe&& !isConquered) return true;
   if (settings.get(RenderOptionType.Smelter) && reward.Smelter) return true;
 
   return false;

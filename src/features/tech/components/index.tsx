@@ -19,8 +19,8 @@ const Tech = (props: {
         props.tech.Bought && props.highlight
           ? "semi"
           : props.highlight
-          ? "normal"
-          : "passive"
+            ? "normal"
+            : "passive"
       }
       className={twMerge("", props.highlight ? "" : "")}
     >

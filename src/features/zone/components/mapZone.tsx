@@ -33,7 +33,7 @@ const MapZone = (props: {
     hospitalSaves,
     props.partOfPath
   );
-  const drawImage = shouldDrawImage(zone.Reward, renderSettings);
+  const drawImage = shouldDrawImage(zone.Reward, renderSettings, zone.Conquered);
   return (
     <g
       key={`Z${zone.Id}G`}
@@ -55,7 +55,7 @@ const MapZone = (props: {
           />
         );
       })}
-      {drawImage && !zone.Conquered && (
+      {drawImage && (
         <image
           key={`${zone.Id}Ass`}
           href={`${Settings.RewardUrl}${zone.Reward.Image || ""}`}

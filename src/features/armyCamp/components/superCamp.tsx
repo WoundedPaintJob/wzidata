@@ -22,7 +22,7 @@ const SuperCamp = (props: {
           <div className="col-span-1">
             <StatRow
               name="Level"
-              value={`${camp.Level}/${camp.Levels.length + 1}`}
+              value={`${camp.Level}/${camp.Levels.length}`}
             />
           </div>
           <div className="col-span-1">
@@ -34,12 +34,12 @@ const SuperCamp = (props: {
             />
           </div>
           <LevelControl
-            CanLevelUp={camp.Level < camp.Levels.length - 1}
+            CanLevelUp={camp.Level < camp.Levels.length}
             LevelUp={() => levelup(camp)}
             CanLevelDown={camp.Level > 1}
             LevelDown={() => leveldown(camp)}
           />
-          {camp.Level <= camp.Levels.length && (
+          {camp.Level < camp.Levels.length && (
             <>
               <div className="col-span-full">
                 <StatRow
@@ -60,8 +60,8 @@ const SuperCamp = (props: {
                   name="$/A"
                   value={formatNumber(
                     camp.Levels[camp.Level].Cost /
-                    (camp.Levels[camp.Level].Produced * multiplier -
-                      camp.Levels[camp.Level - 1].Produced * multiplier)
+                      (camp.Levels[camp.Level].Produced * multiplier -
+                        camp.Levels[camp.Level - 1].Produced * multiplier)
                   )}
                 />
               </div>

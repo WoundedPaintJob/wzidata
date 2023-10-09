@@ -17,7 +17,7 @@ const SuperCamp = (props: {
       <Card.Body>
         <div className="grid grid-cols-2">
           <div className="col-span-full flex justify-center w-full">
-            <Text mode="link">SuperCamp</Text>
+            <Text mode="link" size="small">SuperCamp</Text>
           </div>
           <div className="col-span-full flex">
             <LevelControl

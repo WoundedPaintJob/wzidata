@@ -53,12 +53,14 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
   return (
     <Card>
       <Card.Header>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 items-baseline">
           <span>{props.zone.Name}</span>
-          <CheckBox
-            checked={props.zone.Conquered || false}
-            onClick={() => toggleConquered(props.zone)}
-          />
+          <div className="sm:hidden">
+            <CheckBox
+              checked={props.zone.Conquered || false}
+              onClick={() => toggleConquered(props.zone)}
+            />
+          </div>
         </div>
       </Card.Header>
       <Card.Body>

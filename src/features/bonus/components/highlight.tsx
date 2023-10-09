@@ -56,14 +56,12 @@ const BonusHighlight = (props: { bonus: BonusState }) => {
   return (
     <Card>
       <Card.Header>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 items-baseline">
           <span>{props.bonus.Name}</span>
-          <div className="sm:hidden">
             <CheckBox
               checked={props.bonus.Conquered || false}
               onClick={() => toggleConquered(props.bonus)}
             />
-          </div>
         </div>
       </Card.Header>
       <Card.Body>

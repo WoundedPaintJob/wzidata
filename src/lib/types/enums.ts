@@ -49,7 +49,6 @@ export enum Tabs {
   Advancements,
   Artifacts,
   Evaluator,
-  Stats,
   Guide,
   Levels,
 }

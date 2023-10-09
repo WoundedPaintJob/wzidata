@@ -1,16 +1,16 @@
-import Card from '@components/atoms/card';
-import LevelControl from '@components/atoms/levelControl';
-import StatRow from '@components/atoms/statrow';
+import Card from "@components/atoms/card";
+import LevelControl from "@components/atoms/levelControl";
+import StatRow from "@components/atoms/statrow";
 import {
   canLevelDown,
   canLevelUp,
   getAssetUpgradeCost,
-} from '@helpers/assetHelper';
-import { formatNumber } from '@helpers/numberHelper';
-import useLevelStore from '@lib/stores/levelStore';
-import { hospitalsSavedAtLevel } from '../lib/helper';
-import { HospitalState } from '../lib/types';
-import AssetHeader from '@components/assetHeader';
+} from "@helpers/assetHelper";
+import { formatNumber } from "@helpers/numberHelper";
+import useLevelStore from "@lib/stores/levelStore";
+import { hospitalsSavedAtLevel } from "../lib/helper";
+import { HospitalState } from "../lib/types";
+import AssetHeader from "@components/assetHeader";
 
 const Hospital = (props: { hospital: HospitalState; multiplier: number }) => {
   const levelup = useLevelStore((state) => state.LevelUp);
@@ -22,26 +22,28 @@ const Hospital = (props: { hospital: HospitalState; multiplier: number }) => {
           <div className="col-span-full">
             <AssetHeader asset={props.hospital} />
           </div>
-          <div className="col-span-1">
-            <StatRow
-              name="Level"
-              value={`${props.hospital.Level}/${props.hospital.UpgradeCosts.length + 1}`}
+          <div className="col-span-full flex">
+            <LevelControl
+              CanLevelUp={canLevelUp(props.hospital)}
+              LevelUp={() => levelup(props.hospital)}
+              CanLevelDown={canLevelDown(props.hospital)}
+              LevelDown={() => leveldown(props.hospital)}
             />
+            <div>
+              <StatRow
+                name="Level"
+                value={`${props.hospital.Level}/${
+                  props.hospital.UpgradeCosts.length + 1
+                }`}
+              />
+              <StatRow
+                name="Saves"
+                value={formatNumber(
+                  hospitalsSavedAtLevel(props.hospital) * props.multiplier
+                )}
+              />
+            </div>
           </div>
-          <div className="col-span-1">
-            <StatRow
-              name="Saves"
-              value={formatNumber(
-                hospitalsSavedAtLevel(props.hospital) * props.multiplier
-              )}
-            />
-          </div>
-          <LevelControl
-            CanLevelUp={canLevelUp(props.hospital)}
-            LevelUp={() => levelup(props.hospital)}
-            CanLevelDown={canLevelDown(props.hospital)}
-            LevelDown={() => leveldown(props.hospital)}
-          />
           {canLevelUp(props.hospital) && (
             <>
               <div className="col-span-full">
@@ -66,13 +68,13 @@ const Hospital = (props: { hospital: HospitalState; multiplier: number }) => {
                   name="$/A"
                   value={formatNumber(
                     getAssetUpgradeCost(props.hospital) /
-                    (hospitalsSavedAtLevel(
-                      props.hospital,
-                      props.hospital.Level + 1
-                    ) *
-                      props.multiplier -
-                      hospitalsSavedAtLevel(props.hospital) *
-                      props.multiplier)
+                      (hospitalsSavedAtLevel(
+                        props.hospital,
+                        props.hospital.Level + 1
+                      ) *
+                        props.multiplier -
+                        hospitalsSavedAtLevel(props.hospital) *
+                          props.multiplier)
                   )}
                 />
               </div>

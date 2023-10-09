@@ -7,7 +7,7 @@ const TerritoriesCard = (props: CardData) => {
   const unconqueredZones = props.zones.filter((z) => !z.Conquered);
   return (
     <Card>
-      <Card.SmallHeader>Territories</Card.SmallHeader>
+      <Card.Header>Territories</Card.Header>
       <Card.Body>
         <StatRow name="Total" value={formatNumber(props.zones.length)} />
         <StatRow

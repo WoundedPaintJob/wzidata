@@ -1,15 +1,15 @@
-import Button from '@components/atoms/button';
-import { formatTime } from '@helpers/numberHelper';
-import { useTimer } from 'react-timer-hook';
-import addNotification from 'react-push-notification';
+import Button from "@components/atoms/button";
+import { formatTime } from "@helpers/numberHelper";
+import { useTimer } from "react-timer-hook";
+import addNotification from "react-push-notification";
 
 const Timer = () => {
   const { seconds, minutes, restart, isRunning } = useTimer({
     onExpire: () => {
       document.title = `Draft!`;
       addNotification({
-        title: 'Draft',
-        subtitle: 'Draft available',
+        title: "Draft",
+        subtitle: "Draft available",
         native: true, // when using native, your OS will handle theming.
       });
     },
@@ -21,7 +21,10 @@ const Timer = () => {
   }
   return (
     <p>
-      <span>{formatTime(minutes)}</span>:<span>{formatTime(seconds)}</span>
+      {minutes == 0 && seconds == 0 && <span>Draft </span>}
+      {(minutes > 0 || seconds > 0) && (
+        <span>{`${formatTime(minutes)}:${formatTime(seconds)}`}</span>
+      )}
       <Button
         onClick={() => {
           const time = new Date();
@@ -29,7 +32,7 @@ const Timer = () => {
           restart(time);
         }}
       >
-        Draft Timer
+        Start Timer
       </Button>
     </p>
   );

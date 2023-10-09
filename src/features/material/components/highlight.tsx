@@ -6,6 +6,8 @@ import { ZoneState } from "@features/zone/lib/types";
 import { formatNumber } from "@helpers/numberHelper";
 import useLevelStore from "@lib/stores/levelStore";
 import { MaterialState } from "../lib/types";
+import Text from "@components/atoms/text";
+import MaterialImage from "./image";
 
 const CacheZones = (props: { zones: Map<ZoneState, number> }) => {
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
@@ -13,7 +15,7 @@ const CacheZones = (props: { zones: Map<ZoneState, number> }) => {
   const cacheZones = Array.from(props.zones.keys());
   return (
     <div>
-      Cache Zones
+      <Text size="body">Cache Zones</Text>
       {cacheZones.map((z) => {
         const zoneAmount = props.zones.get(z);
         const stateZone = allZones.get(z.Id);
@@ -37,7 +39,7 @@ const MineZones = (props: { zones: Map<ZoneState, number> }) => {
   const mineZones = Array.from(props.zones.keys());
   return (
     <div>
-      Mine Zones
+      <Text size="body">Mine Zones</Text>
       {mineZones.map((z) => {
         const zoneAmount = props.zones.get(z);
         const stateZone = allZones.get(z.Id);
@@ -61,7 +63,8 @@ const CacheBonuses = (props: { bonuses: Map<BonusState, number> }) => {
   const cacheBonuses = Array.from(props.bonuses.keys());
   return (
     <div>
-      Cache Bonuses
+      <Text size="body">Cache Bonuses</Text>
+
       {cacheBonuses.map((b) => {
         const bonusAmount = props.bonuses.get(b);
         const stateBonus = allBonuses.get(b.Id);
@@ -85,7 +88,8 @@ const MineBonuses = (props: { bonuses: Map<BonusState, number> }) => {
   const mineBonuses = Array.from(props.bonuses.keys());
   return (
     <div>
-      Mine Bonuses
+      <Text size="body">Mine Bonuses</Text>
+
       {mineBonuses.map((b) => {
         const bonusAmount = props.bonuses.get(b);
         const stateBonus = allBonuses.get(b.Id);
@@ -111,7 +115,7 @@ const MaterialHighlight = (props: { material: MaterialState }) => {
   return (
     <Card>
       <Card.Header>
-        {material.Name}{" "}
+        <MaterialImage material={material} />
         <StatRow name="Price" value={formatNumber(material.Cost)} />
       </Card.Header>
       <Card.Body>
@@ -127,11 +131,25 @@ const MaterialHighlight = (props: { material: MaterialState }) => {
         {material.MineBonuses.size > 0 && (
           <MineBonuses bonuses={material.MineBonuses} />
         )}
-        Recipes
-        {material.Recipe && <RecipeDetails recipe={material.Recipe} />}
-        {material.Produces.map((recipe) => {
-          return <RecipeDetails key={recipe.Produces.Type} recipe={recipe} />;
-        })}
+
+        {material.Recipe && (
+          <>
+            <Text size="body">Recipe</Text>
+            <RecipeDetails recipe={material.Recipe} />
+          </>
+        )}
+        {material.Produces.length > 0 && (
+          <>
+            <Text size="body">Material in</Text>
+            <div className="space-y-2">
+              {material.Produces.map((recipe) => {
+                return (
+                  <RecipeDetails key={recipe.Produces.Type} recipe={recipe} />
+                );
+              })}
+            </div>
+          </>
+        )}
       </Card.Body>
     </Card>
   );

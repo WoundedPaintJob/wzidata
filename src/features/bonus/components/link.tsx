@@ -11,7 +11,7 @@ export interface BonusLinkProps {
 const BonusLink = (props: BonusLinkProps) => {
   const setActiveBonus = useLevelStore((state) => state.SetActiveBonus);
   return (
-    <Text onClick={() => setActiveBonus(props.bonus)} mode="link">
+    <Text onClick={() => setActiveBonus(props.bonus)} mode="link" size="small">
       {formatName(props.bonus.Name, 16)} (B)
     </Text>
   );

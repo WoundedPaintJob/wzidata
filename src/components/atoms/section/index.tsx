@@ -1,10 +1,8 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren } from "react";
 
 const SectionHeader = (props: PropsWithChildren) => {
   return (
-    <div className="mb-8 text-base font-semibold leading-6 text-main">
-      {props.children}
-    </div>
+    <div className="mb-2 text-slate-200 font-semibold">{props.children}</div>
   );
 };
 const SectionBody = (props: PropsWithChildren) => {
@@ -15,7 +13,7 @@ const SectionCardList = (props: PropsWithChildren) => {
 };
 const Section = (props: PropsWithChildren) => {
   return (
-    <div className="m-2 rounded bg-background px-2 py-2 lg:px-6 lg:py-6">
+    <div className="m-2 rounded bg-slate-600 px-2 py-2 lg:px-6 lg:py-6">
       {props.children}
     </div>
   );

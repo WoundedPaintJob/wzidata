@@ -19,26 +19,27 @@ const SuperCamp = (props: {
           <div className="col-span-full flex justify-center w-full">
             <Text mode="link">SuperCamp</Text>
           </div>
-          <div className="col-span-1">
-            <StatRow
-              name="Level"
-              value={`${camp.Level}/${camp.Levels.length}`}
+          <div className="col-span-full flex">
+            <LevelControl
+              CanLevelUp={camp.Level < camp.Levels.length}
+              LevelUp={() => levelup(camp)}
+              CanLevelDown={camp.Level > 1}
+              LevelDown={() => leveldown(camp)}
             />
+            <div>
+              <StatRow
+                name="Level"
+                value={`${camp.Level}/${camp.Levels.length}`}
+              />
+              <StatRow
+                name="A/S"
+                value={formatNumber(
+                  camp.Levels[camp.Level - 1].Produced * multiplier
+                )}
+              />
+            </div>
           </div>
-          <div className="col-span-1">
-            <StatRow
-              name="A/S"
-              value={formatNumber(
-                camp.Levels[camp.Level - 1].Produced * multiplier
-              )}
-            />
-          </div>
-          <LevelControl
-            CanLevelUp={camp.Level < camp.Levels.length}
-            LevelUp={() => levelup(camp)}
-            CanLevelDown={camp.Level > 1}
-            LevelDown={() => leveldown(camp)}
-          />
+
           {camp.Level < camp.Levels.length && (
             <>
               <div className="col-span-full">

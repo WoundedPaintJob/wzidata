@@ -134,7 +134,7 @@ const MercenaryCard = (props: CardData) => {
   }
   return (
     <Card>
-      <Card.SmallHeader>Mercenaries</Card.SmallHeader>
+      <Card.Header>Mercenaries</Card.Header>
       <Card.Body>
         <StatRow
           name="Total"
@@ -146,10 +146,7 @@ const MercenaryCard = (props: CardData) => {
           value={formatNumber(remainingMercenaries)}
           percentage={formatPercentage(remainingMercenaries / totalMercenaries)}
         />
-        <StatRow
-          name="Cost"
-          value={formatNumber(remainingMercenaryCost)}
-        />
+        <StatRow name="Cost" value={formatNumber(remainingMercenaryCost)} />
         {biggestLink}
       </Card.Body>
     </Card>

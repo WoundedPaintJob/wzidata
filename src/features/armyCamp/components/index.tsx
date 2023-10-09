@@ -30,20 +30,28 @@ const ArmyCamp = (props: {
           <div className="col-span-full">
             <AssetHeader asset={props.armyCamp} />
           </div>
-          <div className="col-span-1">
-            <StatRow
-              name="Level"
-              value={`${props.armyCamp.Level}/${props.armyCamp.UpgradeCosts.length + 1}`}
+          <div className="col-span-full flex">
+            <LevelControl
+              CanLevelUp={canLevelUp(props.armyCamp)}
+              LevelUp={() => levelup(props.armyCamp)}
+              CanLevelDown={canLevelDown(props.armyCamp)}
+              LevelDown={() => leveldown(props.armyCamp)}
             />
-          </div>
-          <div className="col-span-1">
-            <StatRow
-              name="A/S"
-              value={formatNumber(
-                armiesProducedAtLevel(props.armyCamp, revision) *
-                props.productionMultiplier
-              )}
-            />
+            <div>
+              <StatRow
+                name="Level"
+                value={`${props.armyCamp.Level}/${
+                  props.armyCamp.UpgradeCosts.length + 1
+                }`}
+              />
+              <StatRow
+                name="A/S"
+                value={formatNumber(
+                  armiesProducedAtLevel(props.armyCamp, revision) *
+                    props.productionMultiplier
+                )}
+              />
+            </div>
           </div>
           <div className="col-span-full flex">
             <Text size="small">SuperCharge: </Text>
@@ -51,14 +59,8 @@ const ArmyCamp = (props: {
               checked={props.armyCamp.SuperCharged || false}
               onClick={() => toggleSuperCharge(props.armyCamp)}
             />
-
           </div>
-          <LevelControl
-            CanLevelUp={canLevelUp(props.armyCamp)}
-            LevelUp={() => levelup(props.armyCamp)}
-            CanLevelDown={canLevelDown(props.armyCamp)}
-            LevelDown={() => leveldown(props.armyCamp)}
-          />
+
           {canLevelUp(props.armyCamp) && (
             <>
               <div className="col-span-full">
@@ -86,15 +88,15 @@ const ArmyCamp = (props: {
                   name="$/A"
                   value={formatNumber(
                     getAssetUpgradeCost(props.armyCamp) **
-                    props.costMultiplier /
-                    (armiesProducedAtLevel(
-                      props.armyCamp,
-                      revision,
-                      props.armyCamp.Level + 1
-                    ) *
-                      props.productionMultiplier -
-                      armiesProducedAtLevel(props.armyCamp, revision) *
-                      props.productionMultiplier)
+                      props.costMultiplier /
+                      (armiesProducedAtLevel(
+                        props.armyCamp,
+                        revision,
+                        props.armyCamp.Level + 1
+                      ) *
+                        props.productionMultiplier -
+                        armiesProducedAtLevel(props.armyCamp, revision) *
+                          props.productionMultiplier)
                   )}
                 />
               </div>
@@ -102,7 +104,7 @@ const ArmyCamp = (props: {
           )}
         </div>
       </Card.Body>
-    </Card >
+    </Card>
   );
 };
 export default ArmyCamp;

@@ -17,7 +17,7 @@ const RenderOption = (props: { type: RenderOptionType }) => {
     ? settingsState.get(props.type)
     : false;
   return (
-    <div className="flex">
+    <div className="flex items-center mb-1">
       <CheckBox
         checked={checked || false}
         onClick={() => checkHandler(props.type)}
@@ -46,7 +46,7 @@ const MapFilter = () => {
         <Disclosure defaultOpen>
           {({ open }) => (
             <>
-              <Disclosure.Button className="flex py-2 text-main">
+              <Disclosure.Button className="flex text-main">
                 Filters
                 <ChevronRightIcon
                   className={twMerge(
@@ -56,7 +56,12 @@ const MapFilter = () => {
                 />
               </Disclosure.Button>
               <Disclosure.Panel>
-                <div className="grid grid-cols-2">
+                <div
+                  className={twMerge(
+                    "grid grid-cols-2 space-y-2 sm:grid-cols-4",
+                    !wideMap && "lg:grid-cols-2"
+                  )}
+                >
                   <RenderColumn header="General">
                     <RenderOption type={RenderOptionType.Market} />
                     <RenderOption type={RenderOptionType.Hospital} />

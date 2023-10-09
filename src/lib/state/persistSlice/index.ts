@@ -128,7 +128,7 @@ export const createPersistSlice: StateCreator<
         state.Materials = data.Materials;
         state.Recipes = data.Recipes;
         state.SuperCamp = data.SuperCamp;
-        state.SuperCamp.Level = state.SuperCampLevel;
+        state.SuperCamp.Level = Math.max(state.SuperCampLevel, 1);
         state.Instructions = data.Instructions;
       })
     );

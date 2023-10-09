@@ -26,9 +26,10 @@ const Market = (props: { market: MarketState }) => {
     artifacts,
     techs
   );
-  const bestMaterialPrice = useLevelStore((state) =>
-    state.Materials.get(props.market.BestMaterial.Type)
-  ).Cost;
+  const bestMaterialPrice =
+    useLevelStore((state) =>
+      state.Materials.get(props.market.BestMaterial.Type)
+    )?.Cost || 1;
   return (
     <Card>
       <Card.Header>

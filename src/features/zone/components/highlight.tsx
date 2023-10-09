@@ -2,9 +2,7 @@ import Card from "@components/atoms/card";
 import StatRow from "@components/atoms/statrow";
 import Text from "@components/atoms/text";
 import BonusLink from "@features/bonus/components/link";
-import {
-  totalCostForZone,
-} from "@features/hospital/lib/helper";
+import { totalCostForZone } from "@features/hospital/lib/helper";
 import RewardDetails from "@features/reward/components/details";
 import { formatNumber } from "@helpers/numberHelper";
 import { reversePath } from "@lib/services/pathService";
@@ -15,8 +13,10 @@ import { MultiplierType } from "@lib/services/multiplierService/types";
 import { ZoneState } from "../lib/types";
 import Button from "@components/atoms/button";
 import { useControls } from "react-zoom-pan-pinch";
+import CheckBox from "@components/atoms/checkbox";
 
 const ZoneHighlight = (props: { zone: ZoneState }) => {
+  const toggleConquered = useLevelStore((state) => state.ConquerZone);
   const allZones = useLevelStore((state) => state.Zones);
   const setPath = useLevelStore((state) => state.SetActivePath);
   const hospitalMap = useLevelStore((state) => state.Hospitals);
@@ -48,11 +48,19 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
     hospitalMultiplier,
     jointStrikeMultiplier,
     props.zone.ConnectedZones.filter((z) => allZones.get(z)?.Conquered).length >
-    1
+      1
   );
   return (
     <Card>
-      <Card.Header>{props.zone.Name}</Card.Header>
+      <Card.Header>
+        <div className="flex space-x-2">
+          <span>{props.zone.Name}</span>
+          <CheckBox
+            checked={props.zone.Conquered || false}
+            onClick={() => toggleConquered(props.zone)}
+          />
+        </div>
+      </Card.Header>
       <Card.Body>
         <StatRow
           name="Cost"
@@ -75,9 +83,14 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
           >
             Find Path
           </Button>
-          <Button onClick={() => {
-            zoomToElement(`Z${props.zone.Id}G`, instance.transformState.scale);
-          }}>
+          <Button
+            onClick={() => {
+              zoomToElement(
+                `Z${props.zone.Id}G`,
+                instance.transformState.scale
+              );
+            }}
+          >
             Focus
           </Button>
         </div>
@@ -90,7 +103,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
             <BonusLink key={b.Id} bonus={b} />
           ))}
       </Card.Body>
-    </Card >
+    </Card>
   );
 };
 export default ZoneHighlight;

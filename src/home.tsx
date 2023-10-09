@@ -27,7 +27,6 @@ const Home = () => {
   const wideMap = usePlayerStore((state) => state.WideMap);
   useEffect(() => {
     const getData = async () => {
-
       if (levelId == -1) void changeLevel(2, 0);
       else {
         const data = await loadLevel({
@@ -37,13 +36,14 @@ const Home = () => {
           Name: level.Name,
           HaveData: true,
           IsHardened: level.IsHardened,
-          Reward: level.Reward
+          Reward: level.Reward,
         });
         const freeTechAdvancement = advancements.find(
           (a) => a.Type == AdvancementType.StartWithTech
         );
         let freeTechs = 0;
-        if (freeTechAdvancement) freeTechs = getAdvancementValue(freeTechAdvancement);
+        if (freeTechAdvancement)
+          freeTechs = getAdvancementValue(freeTechAdvancement);
         load(data, freeTechs);
       }
     };
@@ -56,11 +56,15 @@ const Home = () => {
         <Notifications />
         <Section>
           <Section.Header>
-            {name}
-            <div className="float-right">
-              <LevelSelector />
+            <div>
+              {name}
+              <div className="sm:float-right">
+                <LevelSelector />
+              </div>
             </div>
-            <Timer />
+            <div className="mt-2 sm:mt-0">
+              <Timer />
+            </div>
           </Section.Header>
         </Section>
         <TabList />
@@ -69,12 +73,16 @@ const Home = () => {
           {!wideMap && (
             <div className="grid grid-cols-1 lg:grid-cols-8">
               <div className="col-span-1 lg:col-span-2">
-                <MapFilter />
+                <div className="hidden sm:block">
+                  <MapFilter />
+                </div>
                 <Highlights />
+                <div className="sm:hidden">
+                  <MapFilter />
+                </div>
               </div>
               <div className="col-span-1 lg:col-span-6">
                 <MapComponent />
-                <Manual />
               </div>
             </div>
           )}
@@ -87,12 +95,12 @@ const Home = () => {
                 <MapFilter />
                 <Highlights />
               </div>
-              <div>
-                <Manual />
-              </div>
             </>
           )}
         </TransformWrapper>
+        <div>
+          <Manual />
+        </div>
       </div>
     </div>
   );

@@ -5,20 +5,27 @@ import { useEffect, useState } from "react";
 const useMostExpensive = () => {
   const allZones = useZoneMap(false);
   const zones = Array.from(allZones.values());
+  const unconqueredZones = zones.filter((z) => !z.Conquered);
   const [mostExpensive, setMostExpensive] = useState(
-    zones
-      .filter((z) => !z.Conquered)
-      .reduce((prev, current) => (prev.Cost > current.Cost ? prev : current))
+    unconqueredZones.length > 0
+      ? unconqueredZones.reduce((prev, current) =>
+          prev.Cost > current.Cost ? prev : current
+        )
+      : null
   );
   const zoneMap = useLevelStore((state) => state.Zones);
   useEffect(() => {
-    const newMostExpensive = Array.from(zoneMap.values())
-      .filter((z) => !z.Conquered)
-      .reduce((prev, current) => (prev.Cost > current.Cost ? prev : current));
-    if (newMostExpensive?.Id !== mostExpensive?.Id) {
-      setMostExpensive(newMostExpensive);
+    if (unconqueredZones.length > 0) {
+      const newMostExpensive = unconqueredZones.reduce((prev, current) =>
+        prev.Cost > current.Cost ? prev : current
+      );
+      if (newMostExpensive?.Id !== mostExpensive?.Id) {
+        setMostExpensive(newMostExpensive);
+      }
+    } else {
+      setMostExpensive(null);
     }
   }, [zoneMap]);
-  return zoneMap.get(mostExpensive.Id);
+  return mostExpensive ? zoneMap.get(mostExpensive.Id) : null;
 };
 export default useMostExpensive;

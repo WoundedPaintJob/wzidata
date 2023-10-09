@@ -55,7 +55,7 @@ export interface BiggestCacheProps {
   cacheBonuses: BonusState[];
 }
 export interface BestCacheProps {
-  rewardProperty: (reward: Reward | null | undefined) => number;
+  rewardProperty: (reward: Reward) => number;
   cacheZones: ZoneState[];
   cacheBonuses: BonusState[];
   zones: ZoneState[];

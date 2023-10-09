@@ -8,7 +8,7 @@ export interface ZoneLinkProps {
 const ZoneLink = (props: ZoneLinkProps) => {
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
   return (
-    <Text onClick={() => setActiveZone(props.zone)} mode="link" >
+    <Text onClick={() => setActiveZone(props.zone)} mode="link" size="small">
       {formatName(props.zone.Name, 16)}
     </Text>
   );

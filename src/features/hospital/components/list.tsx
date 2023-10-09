@@ -66,7 +66,7 @@ const HospitalList = () => {
   return (
     <Section>
       <Section.Body>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 space-y-2 flex-wrap items-baseline mb-1">
           <StatRow name="Total Saved" value={formatNumber(totalSaved)} />
           <StatRow name="Max Saved" value={formatNumber(maxSaved)} />
           <StatRow

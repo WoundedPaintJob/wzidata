@@ -9,13 +9,14 @@ const ArmyCard = (props: CardData) => {
   const unconqueredZones = props.zones.filter((z) => !z.Conquered);
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
   const totalArmies = props.zones.map((z) => z.Cost).reduce((a, b) => a + b);
-  const remainingArmies = unconqueredZones
-    .map((z) => z.Cost)
-    .reduce((a, b) => a + b);
+  const remainingArmies =
+    unconqueredZones.length > 0
+      ? unconqueredZones.map((z) => z.Cost).reduce((a, b) => a + b)
+      : 0;
   const biggestCampZone = useMostExpensive();
   return (
     <Card>
-      <Card.SmallHeader>Armies</Card.SmallHeader>
+      <Card.Header>Armies</Card.Header>
       <Card.Body>
         <StatRow name="Total" value={formatNumber(totalArmies)} />
         <StatRow

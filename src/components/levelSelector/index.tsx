@@ -1,6 +1,6 @@
-import { AdvancementType } from '@features/advancement/lib/enums';
-import { getAdvancementValue } from '@features/advancement/lib/util';
-import usePlayerStore from '@lib/stores/playerStore';
+import { AdvancementType } from "@features/advancement/lib/enums";
+import { getAdvancementValue } from "@features/advancement/lib/util";
+import usePlayerStore from "@lib/stores/playerStore";
 
 const LevelSelector = () => {
   const changeLevel = usePlayerStore((state) => state.ChangeLevel);
@@ -10,7 +10,9 @@ const LevelSelector = () => {
   const freeTechAdvancement = advancements.find(
     (a) => a.Type == AdvancementType.StartWithTech
   );
-  const freeTechs = getAdvancementValue(freeTechAdvancement);
+  const freeTechs = freeTechAdvancement
+    ? getAdvancementValue(freeTechAdvancement)
+    : 0;
   return (
     <div>
       <select
@@ -22,11 +24,13 @@ const LevelSelector = () => {
           void changeLevel(parseInt(e.target.value), freeTechs);
         }}
       >
-        {levels.filter((l) => l.HaveData).map((l) => (
-          <option key={l.Id} value={l.Id}>
-            {l.Name}
-          </option>
-        ))}
+        {levels
+          .filter((l) => l.HaveData)
+          .map((l) => (
+            <option key={l.Id} value={l.Id}>
+              {l.Name}
+            </option>
+          ))}
       </select>
     </div>
   );

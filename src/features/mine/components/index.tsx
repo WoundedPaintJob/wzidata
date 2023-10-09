@@ -31,13 +31,30 @@ const Mine = (props: {
           <div className="col-span-full">
             <AssetHeader asset={props.mine} />
           </div>
-          <div className="col-span-1">
-            <StatRow
-              name="Level"
-              value={`${props.mine.Level}/${
-                props.mine.UpgradeCosts.length + 1
-              }`}
+          <div className="col-span-full flex">
+            <LevelControl
+              CanLevelUp={canLevelUp(props.mine)}
+              LevelUp={() => levelup(props.mine)}
+              CanLevelDown={canLevelDown(props.mine)}
+              LevelDown={() => leveldown(props.mine)}
             />
+            <div>
+              <StatRow
+                name="Level"
+                value={`${props.mine.Level}/${
+                  props.mine.UpgradeCosts.length + 1
+                }`}
+              />
+              <MaterialDetails
+                materials={props.mine.Materials}
+                roundNumber={"precision"}
+                multiplier={
+                  mineMultiplierAtLevel(props.mine.Level, revision) *
+                  props.productionMultiplier *
+                  (props.mine.SuperCharged ? 20 : 1)
+                }
+              />
+            </div>
           </div>
           <div className="col-span-full flex">
             <Text size="small">SuperCharge: </Text>
@@ -46,12 +63,7 @@ const Mine = (props: {
               onClick={() => toggleSuperCharge(props.mine)}
             />
           </div>
-          <LevelControl
-            CanLevelUp={canLevelUp(props.mine)}
-            LevelUp={() => levelup(props.mine)}
-            CanLevelDown={canLevelDown(props.mine)}
-            LevelDown={() => leveldown(props.mine)}
-          />
+
           {canLevelUp(props.mine) && (
             <>
               <div className="col-span-full">
@@ -62,21 +74,8 @@ const Mine = (props: {
                   )}
                 />
               </div>
-
-              <div className="col-span-1">
-                <Text size="small">Current:</Text>
-                <MaterialDetails
-                  materials={props.mine.Materials}
-                  roundNumber={"precision"}
-                  multiplier={
-                    mineMultiplierAtLevel(props.mine.Level, revision) *
-                    props.productionMultiplier *
-                    (props.mine.SuperCharged ? 20 : 1)
-                  }
-                />
-              </div>
-              <div className="col-span-1">
-                <Text size="small">Next:</Text>
+              <div className="col-span-full">
+                <Text size="small" mode="passive">Next:</Text>
                 <MaterialDetails
                   materials={props.mine.Materials}
                   roundNumber={"precision"}

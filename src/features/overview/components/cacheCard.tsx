@@ -32,7 +32,7 @@ const CacheCard = (props: CacheCardProps) => {
   );
   return (
     <Card>
-      <Card.SmallHeader>{props.header}</Card.SmallHeader>
+      <Card.Header>{props.header}</Card.Header>
       <Card.Body>
         <StatRow
           name="Total"

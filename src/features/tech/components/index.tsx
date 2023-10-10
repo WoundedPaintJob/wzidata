@@ -14,7 +14,7 @@ const Tech = (props: {
   const toggle = useLevelStore((state) => state.ToggleTech);
   return (
     <Card
-      size={props.highlight ? "small" : "xsmall"}
+      size="small"
       mode={
         props.tech.Bought && props.highlight
           ? "semi"

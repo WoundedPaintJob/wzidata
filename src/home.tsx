@@ -73,11 +73,8 @@ const Home = () => {
           {!wideMap && (
             <div className="grid grid-cols-1 lg:grid-cols-8">
               <div className="col-span-1 lg:col-span-2">
-                <div className="hidden sm:block">
-                  <MapFilter />
-                </div>
                 <Highlights />
-                <div className="sm:hidden">
+                <div className="hidden lg:block">
                   <MapFilter />
                 </div>
               </div>
@@ -98,9 +95,10 @@ const Home = () => {
             </>
           )}
         </TransformWrapper>
-        <div>
-          <Manual />
+        <div className="lg:hidden">
+          <MapFilter />
         </div>
+        <Manual />
       </div>
     </div>
   );

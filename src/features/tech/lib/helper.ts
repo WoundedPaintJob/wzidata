@@ -19,13 +19,12 @@ export function getBuyableTechs(
               techs[r][c].Materials.forEach((mat) => {
                 let matPossible = false;
                 ownedMarkets.forEach((market) => {
-                  if (market.Materials.find(m => m.Type == mat.Type)) matPossible = true;
-                })
-                if (!matPossible)
-                  allPossible = false;
-              })
-              if (allPossible)
-                buyable.push(techs[r][c]);
+                  if (market.Materials.find((m) => m.Type == mat.Type))
+                    matPossible = true;
+                });
+                if (!matPossible) allPossible = false;
+              });
+              if (allPossible) buyable.push(techs[r][c]);
             }
           }
         }
@@ -42,10 +41,19 @@ export function isTechAvailable(
 ) {
   if (row == 0) return true;
   const techAbove = techs[row - 1][column];
-  const buyableAbove = buyable.find((t) => t.Row == row - 1 && t.Column == column);
+  const buyableAbove = buyable.find(
+    (t) => t.Row == row - 1 && t.Column == column
+  );
   const techLeft = column == 0 ? undefined : techs[row][column - 1];
-  const buyableLeft = buyable.find((t) => t.Row == row && t.Column == column - 1);
-  if (buyableAbove || buyableLeft) return true;
+  const buyableLeft = buyable.find(
+    (t) => t.Row == row && t.Column == column - 1
+  );
+  if (column % 2 == 0) {
+    if (buyableAbove && techAbove) return true;
+    if (techAbove) return techAbove.Bought;
+    return false;
+  }
+  if ((buyableAbove && techAbove) || (buyableLeft && techLeft)) return true;
   if (techAbove) return techAbove.Bought;
   if (techLeft) return techLeft.Bought;
   return false;

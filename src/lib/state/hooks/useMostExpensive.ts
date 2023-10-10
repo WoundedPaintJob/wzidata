@@ -3,7 +3,7 @@ import useZoneMap from "./useZoneMap";
 import { useEffect, useState } from "react";
 
 const useMostExpensive = () => {
-  const allZones = useZoneMap(false);
+  const allZones = useZoneMap(true);
   const zones = Array.from(allZones.values());
   const unconqueredZones = zones.filter((z) => !z.Conquered);
   const [mostExpensive, setMostExpensive] = useState(

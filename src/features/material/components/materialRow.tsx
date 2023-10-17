@@ -27,7 +27,7 @@ const MaterialRow = (props: {
       mode="link"
       onClick={() => setActiveMat(props.material.Type)}
       className="flex items-center"
-      size='small'
+      size='xsmall'
     >
       <MaterialImage material={props.material} />
       {props.material.Amount > 0

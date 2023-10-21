@@ -9,58 +9,7 @@ function getHeuristics(zone1: ZoneState, zone2: ZoneState): number {
   const dY = Math.abs(zone1.Center.Y - zone2.Center.Y);
   return dX + dY;
 }
-export function getCheapestPath(
-  endZone: ZoneState,
-  allZones: Map<number, ZoneState>,
-  hospitalMultiplier: number,
-  jointStrikeMultiplier: number,
-  hospitals: HospitalState[]
-): MapPath {
-  const conqueredZones = Array.from(allZones.values()).filter((zone) => {
-    return (
-      zone.Conquered &&
-      zone.ConnectedZones.filter((z) => !allZones.get(z)?.Conquered).length > 0
-    );
-  });
-  let cheapestPath = getPath(
-    conqueredZones[0],
-    endZone,
-    allZones,
-    hospitalMultiplier,
-    jointStrikeMultiplier,
-    hospitals
-  );
-  conqueredZones.forEach((z) => {
-    const path = getPath(
-      z,
-      endZone,
-      allZones,
-      hospitalMultiplier,
-      jointStrikeMultiplier,
-      hospitals
-    );
-    if (
-      path.TotalCost < cheapestPath.TotalCost ||
-      (path.TotalCost == cheapestPath.TotalCost &&
-        path.Zones.length < cheapestPath.Zones.length)
-    ) {
-      cheapestPath = path;
-    }
-  });
-  return evaluateRemoveNeighbours(
-    evaluateCaptureNeighbours(
-      cheapestPath,
-      allZones,
-      hospitalMultiplier,
-      jointStrikeMultiplier,
-      hospitals
-    ),
-    allZones,
-    hospitalMultiplier,
-    jointStrikeMultiplier,
-    hospitals
-  );
-}
+
 export function reversePath(
   endZone: ZoneState,
   allZones: Map<number, ZoneState>,
@@ -124,14 +73,8 @@ export function reversePath(
         path.Zones.push(zone.Zone);
         zone.Counted = true;
       });
-      return evaluateRemoveNeighbours(
-        evaluateCaptureNeighbours(
-          path,
-          allZones,
-          hospitalMultiplier,
-          jointStrikeMultiplier,
-          hospitals
-        ),
+      return evaluateModifyPath(
+        path,
         allZones,
         hospitalMultiplier,
         jointStrikeMultiplier,
@@ -166,106 +109,34 @@ export function reversePath(
   }
   return { TotalCost: Infinity, ArmiesRequired: Infinity, Zones: [] };
 }
-export function getPath(
-  startZone: ZoneState,
-  endZone: ZoneState,
+function evaluateModifyPath(
+  path: MapPath,
   allZones: Map<number, ZoneState>,
   hospitalMultiplier: number,
   jointStrikeMultiplier: number,
   hospitals: HospitalState[]
-): MapPath {
-  const openSet = new Set<ZoneState>();
-  openSet.add(startZone);
-  const closedSet = new Set<ZoneState>();
-  const heuristics = new Map<ZoneState, number>();
-  const costs = new Map<ZoneState, number>();
-  const parentZone = new Map<ZoneState, ZoneState>();
-  allZones.forEach((zone) => {
-    costs.set(
-      zone,
-      totalCostForZone(
-        zone,
-        hospitals,
-        hospitalMultiplier,
-        jointStrikeMultiplier,
-        zone.ConnectedZones.filter((z) => {
-          return allZones.get(z)?.Conquered;
-        }).length > 1
-      )
+) {
+  let keepGoing = true;
+  while (keepGoing) {
+    let numberOfZones = path.Zones.length;
+    path = evaluateCaptureNeighbours(
+      path,
+      allZones,
+      hospitalMultiplier,
+      jointStrikeMultiplier,
+      hospitals
     );
-    heuristics.set(zone, getHeuristics(zone, endZone));
-    if (zone.Conquered) closedSet.add(zone);
-  });
-  while (openSet.size > 0) {
-    let current: ZoneState | undefined;
-    let minScore = Infinity;
-    openSet.forEach((zone) => {
-      const score = (costs.get(zone) ?? 0) + (heuristics.get(zone) ?? 0);
-      if (score < minScore) {
-        minScore = score;
-        current = zone;
-      }
-    });
-    if (!current) throw "No current in path";
-    if (current === endZone) {
-      const path: MapPath = {
-        TotalCost: 0,
-        ArmiesRequired: 0,
-        Zones: [],
-      };
-      const zones = reconstructPath(startZone, endZone, parentZone);
-      zones.forEach((zone) => {
-        const cost = totalCostForZone(
-          zone.Zone,
-          hospitals,
-          hospitalMultiplier,
-          jointStrikeMultiplier,
-          zone.Zone.ConnectedZones.filter((z) => {
-            return (
-              allZones.get(z)?.Conquered ||
-              zones.filter((iz) => iz.Counted && iz.Zone.Id == z).length > 0
-            );
-          }).length > 1
-        );
-        path.TotalCost += cost;
-        path.Zones.push(zone.Zone);
-        zone.Counted = true;
-      });
-      return path;
-    }
-    closedSet.add(current);
-    openSet.delete(current);
-    for (const neighborId of current.ConnectedZones) {
-      const neighbor = allZones.get(neighborId);
-      if (!neighbor) continue;
-      if (closedSet.has(neighbor)) continue;
-      const newCost = totalCostForZone(
-        neighbor,
-        hospitals,
-        hospitalMultiplier,
-        jointStrikeMultiplier,
-        false
-      );
-      const tentative = (costs.get(current) ?? 0) + newCost;
-      // console.log(pathZones.map((z) => z.Zone.Name));
-      // console.log(
-      //   `${current.Name}: P: ${
-      //     parentZone.get(current)?.Name
-      //   } H: ${heuristics.get(current)}
-      //   ${neighbor.Name}: ${newCost} - ${tentative}`
-      // );
-      if (!openSet.has(neighbor)) {
-        openSet.add(neighbor);
-      } else if (tentative >= (costs.get(neighbor) ?? 0)) {
-        continue;
-      }
-      parentZone.set(neighbor, current);
-      costs.set(neighbor, tentative);
-    }
+    path = evaluateRemoveNeighbours(
+      path,
+      allZones,
+      hospitalMultiplier,
+      jointStrikeMultiplier,
+      hospitals
+    );
+    if (numberOfZones == path.Zones.length) keepGoing = false;
   }
-  return { TotalCost: Infinity, ArmiesRequired: Infinity, Zones: [] };
+  return path;
 }
-
 function evaluateCaptureNeighbours(
   path: MapPath,
   allZones: Map<number, ZoneState>,
@@ -277,17 +148,19 @@ function evaluateCaptureNeighbours(
     const currentZone = path.Zones[i];
     const nextZone = path.Zones[i + 1];
     if (!nextZone) return path;
+    const nextOldUseJs =
+      nextZone.ConnectedZones.filter((z) => {
+        return (
+          allZones.get(z)?.Conquered ||
+          path.Zones.slice(0, i + 1).filter((iz) => iz.Id == z).length > 0
+        );
+      }).length > 1;
     const nextOldCost = totalCostForZone(
       nextZone,
       hospitals,
       hospitalMultiplier,
       jointStrikeMultiplier,
-      nextZone.ConnectedZones.filter((z) => {
-        return (
-          allZones.get(z)?.Conquered ||
-          path.Zones.filter((iz) => iz.Id == z).length > 0
-        );
-      }).length > 1
+      nextOldUseJs
     );
     let bestCost = 0;
     let bestNeighbor: ZoneState | null = null;
@@ -295,30 +168,34 @@ function evaluateCaptureNeighbours(
       const neighbor = allZones.get(neighborId);
       if (!neighbor || path.Zones.includes(neighbor) || neighbor.Conquered)
         continue;
+      const neighbourUseJs =
+        neighbor.ConnectedZones.filter((z) => {
+          return (
+            allZones.get(z)?.Conquered ||
+            path.Zones.slice(0, i + 1).filter((iz) => iz.Id == z).length > 0
+          );
+        }).length > 1;
       const neighborCost = totalCostForZone(
         neighbor,
         hospitals,
         hospitalMultiplier,
         jointStrikeMultiplier,
-        neighbor.ConnectedZones.filter((z) => {
+        neighbourUseJs
+      );
+      const nextUseJs =
+        nextZone.ConnectedZones.filter((z) => {
           return (
             allZones.get(z)?.Conquered ||
-            path.Zones.filter((iz) => iz.Id == z).length > 0
+            path.Zones.slice(0, i + 1).filter((iz) => iz.Id == z).length > 0 ||
+            neighbor.Id == z
           );
-        }).length > 1
-      );
+        }).length > 1;
       const nextCost = totalCostForZone(
         nextZone,
         hospitals,
         hospitalMultiplier,
         jointStrikeMultiplier,
-        nextZone.ConnectedZones.filter((z) => {
-          return (
-            allZones.get(z)?.Conquered ||
-            path.Zones.filter((iz) => iz.Id == z).length > 0 ||
-            neighbor.Id == z
-          );
-        }).length > 1
+        nextUseJs
       );
       const newCost = nextOldCost - (neighborCost + nextCost);
       if (newCost > bestCost) {
@@ -330,7 +207,7 @@ function evaluateCaptureNeighbours(
       if (!bestNeighbor) throw "No best neighbor";
       path.Zones.splice(i + 1, 0, bestNeighbor);
       path.TotalCost -= bestCost;
-      i++;
+      return path;
     }
   }
   return path;
@@ -349,7 +226,7 @@ function evaluateRemoveNeighbours(
     if (
       nextZone.ConnectedZones.filter((z) => {
         return (
-          path.Zones.filter((iz) => iz.Id == z).length > 1 ||
+          path.Zones.slice(0, i + 1).filter((iz) => iz.Id == z).length > 1 ||
           allZones.get(z)?.Conquered
         );
       }).length > 1
@@ -363,7 +240,7 @@ function evaluateRemoveNeighbours(
           return (
             z != nextZone.Id &&
             (allZones.get(z)?.Conquered ||
-              path.Zones.filter((iz) => iz.Id == z).length > 0)
+              path.Zones.slice(0, i + 1).filter((iz) => iz.Id == z).length > 0)
           );
         }).length > 1
       );
@@ -375,7 +252,7 @@ function evaluateRemoveNeighbours(
         nextZone.ConnectedZones.filter((z) => {
           return (
             allZones.get(z)?.Conquered ||
-            path.Zones.filter((iz) => iz.Id == z).length > 0
+            path.Zones.slice(0, i + 1).filter((iz) => iz.Id == z).length > 0
           );
         }).length > 1
       );
@@ -388,7 +265,7 @@ function evaluateRemoveNeighbours(
           return (
             z != currentZone.Id &&
             (allZones.get(z)?.Conquered ||
-              path.Zones.filter((iz) => iz.Id == z).length > 0)
+              path.Zones.slice(0, i + 1).filter((iz) => iz.Id == z).length > 0)
           );
         }).length > 1
       );

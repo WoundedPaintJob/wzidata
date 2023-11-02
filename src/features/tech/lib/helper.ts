@@ -53,7 +53,7 @@ export function isTechAvailable(
     if (techAbove) return techAbove.Bought;
     return false;
   }
-  if ((buyableAbove && techAbove) || (buyableLeft && techLeft)) return true;
+  if ((buyableAbove && techAbove) || (buyableLeft && techLeft && !techAbove)) return true;
   if (techAbove) return techAbove.Bought;
   if (techLeft) return techLeft.Bought;
   return false;

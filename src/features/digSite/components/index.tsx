@@ -4,19 +4,12 @@ import AssetHeader from "@components/assetHeader";
 import StatRow from "@components/atoms/statrow";
 import { calculateDigSiteScore } from "../lib/helper";
 import { formatNumber, formatPercentage } from "@helpers/numberHelper";
-import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
-import usePlayerStore from "@lib/stores/playerStore";
-import useLevelStore from "@lib/stores/levelStore";
 import { intervalToDuration, formatDuration } from "date-fns";
+import useMultiplier from "@lib/state/hooks/useMultiplier";
 
 const DigSite = (props: { digSite: DigSiteState }) => {
-  const digSpeedMultiplier = getMultiplier(
-    MultiplierType.DigSpeed,
-    usePlayerStore((state) => state.Advancements),
-    usePlayerStore((state) => state.Artifacts),
-    useLevelStore((state) => state.Techs)
-  );
+  const digSpeedMultiplier = useMultiplier(MultiplierType.DigSpeed);
   const digTime = intervalToDuration({
     start: 0,
     end: props.digSite.Hours * 60 * 60 * 1000 * digSpeedMultiplier,

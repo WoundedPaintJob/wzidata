@@ -1,33 +1,18 @@
-import useLevelStore from "@lib/stores/levelStore";
-import usePlayerStore from "@lib/stores/playerStore";
 import { CacheCardProps, CardData } from "../lib/types";
-import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import { Reward } from "@features/reward/lib/types";
 import CacheCard from "./cacheCard";
+import useMultiplier from "@lib/state/hooks/useMultiplier";
 
 const MoneyCacheCard = (props: CardData) => {
-  const advancements = usePlayerStore((state) => state.Advancements);
-  const artifacts = usePlayerStore((state) => state.Artifacts);
-  const techs = useLevelStore((state) => state.Techs);
   const cacheMultiplier =
-    getMultiplier(MultiplierType.CacheMoney, advancements, artifacts, techs) +
-    getMultiplier(MultiplierType.Cache, advancements, artifacts, techs) -
+    useMultiplier(MultiplierType.CacheMoney) +
+    useMultiplier(MultiplierType.Cache) -
     1;
-  const hospitalSaveMultiplier = getMultiplier(
-    MultiplierType.HospitalEffect,
-    advancements,
-    artifacts,
-    techs
-  );
-  const jointStrikeMultiplier = getMultiplier(
-    MultiplierType.JointStrike,
-    advancements,
-    artifacts,
-    techs
-  );
+  const hospitalSaveMultiplier = useMultiplier(MultiplierType.HospitalEffect);
+  const jointStrikeMultiplier = useMultiplier(MultiplierType.JointStrike);
   function rewardProperty(reward: Reward) {
-    return reward.Cache ? reward.Cache.Money : 0;
+    return reward.Cache ? reward.Cache.Money * cacheMultiplier : 0;
   }
   const cardProps: CacheCardProps = {
     bonuses: props.bonuses,

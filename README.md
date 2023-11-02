@@ -51,3 +51,4 @@ Should contain the zod schema for the asset
 - max level for advancement
 - bonuses not updating on map after conquer
 - Zone checkbox not updating when conquering path
+- Very slow conquering a big bonus

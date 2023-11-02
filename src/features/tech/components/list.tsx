@@ -104,7 +104,7 @@ const TechList = () => {
                   "grid space-x-1",
                   techDisplayMode == TechDisplayMode.Market && "grid-cols-5",
                   techDisplayMode == TechDisplayMode.MarketPlusArmy &&
-                  "grid-cols-6",
+                    "grid-cols-6",
                   techDisplayMode == TechDisplayMode.Total && "grid-cols-10"
                 )}
               >
@@ -113,8 +113,10 @@ const TechList = () => {
             ))}
           </div>
           <div className="pl-2 col-span-2">
-            <Button onClick={() => buyAvailable()}>Buy Available</Button>
-            <TechDisplayModeChange />
+            <div className="flex flex-row items-start space-x-2">
+              <Button onClick={() => buyAvailable()}>Buy Available</Button>
+              <TechDisplayModeChange />
+            </div>
             <Text size="body">Required</Text>
             <TotalTechCosts
               materials={materials}
@@ -131,7 +133,7 @@ const TechList = () => {
           </div>
         </div>
       </Section.Body>
-    </Section >
+    </Section>
   );
 };
 export default TechList;

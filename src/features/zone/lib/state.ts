@@ -2,6 +2,7 @@ import { produce } from "immer";
 import { StateCreator } from "zustand";
 import { ZoneSlice, ZoneState } from "./types";
 import { LevelState } from "@lib/stores/levelStore/types";
+import { BonusState } from "@features/bonus/lib/types";
 
 export const createZoneSlice: StateCreator<
   LevelState,
@@ -26,28 +27,32 @@ export const createZoneSlice: StateCreator<
             if (!stateZ || !stateZ.Conquered) allConquered = false;
           });
           const stateBonus = state.Bonuses.get(b.Id);
-          if (stateBonus)
-            stateBonus.Conquered = allConquered;
+          if (stateBonus) stateBonus.Conquered = allConquered;
         });
       })
     ),
   ConquerZones: (zones) =>
     set(
       produce((state: LevelState) => {
+        const bonuses = new Set<number>();
         zones.forEach((zone) => {
           const stateZone = state.Zones.get(zone.Id);
           if (stateZone == undefined) return;
           stateZone.Conquered = true;
           zone.Bonuses.forEach((b) => {
+            bonuses.add(b.Id);
+          });
+        });
+        bonuses.forEach((b) => {
+          const stateBonus = state.Bonuses.get(b);
+          if (stateBonus) {
             let allConquered = true;
-            b.ZoneIds.forEach((z) => {
+            stateBonus.ZoneIds.forEach((z) => {
               const stateZ = state.Zones.get(z);
               if (!stateZ || !stateZ.Conquered) allConquered = false;
             });
-            const stateBonus = state.Bonuses.get(b.Id);
-            if (stateBonus)
-              stateBonus.Conquered = allConquered;
-          });
+            stateBonus.Conquered = allConquered;
+          }
         });
       })
     ),

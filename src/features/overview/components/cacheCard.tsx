@@ -12,7 +12,8 @@ const CacheCard = (props: CacheCardProps) => {
     .filter((z) => z.Reward && props.rewardProperty(z.Reward) > 0)
     .forEach((zone) => {
       totalCache += props.rewardProperty(zone.Reward);
-      if (!zone.Conquered) remainingCache += props.rewardProperty(zone.Reward);
+      if (!zone.Conquered) remainingCache +=
+        props.rewardProperty(zone.Reward) * props.cacheMultiplier;
     });
   props.bonuses
     .filter((b) => b.Reward.Cache && props.rewardProperty(b.Reward) > 0)

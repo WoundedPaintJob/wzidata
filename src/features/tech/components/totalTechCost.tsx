@@ -7,6 +7,7 @@ import { RecipeState } from "@features/recipe/lib/types";
 import { formatDuration, intervalToDuration } from "date-fns";
 import Section from "@components/atoms/section";
 import TotalTechMarket from "./totalTechMarket";
+import { formatNumber } from "@helpers/numberHelper";
 
 
 
@@ -66,14 +67,14 @@ const TotalTechRemaining = (props: {
       <div key={material.Type} className="mt-2">
         <MaterialDetails
           materials={[material]}
-          roundNumber="default"
+          roundNumber="formatted"
           multiplier={1}
         />
         {material.Kind !== MaterialKind.Ore && (
           <Text size="xsmall">Time: {formatDuration(craftTime)}</Text>
         )}
         <Text size="xsmall">
-          On map: {knownMat.TotalOnMap * props.cacheMultiplier}
+          On map: {formatNumber(knownMat.TotalOnMap * props.cacheMultiplier)}
         </Text>
       </div>
     );

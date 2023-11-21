@@ -7,58 +7,46 @@ import RewardDetails from "@features/reward/components/details";
 import { formatNumber } from "@helpers/numberHelper";
 import { reversePath } from "@lib/services/pathService";
 import useLevelStore from "@lib/stores/levelStore";
-import usePlayerStore from "@lib/stores/playerStore";
-import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import { ZoneState } from "../lib/types";
 import Button from "@components/atoms/button";
 import { useControls } from "react-zoom-pan-pinch";
 import CheckBox from "@components/atoms/checkbox";
+import useMultiplier from "@lib/state/hooks/useMultiplier";
+import useZone from "@lib/state/hooks/useZone";
+import useZoneMap from "@lib/state/hooks/useZoneMap";
 
 const ZoneHighlight = (props: { zone: ZoneState }) => {
+  const zone = useZone(props.zone.Id);
   const toggleConquered = useLevelStore((state) => state.ConquerZone);
-  const allZones = useLevelStore((state) => state.Zones);
+  const allZones = useZoneMap(false);
   const setPath = useLevelStore((state) => state.SetActivePath);
   const hospitalMap = useLevelStore((state) => state.Hospitals);
   const hospitals = Array.from(hospitalMap.values());
-  const advancements = usePlayerStore((state) => state.Advancements);
-  const artifacts = usePlayerStore((state) => state.Artifacts);
-  const techs = useLevelStore((state) => state.Techs);
   const { zoomToElement, instance } = useControls();
-  if (!props.zone || allZones == undefined) return <></>;
+  if (!zone || allZones == undefined) return <></>;
   const conqueredHospitals = hospitals.filter((h) =>
     h.Zone ? allZones.get(h.Zone)?.Conquered : false
   );
 
-  const hospitalMultiplier = getMultiplier(
-    MultiplierType.HospitalEffect,
-    advancements,
-    artifacts,
-    techs
-  );
-  const jointStrikeMultiplier = getMultiplier(
-    MultiplierType.JointStrike,
-    advancements,
-    artifacts,
-    techs
-  );
+  const hospitalMultiplier = useMultiplier(MultiplierType.HospitalEffect);
+  const jointStrikeMultiplier = useMultiplier(MultiplierType.JointStrike);
   const cost = totalCostForZone(
-    props.zone,
+    zone,
     conqueredHospitals,
     hospitalMultiplier,
     jointStrikeMultiplier,
-    props.zone.ConnectedZones.filter((z) => allZones.get(z)?.Conquered).length >
-      1
+    zone.ConnectedZones.filter((z) => allZones.get(z)?.Conquered).length > 1
   );
   return (
     <Card>
       <Card.Header>
         <div className="flex space-x-2 items-baseline">
-          <span>{props.zone.Name}</span>
+          <span>{zone.Name}</span>
           <div className="sm:hidden">
             <CheckBox
-              checked={props.zone.Conquered || false}
-              onClick={() => toggleConquered(props.zone)}
+              checked={zone.Conquered || false}
+              onClick={() => toggleConquered(zone)}
             />
           </div>
         </div>
@@ -66,7 +54,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
       <Card.Body>
         <StatRow
           name="Cost"
-          value={formatNumber(props.zone.Cost)}
+          value={formatNumber(zone.Cost)}
           percentage={formatNumber(cost)}
         />
         <div className="flex space-x-1">
@@ -74,7 +62,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
             onClick={() =>
               setPath(
                 reversePath(
-                  props.zone,
+                  zone,
                   allZones,
                   hospitalMultiplier,
                   jointStrikeMultiplier,
@@ -88,7 +76,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
           <Button
             onClick={() => {
               zoomToElement(
-                `Z${props.zone.Id}G`,
+                `Z${zone.Id}G`,
                 instance.transformState.scale
               );
             }}
@@ -96,10 +84,10 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
             Focus
           </Button>
         </div>
-        <RewardDetails reward={props.zone.Reward} />
+        <RewardDetails reward={zone.Reward} />
 
         <Text>Bonuses</Text>
-        {props.zone.Bonuses.slice()
+        {zone.Bonuses.slice()
           .sort((a, b) => a.ZoneIds.length - b.ZoneIds.length)
           .map((b) => (
             <BonusLink key={b.Id} bonus={b} />

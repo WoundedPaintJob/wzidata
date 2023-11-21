@@ -1,8 +1,6 @@
 import Section from "@components/atoms/section";
-import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 import useLevelStore from "@lib/stores/levelStore";
-import usePlayerStore from "@lib/stores/playerStore";
 import {
   getArmyCardProps,
   getCacheCardProps,
@@ -13,6 +11,7 @@ import EvaluatorCache from "./cache";
 import EvaluatorMercenaries from "./mercenaries";
 import EvaluatorSum from "./sum";
 import { getMarketMoneyEstimate } from "@features/market/lib/helper";
+import useMultiplier from "@lib/state/hooks/useMultiplier";
 
 const Evaluator = () => {
   const zoneMap = useLevelStore((state) => state.Zones);
@@ -24,72 +23,31 @@ const Evaluator = () => {
   const hospitalMap = useLevelStore((state) => state.Hospitals);
   const hospitals = Array.from(hospitalMap.values());
   const conqueredHospitals = hospitals.filter(
-    (h) => (h.Zone && zoneMap.get(h.Zone)?.Conquered)
+    (h) => h.Zone && zoneMap.get(h.Zone)?.Conquered
   );
   const markets = useLevelStore((state) => state.Markets);
   const materials = useLevelStore((state) => state.Materials);
-  const advancements = usePlayerStore((state) => state.Advancements);
-  const artifacts = usePlayerStore((state) => state.Artifacts);
-  const techs = useLevelStore((state) => state.Techs);
-  const jointStrikeMultiplier = getMultiplier(
-    MultiplierType.JointStrike,
-    advancements,
-    artifacts,
-    techs
-  );
-  const mercenaryMultiplier = getMultiplier(
-    MultiplierType.MercenaryProduction,
-    advancements,
-    artifacts,
-    techs
-  );
-  const mercenaryCostMultiplier = getMultiplier(
-    MultiplierType.MercenaryDiscount,
-    advancements,
-    artifacts,
-    techs
+  const jointStrikeMultiplier = useMultiplier(MultiplierType.JointStrike);
+  const mercenaryMultiplier = useMultiplier(MultiplierType.MercenaryProduction);
+  const mercenaryCostMultiplier = useMultiplier(
+    MultiplierType.MercenaryDiscount
   );
   const armyCacheMultiplier =
-    getMultiplier(MultiplierType.CacheArmies, advancements, artifacts, techs) +
-    getMultiplier(MultiplierType.Cache, advancements, artifacts, techs) -
+    useMultiplier(MultiplierType.CacheArmies) +
+    useMultiplier(MultiplierType.Cache) -
     1;
   const moneyCacheMultiplier =
-    getMultiplier(MultiplierType.CacheMoney, advancements, artifacts, techs) +
-    getMultiplier(MultiplierType.Cache, advancements, artifacts, techs) -
+    useMultiplier(MultiplierType.CacheMoney) +
+    useMultiplier(MultiplierType.Cache) -
     1;
   const resourceCacheMultiplier =
-    getMultiplier(
-      MultiplierType.CacheResources,
-      advancements,
-      artifacts,
-      techs
-    ) +
-    getMultiplier(MultiplierType.Cache, advancements, artifacts, techs) -
+    useMultiplier(MultiplierType.CacheResources) +
+    useMultiplier(MultiplierType.Cache) -
     1;
-  const oreMultiplier = getMultiplier(
-    MultiplierType.SellOre,
-    advancements,
-    artifacts,
-    techs
-  );
-  const alloyMultiplier = getMultiplier(
-    MultiplierType.SellAlloy,
-    advancements,
-    artifacts,
-    techs
-  );
-  const itemMultiplier = getMultiplier(
-    MultiplierType.SellItem,
-    advancements,
-    artifacts,
-    techs
-  );
-  const hospitalMultiplier = getMultiplier(
-    MultiplierType.HospitalEffect,
-    advancements,
-    artifacts,
-    techs
-  );
+  const oreMultiplier = useMultiplier(MultiplierType.SellOre);
+  const alloyMultiplier = useMultiplier(MultiplierType.SellAlloy);
+  const itemMultiplier = useMultiplier(MultiplierType.SellItem);
+  const hospitalMultiplier = useMultiplier(MultiplierType.HospitalEffect);
   const armyCardProps = getArmyCardProps(
     unconqueredZones,
     conqueredHospitals,

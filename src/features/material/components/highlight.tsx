@@ -8,6 +8,9 @@ import useLevelStore from "@lib/stores/levelStore";
 import { MaterialState } from "../lib/types";
 import Text from "@components/atoms/text";
 import MaterialImage from "./image";
+import useMultiplier from "@lib/state/hooks/useMultiplier";
+import { MultiplierType } from "@lib/services/multiplierService/types";
+import RecipeHighlight from "@features/recipe/components/highlight";
 
 const CacheZones = (props: { zones: Map<ZoneState, number> }) => {
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
@@ -135,7 +138,7 @@ const MaterialHighlight = (props: { material: MaterialState }) => {
         {material.Recipe && (
           <>
             <Text size="body">Recipe</Text>
-            <RecipeDetails recipe={material.Recipe} />
+            <RecipeHighlight recipe={material.Recipe} />
           </>
         )}
         {material.Produces.length > 0 && (

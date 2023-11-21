@@ -10,6 +10,7 @@ const useArmyCamps = (onlyConquered: boolean) => {
         const bCamp = b.get(h.Index);
         if (!bCamp) allEqual = false;
         else if (bCamp.Level != h.Level) allEqual = false;
+        else if(bCamp.SuperCharged != h.SuperCharged) allEqual = false;
       });
       return allEqual;
     }

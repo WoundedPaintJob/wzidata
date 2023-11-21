@@ -10,9 +10,10 @@ import { totalCostForZone } from "@features/hospital/lib/helper";
 import { isAssetConquered } from "@helpers/assetHelper";
 import StatRow from "@components/atoms/statrow";
 import { formatNumber } from "@helpers/numberHelper";
-import Text from "@components/atoms/text";
+import useBonus from "@lib/state/hooks/useBonus";
 
 const BonusHighlight = (props: { bonus: BonusState }) => {
+  const bonus = useBonus(props.bonus.Id);
   const toggleConquered = useLevelStore((state) => state.ConquerBonus);
   const zoneMap = useLevelStore((state) => state.Zones);
   const bonusMap = useLevelStore((state) => state.Bonuses);
@@ -52,21 +53,21 @@ const BonusHighlight = (props: { bonus: BonusState }) => {
       zone.ConnectedZones.length > 1
     );
   });
-  if (!props.bonus) return <>No Bonus</>;
+  if (!bonus) return <>No Bonus</>;
   return (
     <Card>
       <Card.Header>
         <div className="flex space-x-2 items-baseline">
-          <span>{props.bonus.Name}</span>
+          <span>{bonus.Name}</span>
             <CheckBox
-              checked={props.bonus.Conquered || false}
-              onClick={() => toggleConquered(props.bonus)}
+              checked={bonus.Conquered || false}
+              onClick={() => toggleConquered(bonus)}
             />
         </div>
       </Card.Header>
       <Card.Body>
         <StatRow name="Cost" value={formatNumber(cost)} />
-        <RewardDetails reward={props.bonus.Reward} />
+        <RewardDetails reward={bonus.Reward} />
       </Card.Body>
     </Card>
   );

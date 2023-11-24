@@ -15,25 +15,23 @@ import CheckBox from "@components/atoms/checkbox";
 import useMultiplier from "@lib/state/hooks/useMultiplier";
 import useZone from "@lib/state/hooks/useZone";
 import useZoneMap from "@lib/state/hooks/useZoneMap";
+import useHospitals from "@lib/state/hooks/assets/useHospitals";
 
 const ZoneHighlight = (props: { zone: ZoneState }) => {
   const zone = useZone(props.zone.Id);
   const toggleConquered = useLevelStore((state) => state.ConquerZone);
-  const allZones = useZoneMap(false);
+  const allZones = useZoneMap(true);
   const setPath = useLevelStore((state) => state.SetActivePath);
-  const hospitalMap = useLevelStore((state) => state.Hospitals);
+  const hospitalMap = useHospitals(true);
   const hospitals = Array.from(hospitalMap.values());
   const { zoomToElement, instance } = useControls();
   if (!zone || allZones == undefined) return <></>;
-  const conqueredHospitals = hospitals.filter((h) =>
-    h.Zone ? allZones.get(h.Zone)?.Conquered : false
-  );
 
   const hospitalMultiplier = useMultiplier(MultiplierType.HospitalEffect);
   const jointStrikeMultiplier = useMultiplier(MultiplierType.JointStrike);
   const cost = totalCostForZone(
     zone,
-    conqueredHospitals,
+    hospitals,
     hospitalMultiplier,
     jointStrikeMultiplier,
     zone.ConnectedZones.filter((z) => allZones.get(z)?.Conquered).length > 1
@@ -66,7 +64,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
                   allZones,
                   hospitalMultiplier,
                   jointStrikeMultiplier,
-                  conqueredHospitals
+                  hospitals
                 )
               )
             }

@@ -8,10 +8,10 @@ const Text = (props: TextProps) => {
     textType == "small"
       ? "sm"
       : textType == "header"
-      ? "lg"
-      : textType == "xsmall"
-      ? "xs"
-      : "md";
+        ? "lg"
+        : textType == "xsmall"
+          ? "xs"
+          : "md";
   const textMode = props.mode ? props.mode : "default";
   const className = twMerge(
     props.className,

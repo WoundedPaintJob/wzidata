@@ -2,7 +2,6 @@ import { produce } from "immer";
 import { StateCreator } from "zustand";
 import { ZoneSlice, ZoneState } from "./types";
 import { LevelState } from "@lib/stores/levelStore/types";
-import { BonusState } from "@features/bonus/lib/types";
 
 export const createZoneSlice: StateCreator<
   LevelState,

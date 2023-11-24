@@ -4,12 +4,6 @@ import { MapPath } from "@features/path/lib/types";
 import { ZoneState } from "@features/zone/lib/types";
 import { PathZone } from "./types";
 
-function getHeuristics(zone1: ZoneState, zone2: ZoneState): number {
-  const dX = Math.abs(zone1.Center.X - zone2.Center.X);
-  const dY = Math.abs(zone1.Center.Y - zone2.Center.Y);
-  return dX + dY;
-}
-
 export function reversePath(
   endZone: ZoneState,
   allZones: Map<number, ZoneState>,
@@ -118,7 +112,7 @@ function evaluateModifyPath(
 ) {
   let keepGoing = true;
   while (keepGoing) {
-    let numberOfZones = path.Zones.length;
+    const numberOfZones = path.Zones.length;
     path = evaluateCaptureNeighbours(
       path,
       allZones,

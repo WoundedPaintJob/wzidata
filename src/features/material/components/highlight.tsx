@@ -8,8 +8,6 @@ import useLevelStore from "@lib/stores/levelStore";
 import { MaterialState } from "../lib/types";
 import Text from "@components/atoms/text";
 import MaterialImage from "./image";
-import useMultiplier from "@lib/state/hooks/useMultiplier";
-import { MultiplierType } from "@lib/services/multiplierService/types";
 import RecipeHighlight from "@features/recipe/components/highlight";
 
 const CacheZones = (props: { zones: Map<ZoneState, number> }) => {

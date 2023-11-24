@@ -1,4 +1,3 @@
-import Text from "../text";
 import { LevelControlProps } from "./types";
 import { ArrowUpIcon, ArrowDownIcon } from "@heroicons/react/20/solid";
 

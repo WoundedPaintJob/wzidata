@@ -37,7 +37,7 @@ const RecipeDetails = (props: { recipe: Recipe }) => {
       <Text size="small" mode="inactive">
         Requires:
       </Text>
-      <MaterialDetails materials={props.recipe.Requires} />
+      <MaterialDetails materials={props.recipe.Requires} multiplier={props.recipe.IsSmelted ? smeltDiscountMultiplier : craftDiscountMultiplier}/>
       <StatRow name="Duration:" value={formatDuration(duration)} />
       <div className="text-sm flex items-baseline">
         <Text className="mr-1" mode="inactive" size="small">

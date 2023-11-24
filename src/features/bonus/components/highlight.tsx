@@ -59,10 +59,10 @@ const BonusHighlight = (props: { bonus: BonusState }) => {
       <Card.Header>
         <div className="flex space-x-2 items-baseline">
           <span>{bonus.Name}</span>
-            <CheckBox
-              checked={bonus.Conquered || false}
-              onClick={() => toggleConquered(bonus)}
-            />
+          <CheckBox
+            checked={bonus.Conquered || false}
+            onClick={() => toggleConquered(bonus)}
+          />
         </div>
       </Card.Header>
       <Card.Body>

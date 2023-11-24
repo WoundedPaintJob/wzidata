@@ -16,9 +16,9 @@ const Advancement = (props: { advancement: AdvancementState }) => {
     props.advancement.ValueMax == 0
       ? 100
       : Math.round(
-          (props.advancement.ValueMax - props.advancement.ValueInitial) /
+        (props.advancement.ValueMax - props.advancement.ValueInitial) /
             props.advancement.ValueIncrease
-        );
+      );
   const totalCost = getCostForAdvancement(props.advancement, maxLevel);
   const totalSpent = getCostForAdvancement(
     props.advancement,
@@ -46,8 +46,8 @@ const Advancement = (props: { advancement: AdvancementState }) => {
                 ? formatPercentage(currentValue)
                 : formatPercentage(0)
               : props.advancement.Level > -1
-              ? formatNumber(currentValue)
-              : formatNumber(0)}
+                ? formatNumber(currentValue)
+                : formatNumber(0)}
             /
             {props.advancement.IsPercentage
               ? formatPercentage(props.advancement.ValueMax)

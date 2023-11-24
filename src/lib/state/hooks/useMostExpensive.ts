@@ -9,8 +9,8 @@ const useMostExpensive = () => {
   const [mostExpensive, setMostExpensive] = useState(
     unconqueredZones.length > 0
       ? unconqueredZones.reduce((prev, current) =>
-          prev.Cost > current.Cost ? prev : current
-        )
+        prev.Cost > current.Cost ? prev : current
+      )
       : null
   );
   const zoneMap = useLevelStore((state) => state.Zones);

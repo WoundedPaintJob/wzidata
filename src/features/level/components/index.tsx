@@ -10,9 +10,9 @@ const Level = (props: { level: LevelInfo }) => {
   const levelTime =
     props.level.Reward && props.level.Reward.MaxTime
       ? intervalToDuration({
-          start: 0,
-          end: props.level.Reward.MaxTime * 24 * 60 * 60 * 1000,
-        })
+        start: 0,
+        end: props.level.Reward.MaxTime * 24 * 60 * 60 * 1000,
+      })
       : null;
   return (
     <Card>

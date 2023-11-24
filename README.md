@@ -35,14 +35,3 @@ State information
 ##### types.ts
 
 Should contain the zod schema for the asset
-
-## Issues
-
-- Map/hardened/ascension bonuses
-- Powers
-- mini view. next hospital, next merc.
-- Show amounts needed in market view
-- Multiplier page
-- make sure path takes In js and run the extra steps more times
-- make sure to calculate required correctly. Doesn't add last zone cost
-- max level for advancement

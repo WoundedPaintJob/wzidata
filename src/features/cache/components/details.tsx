@@ -2,39 +2,21 @@ import StatRow from "@components/atoms/statrow";
 import MaterialDetails from "@features/material/components/details";
 import { RewardCache } from "@features/rewardCache/lib/types";
 import { formatNumber } from "@helpers/numberHelper";
-import { getMultiplier } from "@lib/services/multiplierService";
 import { MultiplierType } from "@lib/services/multiplierService/types";
-import useLevelStore from "@lib/stores/levelStore";
-import usePlayerStore from "@lib/stores/playerStore";
+import useMultiplier from "@lib/state/hooks/useMultiplier";
 
 const CacheDetails = (props: { cache: RewardCache }) => {
   const armyCacheMultiplier =
-    getMultiplier(
-      MultiplierType.CacheArmies,
-      usePlayerStore((state) => state.Advancements),
-      usePlayerStore((state) => state.Artifacts),
-      useLevelStore((state) => state.Techs)
-    ) +
-    getMultiplier(
-      MultiplierType.Cache,
-      usePlayerStore((state) => state.Advancements),
-      usePlayerStore((state) => state.Artifacts),
-      useLevelStore((state) => state.Techs)
-    ) -
+    useMultiplier(MultiplierType.CacheArmies) +
+    useMultiplier(MultiplierType.Cache) -
     1;
   const moneyCacheMultiplier =
-    getMultiplier(
-      MultiplierType.CacheMoney,
-      usePlayerStore((state) => state.Advancements),
-      usePlayerStore((state) => state.Artifacts),
-      useLevelStore((state) => state.Techs)
-    ) +
-    getMultiplier(
-      MultiplierType.Cache,
-      usePlayerStore((state) => state.Advancements),
-      usePlayerStore((state) => state.Artifacts),
-      useLevelStore((state) => state.Techs)
-    ) -
+    useMultiplier(MultiplierType.CacheMoney) +
+    useMultiplier(MultiplierType.Cache) -
+    1;
+  const resourceCacheMultiplier =
+    useMultiplier(MultiplierType.CacheResources) +
+    useMultiplier(MultiplierType.Cache) -
     1;
   return (
     <>
@@ -50,7 +32,10 @@ const CacheDetails = (props: { cache: RewardCache }) => {
           value={formatNumber(props.cache.Armies * armyCacheMultiplier)}
         />
       )}
-      <MaterialDetails materials={props.cache.Materials} />
+      <MaterialDetails
+        materials={props.cache.Materials}
+        multiplier={resourceCacheMultiplier}
+      />
     </>
   );
 };

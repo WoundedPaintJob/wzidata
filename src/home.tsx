@@ -51,7 +51,7 @@ const Home = () => {
   }, []);
   if (zoneLength == 0) return <>Loading</>;
   return (
-    <div className="container mx-auto sm:px-4 lg:px-6">
+    <div className="xl:container mx-auto lg:px-4">
       <div>
         <Notifications />
         <Section>

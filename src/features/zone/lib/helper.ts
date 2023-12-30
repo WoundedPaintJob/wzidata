@@ -10,7 +10,10 @@ export function getZoneColor(
   partOfPath: boolean
 ): string {
   const drawBonusZones = settings.get(RenderOptionType.BonusZones);
-  if (zone.IsActive) return "#39FF14";
+  if (zone.IsActive) {
+    if(zone.Conquered) return "#1D800A";
+    return "#39FF14";
+  }
   if (settings.get(RenderOptionType.Conquered) && zone.Conquered) {
     if (zone.IsNextToActive) return "#DFC940";
     return "#FFA500";

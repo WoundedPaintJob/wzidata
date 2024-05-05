@@ -15,6 +15,7 @@ import useZoneMap from "@lib/state/hooks/useZoneMap";
 import useHospitals from "@lib/state/hooks/assets/useHospitals";
 import useBonusMap from "@lib/state/hooks/useBonusMap";
 import useMostExpensive from "@lib/state/hooks/useMostExpensive";
+import { ConquerState } from "@lib/state/hooks/assets/enums";
 const MapComponent = () => {
   const settings = useLevelStore((state) => state.RenderOptions);
   const activePath = useLevelStore((state) => state.ActivePath);
@@ -32,7 +33,7 @@ const MapComponent = () => {
       zoomToElement("path", instance.transformState.scale);
     }
   }, [activePath]);
-  const conqueredHospitals = useHospitals(true);
+  const conqueredHospitals = useHospitals(ConquerState.OnlyConquered);
   const hospitalMultiplier = useMultiplier(MultiplierType.HospitalEffect);
   const mostExpensive = useMostExpensive();
   if (zoneMap == null) return <></>;

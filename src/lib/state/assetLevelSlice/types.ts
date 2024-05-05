@@ -22,9 +22,9 @@ export interface AssetProps {
   Hospitals: Map<number, HospitalState>;
   Markets: Map<number, MarketState>;
   MercenaryCamps: Map<string, MercenaryCampState>;
-  Mines: Map<number, MineState>;
+  Crafters: Map<number, MineState>;
   Mortars: MortarState[];
-  Smelters: Map<number, SmelterState>;
+  Crafters: Map<number, SmelterState>;
   Recipes: Map<MaterialType, RecipeState>;
   SuperCamp: SuperCampState;
 }

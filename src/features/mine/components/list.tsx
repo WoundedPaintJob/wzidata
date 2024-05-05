@@ -6,7 +6,7 @@ import usePlayerStore from "@lib/stores/playerStore";
 import { MultiplierType } from "@lib/services/multiplierService/types";
 
 const MineList = () => {
-  const mines = Array.from(useLevelStore((state) => state.Mines));
+  const mines = Array.from(useLevelStore((state) => state.Crafters));
   const advancements = usePlayerStore((state) => state.Advancements);
   const artifacts = usePlayerStore((state) => state.Artifacts);
   const techs = useLevelStore((state) => state.Techs);

@@ -1,6 +1,7 @@
 import useLevelStore from "@lib/stores/levelStore";
+import { ConquerState } from "./enums";
 
-const useMarkets = (onlyConquered: boolean) => {
+const useMarkets = (state: ConquerState) => {
   const marketMap = useLevelStore(
     (state) => state.Markets,
     (a, b) => {
@@ -44,14 +45,16 @@ const useMarkets = (onlyConquered: boolean) => {
     if (h.Zone) {
       const zone = zoneMap.get(h.Zone);
       if (zone) {
-        if (onlyConquered) return zone.Conquered;
+        if (state == ConquerState.OnlyConquered) return zone.Conquered;
+        if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
         return true;
       }
     }
     if (h.Bonus) {
       const bonus = bonusMap.get(h.Bonus);
       if (bonus) {
-        if (onlyConquered) return bonus.Conquered;
+        if (state == ConquerState.OnlyConquered) return bonus.Conquered;
+        if (state == ConquerState.OnlyUnConquered) return !bonus.Conquered;
         return true;
       }
     }

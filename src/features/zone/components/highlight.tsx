@@ -16,13 +16,14 @@ import useMultiplier from "@lib/state/hooks/useMultiplier";
 import useZone from "@lib/state/hooks/useZone";
 import useZoneMap from "@lib/state/hooks/useZoneMap";
 import useHospitals from "@lib/state/hooks/assets/useHospitals";
+import { ConquerState } from "@lib/state/hooks/assets/enums";
 
 const ZoneHighlight = (props: { zone: ZoneState }) => {
   const zone = useZone(props.zone.Id);
   const toggleConquered = useLevelStore((state) => state.ConquerZone);
   const allZones = useZoneMap(true);
   const setPath = useLevelStore((state) => state.SetActivePath);
-  const hospitalMap = useHospitals(true);
+  const hospitalMap = useHospitals(ConquerState.OnlyConquered);
   const hospitals = Array.from(hospitalMap.values());
   const { zoomToElement, instance } = useControls();
   if (!zone || allZones == undefined) return <></>;

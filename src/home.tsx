@@ -15,6 +15,7 @@ import { AdvancementType } from "@features/advancement/lib/enums";
 import { getAdvancementValue } from "@features/advancement/lib/util";
 import Manual from "@features/manual/components";
 import { TransformWrapper } from "react-zoom-pan-pinch";
+import MiniView from "@features/map/components/mini";
 const Home = () => {
   enableMapSet();
   const name = useLevelStore((state) => state.Name);
@@ -74,6 +75,7 @@ const Home = () => {
             <div className="grid grid-cols-1 lg:grid-cols-8">
               <div className="col-span-1 lg:col-span-2">
                 <Highlights />
+                <MiniView />
                 <div className="hidden lg:block">
                   <MapFilter />
                 </div>
@@ -89,6 +91,7 @@ const Home = () => {
                 <MapComponent />
               </div>
               <div className="grid grid-cols-2">
+                <MiniView />
                 <MapFilter />
                 <Highlights />
               </div>
@@ -96,6 +99,7 @@ const Home = () => {
           )}
         </TransformWrapper>
         <div className="lg:hidden">
+          <MiniView />
           <MapFilter />
         </div>
         <Manual />

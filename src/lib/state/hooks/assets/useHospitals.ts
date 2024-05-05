@@ -1,7 +1,8 @@
 import useLevelStore from "@lib/stores/levelStore";
 import { useEffect, useState } from "react";
+import { ConquerState } from "./enums";
 
-const useHospitals = (onlyConquered: boolean) => {
+const useHospitals = (state: ConquerState) => {
   const hospitalMap = useLevelStore(
     (state) => state.Hospitals,
     (a, b) => {
@@ -36,7 +37,8 @@ const useHospitals = (onlyConquered: boolean) => {
     if (h.Zone) {
       const zone = zoneMap.get(h.Zone);
       if (zone) {
-        if (onlyConquered) return zone.Conquered;
+        if (state == ConquerState.OnlyConquered) return zone.Conquered;
+        if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
         return true;
       }
       return false;
@@ -48,7 +50,8 @@ const useHospitals = (onlyConquered: boolean) => {
       if (h.Zone) {
         const zone = zoneMap.get(h.Zone);
         if (zone) {
-          if (onlyConquered) return zone.Conquered;
+          if (state == ConquerState.OnlyConquered) return zone.Conquered;
+          if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
           return true;
         }
         return false;

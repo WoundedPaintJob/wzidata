@@ -11,6 +11,7 @@ import { twMerge } from "tailwind-merge";
 import { TechDisplayMode } from "@features/overview/lib/types";
 import useMarkets from "@lib/state/hooks/assets/useMarkets";
 import Button from "@components/atoms/button";
+import { ConquerState } from "@lib/state/hooks/assets/enums";
 const TechList = () => {
   const techs = useLevelStore((state) => state.Techs);
   const techDiscountMultiplier = useMultiplier(MultiplierType.TechDiscount);
@@ -28,8 +29,8 @@ const TechList = () => {
   );
   const smelterSpeedMultiplier = useMultiplier(MultiplierType.SmelterSpeed);
   const techDisplayMode = useLevelStore((state) => state.TechDisplay);
-  const markets = useMarkets(false);
-  const conqueredMarkets = useMarkets(true);
+  const markets = useMarkets(ConquerState.All);
+  const conqueredMarkets = useMarkets(ConquerState.OnlyConquered);
   const knownMaterials = useLevelStore().Materials;
   const recipes = useLevelStore().Recipes;
   if (techs.length == 0) return <div>No Techs</div>;

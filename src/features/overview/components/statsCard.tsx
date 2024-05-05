@@ -4,6 +4,7 @@ import { getTotalArmyCampProduction } from "@features/armyCamp/lib/helper";
 import { calculateMoneyCache } from "@features/cache/lib/helper";
 import { formatNumber } from "@helpers/numberHelper";
 import { MultiplierType } from "@lib/services/multiplierService/types";
+import { ConquerState } from "@lib/state/hooks/assets/enums";
 import useArmyCamps from "@lib/state/hooks/assets/useArmyCamps";
 import useBonusMap from "@lib/state/hooks/useBonusMap";
 import useMultiplier from "@lib/state/hooks/useMultiplier";
@@ -11,7 +12,7 @@ import useZoneMap from "@lib/state/hooks/useZoneMap";
 import useLevelStore from "@lib/stores/levelStore";
 
 const StatsCard = () => {
-  const armyCampMap = useArmyCamps(true);
+  const armyCampMap = useArmyCamps(ConquerState.OnlyConquered);
   const zoneMap = useZoneMap(true);
   const bonusMap = useBonusMap(true);
   const armyCamps = Array.from(armyCampMap.values());

@@ -8,10 +8,11 @@ import { MultiplierType } from "@lib/services/multiplierService/types";
 import SuperCamp from "./superCamp";
 import useArmyCamps from "@lib/state/hooks/assets/useArmyCamps";
 import useMultiplier from "@lib/state/hooks/useMultiplier";
+import { ConquerState } from "@lib/state/hooks/assets/enums";
 
 const ArmyCampList = () => {
-  const armyCamps = Array.from(useArmyCamps(false).values());
-  const conqueredArmyCamps = Array.from(useArmyCamps(true).values());
+  const armyCamps = Array.from(useArmyCamps(ConquerState.All).values());
+  const conqueredArmyCamps = Array.from(useArmyCamps(ConquerState.OnlyConquered).values());
   const productionMultiplier = useMultiplier(MultiplierType.ArmyCampProduction);
   const costMultiplier = useMultiplier(MultiplierType.ArmyCampCost);
   const revision = useLevelStore((state) => state.LevelRevision) || 0;

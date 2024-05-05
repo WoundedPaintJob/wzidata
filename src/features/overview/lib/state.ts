@@ -126,7 +126,7 @@ export const createOverviewSlice: StateCreator<
   SuperChargeMine: (mine: MineState) =>
     set(
       produce((state: LevelState) => {
-        const mn = state.Mines.get(mine.Index);
+        const mn = state.Crafters.get(mine.Index);
         if (mn) mn.SuperCharged = !mn.SuperCharged;
       })
     ),

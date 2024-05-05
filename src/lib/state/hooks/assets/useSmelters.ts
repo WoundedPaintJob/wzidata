@@ -1,19 +1,12 @@
 import useLevelStore from "@lib/stores/levelStore";
 import { ConquerState } from "./enums";
 
-const useArmyCamps = (state: ConquerState) => {
-  const armyCampMap = useLevelStore(
-    (state) => state.ArmyCamps,
+const useSmelters = (state: ConquerState) => {
+  const smelterMap = useLevelStore(
+    (state) => state.Crafters,
     (a, b) => {
       if (a.size != b.size) return false;
-      let allEqual = true;
-      a.forEach((h) => {
-        const bCamp = b.get(h.Index);
-        if (!bCamp) allEqual = false;
-        else if (bCamp.Level != h.Level) allEqual = false;
-        else if (bCamp.SuperCharged != h.SuperCharged) allEqual = false;
-      });
-      return allEqual;
+      return true;
     }
   );
   const zoneMap = useLevelStore(
@@ -21,10 +14,10 @@ const useArmyCamps = (state: ConquerState) => {
     (a, b) => {
       if (a.size != b.size) return false;
       let allEqual = true;
-      armyCampMap.forEach((camp) => {
-        if (camp.Zone) {
-          const aZone = a.get(camp.Zone);
-          const bZone = b.get(camp.Zone);
+      smelterMap.forEach((smelter) => {
+        if (smelter.Zone) {
+          const aZone = a.get(smelter.Zone);
+          const bZone = b.get(smelter.Zone);
           if (aZone && bZone && aZone.Conquered != bZone.Conquered)
             allEqual = false;
         }
@@ -37,10 +30,10 @@ const useArmyCamps = (state: ConquerState) => {
     (a, b) => {
       if (a.size != b.size) return false;
       let allEqual = true;
-      armyCampMap.forEach((camp) => {
-        if (camp.Bonus) {
-          const aBonus = a.get(camp.Bonus);
-          const bBonus = b.get(camp.Bonus);
+      smelterMap.forEach((smelter) => {
+        if (smelter.Bonus) {
+          const aBonus = a.get(smelter.Bonus);
+          const bBonus = b.get(smelter.Bonus);
           if (aBonus && bBonus && aBonus.Conquered != bBonus.Conquered)
             allEqual = false;
         }
@@ -48,7 +41,7 @@ const useArmyCamps = (state: ConquerState) => {
       return allEqual;
     }
   );
-  const armyCamps = Array.from(armyCampMap.values()).filter((h) => {
+  const smelters = Array.from(smelterMap.values()).filter((h) => {
     if (h.Zone) {
       const zone = zoneMap.get(h.Zone);
       if (zone) {
@@ -66,7 +59,7 @@ const useArmyCamps = (state: ConquerState) => {
       }
     }
     return false;
-  });
-  return armyCamps;
+  }).sort((a, b) => a.Index - b.Index);
+  return smelters;
 };
-export default useArmyCamps;
+export default useSmelters;

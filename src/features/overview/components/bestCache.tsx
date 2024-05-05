@@ -124,7 +124,7 @@ const BestCache = (props: BestCacheProps) => {
       <StatRow
         name={`${formatName(bonus.Name)} (B)`}
         value={formatNumber(
-          props.rewardProperty(bonus.Reward) * props.cacheMultiplier
+          props.rewardProperty(bonus.Reward)
         )}
         percentage={formatNumber(bestCacheBonusCost)}
         onClick={() => setActiveBonus(bonus)}
@@ -137,7 +137,7 @@ const BestCache = (props: BestCacheProps) => {
       <StatRow
         name={`${formatName(zone.Name)}`}
         value={formatNumber(
-          props.rewardProperty(zone.Reward) * props.cacheMultiplier
+          props.rewardProperty(zone.Reward)
         )}
         percentage={formatNumber(bestCacheZoneCost)}
         onClick={() => setActiveZone(zone)}

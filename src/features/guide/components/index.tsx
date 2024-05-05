@@ -6,6 +6,7 @@ import { ConquerZoneInstructionState } from "../lib/instructions/conquerZone";
 import { ConquerBonusInstructionState } from "../lib/instructions/conquerBonus";
 import Item from "./item";
 import Card from "@components/atoms/card";
+import Text from "@components/atoms/text"
 import { useState } from "react";
 import { TextInstructionState } from "../lib/instructions/text";
 import { instructionArraySchema } from "../lib/instructions/instruction";
@@ -13,7 +14,6 @@ import { instructionArraySchema } from "../lib/instructions/instruction";
 const Guide = () => {
   const activeZone = useLevelStore((state) => state.ActiveZone);
   const activeBonus = useLevelStore((state) => state.ActiveBonus);
-  const activePath = useLevelStore((state) => state.ActivePath);
   const instructions = useLevelStore((state) => state.Instructions);
   const addInstruction = useLevelStore((state) => state.AddInstruction);
   const activeInstruction = useLevelStore((state) => state.ActiveInstruction);
@@ -24,28 +24,19 @@ const Guide = () => {
     let maxId = 0;
     if (instructions.size > 0)
       maxId = Math.max(...instructions.keys());
-    if (activePath) {
+    if (activeZone) {
       const newItem: ConquerZoneInstructionState = {
         Id: maxId + 1,
-        Description: `Path to ${activePath.Zones[activePath.Zones.length - 1].Name}`,
+        Description: `Conquer ${activeZone.Name}`,
         Type: InstructionType.ConquerZone,
         Done: false,
-        ZoneIds: activePath.Zones.map((z) => z.Id),
-      };
-      addInstruction(newItem);
-    } else if (activeZone) {
-      const newItem: ConquerZoneInstructionState = {
-        Id: maxId + 1,
-        Description: `Conquer Zone ${activeZone.Name}`,
-        Type: InstructionType.ConquerZone,
-        Done: false,
-        ZoneIds: [activeZone.Id],
+        ZoneId: activeZone.Id,
       };
       addInstruction(newItem);
     } else if (activeBonus) {
       const newItem: ConquerBonusInstructionState = {
         Id: maxId + 1,
-        Description: `Conquer Bonus ${activeBonus.Name}`,
+        Description: `Conquer ${activeBonus.Name}`,
         Type: InstructionType.ConquerBonus,
         Done: false,
         BonusId: activeBonus.Id
@@ -70,6 +61,7 @@ const Guide = () => {
   const textAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     try {
       const newInstructions = instructionArraySchema.safeParse(JSON.parse(e.target.value));
+      console.log("new");
       if (newInstructions.success)
         setInstructions(newInstructions.data);
       else {
@@ -83,13 +75,29 @@ const Guide = () => {
     <Section>
       <Section.CardList>
         <Card>
-          {instructionArr.map((item) => <Item item={item} key={item.Id} isActive={item.Id == activeInstruction?.Id} />)}
+          {instructionArr.map((item) => (
+            <Item
+              item={item}
+              key={item.Id}
+              isActive={item.Id == activeInstruction?.Id}
+            />
+          ))}
         </Card>
         <Card>
-          <textarea value={instructions ? JSON.stringify(instructionArr) : ''} onChange={textAreaChange} className="bg-background w-full" />
+          <Text>Create guide</Text>
+          <textarea
+            value={instructions ? JSON.stringify(instructionArr) : ""}
+            onChange={textAreaChange}
+            className="bg-background w-full h-72"
+          />
           <div className="flex mt-12 space-x-1">
             <Button onClick={() => addCurrent()}>Add current</Button>
-            <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
+            <input
+              type="text"
+              value={message}
+              className="bg-background"
+              onChange={(e) => setMessage(e.target.value)}
+            />
             <Button onClick={() => addText()}>Add Text</Button>
           </div>
         </Card>

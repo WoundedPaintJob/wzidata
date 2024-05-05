@@ -9,9 +9,15 @@ import { MaterialState } from "../lib/types";
 import Text from "@components/atoms/text";
 import MaterialImage from "./image";
 import RecipeHighlight from "@features/recipe/components/highlight";
+import useMultiplier from "@lib/state/hooks/useMultiplier";
+import { MultiplierType } from "@lib/services/multiplierService/types";
 
 const CacheZones = (props: { zones: Map<ZoneState, number> }) => {
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
+  const resourceCacheMultiplier =
+    useMultiplier(MultiplierType.CacheResources) +
+    useMultiplier(MultiplierType.Cache) -
+    1;
   const allZones = useLevelStore((state) => state.Zones);
   const cacheZones = Array.from(props.zones.keys());
   return (
@@ -25,7 +31,7 @@ const CacheZones = (props: { zones: Map<ZoneState, number> }) => {
           <StatRow
             key={z.Id}
             name={z.Name}
-            value={formatNumber(zoneAmount)}
+            value={formatNumber(zoneAmount * resourceCacheMultiplier)}
             percentage={stateZone.Conquered ? "Conquered" : ""}
             onClick={() => setActiveZone(z)}
           />
@@ -36,6 +42,10 @@ const CacheZones = (props: { zones: Map<ZoneState, number> }) => {
 };
 const MineZones = (props: { zones: Map<ZoneState, number> }) => {
   const setActiveZone = useLevelStore((state) => state.SetActiveZone);
+  const resourceCacheMultiplier =
+    useMultiplier(MultiplierType.CacheResources) +
+    useMultiplier(MultiplierType.Cache) -
+    1;
   const allZones = useLevelStore((state) => state.Zones);
   const mineZones = Array.from(props.zones.keys());
   return (
@@ -49,7 +59,7 @@ const MineZones = (props: { zones: Map<ZoneState, number> }) => {
           <StatRow
             key={z.Id}
             name={z.Name}
-            value={formatNumber(zoneAmount)}
+            value={formatNumber(zoneAmount * resourceCacheMultiplier)}
             percentage={stateZone.Conquered ? "Conquered" : ""}
             onClick={() => setActiveZone(z)}
           />
@@ -60,6 +70,10 @@ const MineZones = (props: { zones: Map<ZoneState, number> }) => {
 };
 const CacheBonuses = (props: { bonuses: Map<BonusState, number> }) => {
   const setActiveBonus = useLevelStore((state) => state.SetActiveBonus);
+  const resourceCacheMultiplier =
+    useMultiplier(MultiplierType.CacheResources) +
+    useMultiplier(MultiplierType.Cache) -
+    1;
   const allBonuses = useLevelStore((state) => state.Bonuses);
   const cacheBonuses = Array.from(props.bonuses.keys());
   return (
@@ -74,7 +88,7 @@ const CacheBonuses = (props: { bonuses: Map<BonusState, number> }) => {
           <StatRow
             key={b.Id}
             name={b.Name}
-            value={formatNumber(bonusAmount)}
+            value={formatNumber(bonusAmount * resourceCacheMultiplier)}
             percentage={stateBonus.Conquered ? "Conquered" : ""}
             onClick={() => setActiveBonus(b)}
           />

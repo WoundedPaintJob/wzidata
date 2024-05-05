@@ -22,7 +22,23 @@ export const createGuideSlice: StateCreator<
       produce((state: LevelState) => {
         const stateInstruction = state.Instructions.get(instruction.Id);
         if (!stateInstruction) return;
-        stateInstruction.Done != stateInstruction.Done;
+        stateInstruction.Done = !instruction.Done;
+        if (instruction.Type == InstructionType.ConquerBonus) {
+          const bonusInstruction = instruction as ConquerBonusInstructionState;
+          const stateBonus = state.Bonuses.get(bonusInstruction.BonusId);
+          if (stateBonus) {
+            stateBonus?.ZoneIds.forEach((zoneId) => {
+              const stateZone = state.Zones.get(zoneId);
+              if (stateZone) stateZone.Conquered = stateInstruction.Done;
+            });
+          }
+        } else if (instruction.Type == InstructionType.ConquerZone) {
+          const zoneInstruction = instruction as ConquerZoneInstructionState;
+          const stateZone = state.Zones.get(zoneInstruction.ZoneId);
+          if (stateZone) {
+            stateZone.Conquered = stateInstruction.Done;
+          }
+        }
       })
     ),
   AddInstruction: (instruction) =>
@@ -58,41 +74,23 @@ export const createGuideSlice: StateCreator<
           }
         } else if (instruction.Type == InstructionType.ConquerZone) {
           const zoneInstruction = instruction as ConquerZoneInstructionState;
-          if (zoneInstruction.ZoneIds) {
-            if (zoneInstruction.ZoneIds.length == 1) {
-              const newZone = state.Zones.get(zoneInstruction.ZoneIds[0]);
-              if (newZone) {
-                state.Zones.forEach((z) => {
-                  if (z.Id != newZone.Id && z.IsActive) {
-                    z.IsActive = false;
-                  }
-                  if (newZone.ConnectedZones.includes(z.Id)) {
-                    z.IsNextToActive = true;
-                  } else if (z.IsNextToActive) z.IsNextToActive = false;
-                });
-                newZone.IsActive = true;
-                state.ActiveZone = newZone;
-              }
-            }
-            else {
+          if (zoneInstruction.ZoneId) {
+            const newZone = state.Zones.get(zoneInstruction.ZoneId);
+            if (newZone) {
               state.Zones.forEach((z) => {
-                if (z.IsActive) z.IsActive = false;
-                if (z.IsNextToActive) z.IsNextToActive = false;
+                if (z.Id != newZone.Id && z.IsActive) {
+                  z.IsActive = false;
+                  if (z.IsNextToActive) z.IsNextToActive = false;
+                }
+                if (newZone.ConnectedZones.includes(z.Id)) {
+                  z.IsNextToActive = true;
+                } else if (z.IsNextToActive) z.IsNextToActive = false;
               });
-              const zones: ZoneState[] = [];
-              zoneInstruction.ZoneIds.forEach((z) => {
-                const stateZone = state.Zones.get(z);
-                if (stateZone) zones.push(stateZone);
-              });
-              state.ActivePath = {
-                Zones: zones,
-                TotalCost: 0,
-                ArmiesRequired: 0
-              };
+              newZone.IsActive = true;
+              state.ActiveZone = newZone;
             }
           }
         } else if (instruction.Type == InstructionType.Text) {
-
           const instr = instruction as TextInstructionState;
           if (instr.ZoneId) {
             const newZone = state.Zones.get(instr.ZoneId);
@@ -129,7 +127,10 @@ export const createGuideSlice: StateCreator<
       produce((state: LevelState) => {
         state.ActiveInstruction = undefined;
         state.Instructions.clear();
-        instructions.forEach((i) => state.Instructions.set(i.Id, i));
+        instructions.forEach((i) => {
+          i.Done = false;
+          state.Instructions.set(i.Id, i);
+        });
       })
-    )
-})
+    ),
+});

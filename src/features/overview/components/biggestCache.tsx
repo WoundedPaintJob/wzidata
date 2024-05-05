@@ -41,7 +41,7 @@ const BiggestCache = (props: BiggestCacheProps) => {
       <StatRow
         name={`${bonus.Name} (B)`}
         value={formatNumber(
-          props.rewardProperty(bonus.Reward) * props.cacheMultiplier
+          props.rewardProperty(bonus.Reward)
         )}
         onClick={() => setActiveBonus(bonus)}
       />
@@ -52,7 +52,7 @@ const BiggestCache = (props: BiggestCacheProps) => {
       <StatRow
         name={`${zone.Name}`}
         value={formatNumber(
-          props.rewardProperty(zone.Reward) * props.cacheMultiplier
+          props.rewardProperty(zone.Reward)
         )}
         onClick={() => setActiveZone(zone)}
       />
@@ -63,7 +63,7 @@ const BiggestCache = (props: BiggestCacheProps) => {
       <StatRow
         name={`${bonus.Name} (B)`}
         value={formatNumber(
-          props.rewardProperty(bonus.Reward) * props.cacheMultiplier
+          props.rewardProperty(bonus.Reward)
         )}
         onClick={() => setActiveBonus(bonus)}
       />

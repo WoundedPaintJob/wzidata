@@ -35,3 +35,6 @@ State information
 ##### types.ts
 
 Should contain the zod schema for the asset
+
+
+EVALUATOR TAR INTE MED CACHE MULTI

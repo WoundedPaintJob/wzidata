@@ -11,6 +11,7 @@ import CacheDetails from "@features/cache/components/details";
 import ArenaDetails from "@features/arena/components/details";
 import ArmyCampDetails from "@features/armyCamp/components/details";
 import MercenaryCampDetails from "@features/mercenaryCamp/components/details";
+import PowerDetails from "@features/power/components/details";
 
 const RewardDetails = (props: { reward: Reward }) => {
   const armyCamps = useLevelStore((state) => state.ArmyCamps);
@@ -49,6 +50,7 @@ const RewardDetails = (props: { reward: Reward }) => {
         />
       )}
       {props.reward.Recipe && <RecipeDetails recipe={props.reward.Recipe} />}
+      {props.reward.Power && <PowerDetails power={props.reward.Power} />}
     </>
   );
 };

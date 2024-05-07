@@ -35,9 +35,9 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
       Hospitals: new Map<number, HospitalState>(),
       Markets: new Map<number, MarketState>(),
       MercenaryCamps: new Map<string, MercenaryCampState>(),
-      Crafters: new Map<number, MineState>(),
+      Mines: new Map<number, MineState>(),
       Mortars: [],
-      Crafters: new Map<number, SmelterState>(),
+      Smelters: new Map<number, SmelterState>(),
       Recipes: new Map<MaterialType, RecipeState>(),
       Techs: [],
       Id: level.Id,
@@ -175,7 +175,7 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
     });
     data.Mines.forEach((mine) => {
       const newMine = mine as MineState;
-      result.Crafters.set(newMine.Index, newMine);
+      result.Mines.set(newMine.Index, newMine);
     });
     data.Mortars.forEach((mortar) => {
       const newMortar = mortar as MortarState;
@@ -183,7 +183,7 @@ export async function loadLevel(level: LevelInfo): Promise<LevelProps> {
     })
     data.Smelters.forEach((smelter) => {
       const newSmelter = smelter as SmelterState;
-      result.Crafters.set(newSmelter.Index, newSmelter);
+      result.Smelters.set(newSmelter.Index, newSmelter);
     });
     data.Techs.forEach((tech) => {
       const newTech = tech as TechState;

@@ -35,7 +35,7 @@ export const createAssetLevelSlice: StateCreator<
             const hospital = state.Hospitals.get(asset.Index);
             if (hospital) hospital.Level += 1;
           } else if (asset.Type == AssetType.Mine) {
-            const mine = state.Crafters.get(asset.Index);
+            const mine = state.Mines.get(asset.Index);
             if (mine) mine.Level += 1;
           } else throw "Asset Level Not Implemented";
         }
@@ -55,7 +55,7 @@ export const createAssetLevelSlice: StateCreator<
             const hospital = state.Hospitals.get(asset.Index);
             if (hospital) hospital.Level -= 1;
           } else if (asset.Type == AssetType.Mine) {
-            const mine = state.Crafters.get(asset.Index);
+            const mine = state.Mines.get(asset.Index);
             if (mine) mine.Level -= 1;
           } else throw "Asset Level Not Implemented";
         }
@@ -88,10 +88,10 @@ export const createAssetLevelSlice: StateCreator<
   Hospitals: new Map<number, HospitalState>(),
   Markets: new Map<number, MarketState>(),
   MercenaryCamps: new Map<string, MercenaryCampState>(),
-  Crafters: new Map<number, MineState>(),
+  Mines: new Map<number, MineState>(),
   Mortars: [],
   Recipes: new Map<MaterialType, RecipeState>(),
-  Crafters: new Map<number, SmelterState>(),
+  Smelters: new Map<number, SmelterState>(),
   SuperCamp: {
     Index: 0,
     Level: 0,

@@ -38,10 +38,10 @@ export const createPersistSlice: StateCreator<
         state.Hospitals = data.Hospitals;
         state.Markets = data.Markets;
         state.MercenaryCamps = data.MercenaryCamps;
-        state.Crafters = data.Crafters;
+        state.Mines = data.Mines;
         state.Mortars = data.Mortars;
         state.ArmyCamps.forEach((ac) => (ac.SuperCharged = false));
-        state.Crafters.forEach((mn) => (mn.SuperCharged = false));
+        state.Mines.forEach((mn) => (mn.SuperCharged = false));
         for (let i = 0; i <= freeTechs; i++) {
           const te = data.Techs.flat().find((t) => t.Id == i);
           if (te) te.Bought = true;
@@ -101,14 +101,14 @@ export const createPersistSlice: StateCreator<
           if (dataArmyCamp) dataArmyCamp.Level = ac;
         });
         state.MineLevels.forEach((ac, index) => {
-          const dataMine = data.Crafters.get(index + 1);
+          const dataMine = data.Mines.get(index + 1);
           if (dataMine) dataMine.Level = ac;
         });
         state.StoredRenderOptions.forEach((ro) => {
           state.RenderOptions.set(ro, true);
         });
         state.ArmyCamps.forEach((ac) => (ac.SuperCharged = false));
-        state.Crafters.forEach((mn) => (mn.SuperCharged = false));
+        state.Mines.forEach((mn) => (mn.SuperCharged = false));
         state.Id = data.Id;
         state.Name = data.Name;
         state.LevelRevision = data.LevelRevision;
@@ -123,6 +123,7 @@ export const createPersistSlice: StateCreator<
         state.Markets = data.Markets;
         state.MercenaryCamps = data.MercenaryCamps;
         state.Crafters = data.Crafters;
+        state.Smelters = data.Smelters;
         state.Mortars = data.Mortars;
         state.Techs = data.Techs;
         state.Materials = data.Materials;

@@ -3,7 +3,7 @@ import { ConquerState } from "./enums";
 
 const useSmelters = (state: ConquerState) => {
   const smelterMap = useLevelStore(
-    (state) => state.Crafters,
+    (state) => state.Smelters,
     (a, b) => {
       if (a.size != b.size) return false;
       return true;

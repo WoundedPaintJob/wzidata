@@ -58,7 +58,7 @@ const useLevelStore = createWithEqualityFn<LevelState>()(
                   ArmyCampLevels: Array.from(newValue.state.ArmyCamps.values())
                     .sort((a, b) => a.Index - b.Index)
                     .map((h) => h.Level),
-                  MineLevels: Array.from(newValue.state.Crafters.values())
+                  MineLevels: Array.from(newValue.state.Mines.values())
                     .sort((a, b) => a.Index - b.Index)
                     .map((h) => h.Level),
                   OwnedTechs: Array.from(newValue.state.Techs.values())

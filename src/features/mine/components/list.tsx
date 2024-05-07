@@ -4,9 +4,11 @@ import Mine from ".";
 import { getMultiplier } from "@lib/services/multiplierService";
 import usePlayerStore from "@lib/stores/playerStore";
 import { MultiplierType } from "@lib/services/multiplierService/types";
+import useMines from "@lib/state/hooks/assets/useMines";
+import { ConquerState } from "@lib/state/hooks/assets/enums";
 
 const MineList = () => {
-  const mines = Array.from(useLevelStore((state) => state.Crafters));
+  const mines = useMines(ConquerState.All);
   const advancements = usePlayerStore((state) => state.Advancements);
   const artifacts = usePlayerStore((state) => state.Artifacts);
   const techs = useLevelStore((state) => state.Techs);
@@ -35,8 +37,8 @@ const MineList = () => {
           {mines.map((mc) => {
             return (
               <Mine
-                key={mc[0]}
-                mine={mc[1]}
+                key={mc.Index}
+                mine={mc}
                 productionMultiplier={productionMultiplier}
                 costMultiplier={costMultiplier}
               />

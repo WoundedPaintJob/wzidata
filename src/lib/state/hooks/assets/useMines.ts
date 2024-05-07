@@ -3,7 +3,7 @@ import { ConquerState } from "./enums";
 
 const useMines = (state: ConquerState) => {
   const mineMap = useLevelStore(
-    (state) => state.Crafters,
+    (state) => state.Mines,
     (a, b) => {
       if (a.size != b.size) return false;
       return true;

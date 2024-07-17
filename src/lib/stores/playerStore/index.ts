@@ -28,6 +28,7 @@ const usePlayerStore = create<PlayerState>()(
           Reward: {
             Type: LevelRewardType.OreProduction,
             Description: "",
+            AP: 0
           },
         },
         Advancements: advancementData as AdvancementState[],
@@ -98,27 +99,28 @@ const usePlayerStore = create<PlayerState>()(
             const str = localStorage.getItem(name);
             const baseState = str
               ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-              (JSON.parse(str).state as PlayerState)
+                (JSON.parse(str).state as PlayerState)
               : ({
-                Levels: [],
-                Level: {
-                  Name: "Huruey's Castle",
-                  Id: -1,
-                  ImageWidth: 100,
-                  ImageHeight: 100,
-                  HaveData: false,
-                  IsHardened: false,
-                  Reward: {
-                    Type: LevelRewardType.OreProduction,
-                    Description: "",
+                  Levels: [],
+                  Level: {
+                    Name: "Huruey's Castle",
+                    Id: -1,
+                    ImageWidth: 100,
+                    ImageHeight: 100,
+                    HaveData: false,
+                    IsHardened: false,
+                    Reward: {
+                      Type: LevelRewardType.OreProduction,
+                      Description: "",
+                      AP: 1,
+                    },
                   },
-                },
-                Advancements: [],
-                AdvancementLevels: [],
-                Artifacts: [],
-                ArtifactsOwned: [],
-                ArtifactRarity: [],
-              } as Partial<PlayerState>);
+                  Advancements: [],
+                  AdvancementLevels: [],
+                  Artifacts: [],
+                  ArtifactsOwned: [],
+                  ArtifactRarity: [],
+                } as Partial<PlayerState>);
             baseState.Levels = levelData as LevelInfo[];
             baseState.Advancements = advancementData as AdvancementState[];
             baseState.Artifacts = artifactData as ArtifactState[];

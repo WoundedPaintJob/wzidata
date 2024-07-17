@@ -1,65 +1,56 @@
 import useLevelStore from "@lib/stores/levelStore";
 import { ConquerState } from "./enums";
+import useZoneMap from "../useZoneMap";
+import useBonusMap from "../useBonusMap";
 
 const useCrafters = (state: ConquerState) => {
   const crafterMap = useLevelStore(
     (state) => state.Crafters,
     (a, b) => {
       if (a.size != b.size) return false;
-      return true;
-    }
-  );
-  const zoneMap = useLevelStore(
-    (state) => state.Zones,
-    (a, b) => {
-      if (a.size != b.size) return false;
       let allEqual = true;
-      crafterMap.forEach((crafter) => {
-        if (crafter.Zone) {
-          const aZone = a.get(crafter.Zone);
-          const bZone = b.get(crafter.Zone);
-          if (aZone && bZone && aZone.Conquered != bZone.Conquered)
+      a.forEach((cr) => {
+        const bCrafter = b.get(cr.Index);
+        if (!bCrafter) allEqual = false;
+        else {
+          if (bCrafter.Zone != cr.Zone || bCrafter.Bonus != cr.Bonus)
+            allEqual = false;
+        }
+      });
+      b.forEach((cr) => {
+        const aCrafter = a.get(cr.Index);
+        if (!aCrafter) allEqual = false;
+        else {
+          if (aCrafter.Zone != cr.Zone || aCrafter.Bonus != cr.Bonus)
             allEqual = false;
         }
       });
       return allEqual;
     }
   );
-  const bonusMap = useLevelStore(
-    (state) => state.Bonuses,
-    (a, b) => {
-      if (a.size != b.size) return false;
-      let allEqual = true;
-      crafterMap.forEach((crafter) => {
-        if (crafter.Bonus) {
-          const aBonus = a.get(crafter.Bonus);
-          const bBonus = b.get(crafter.Bonus);
-          if (aBonus && bBonus && aBonus.Conquered != bBonus.Conquered)
-            allEqual = false;
+  const zoneMap = useZoneMap(true);
+  const bonusMap = useBonusMap(true);
+  const crafters = Array.from(crafterMap.values())
+    .filter((h) => {
+      if (h.Zone) {
+        const zone = zoneMap.get(h.Zone);
+        if (zone) {
+          if (state == ConquerState.OnlyConquered) return zone.Conquered;
+          if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
+          return true;
         }
-      });
-      return allEqual;
-    }
-  );
-  const crafters = Array.from(crafterMap.values()).filter((h) => {
-    if (h.Zone) {
-      const zone = zoneMap.get(h.Zone);
-      if (zone) {
-        if (state == ConquerState.OnlyConquered) return zone.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
-        return true;
       }
-    }
-    if (h.Bonus) {
-      const bonus = bonusMap.get(h.Bonus);
-      if (bonus) {
-        if (state == ConquerState.OnlyConquered) return bonus.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !bonus.Conquered;
-        return true;
+      if (h.Bonus) {
+        const bonus = bonusMap.get(h.Bonus);
+        if (bonus) {
+          if (state == ConquerState.OnlyConquered) return bonus.Conquered;
+          if (state == ConquerState.OnlyUnConquered) return !bonus.Conquered;
+          return true;
+        }
       }
-    }
-    return false;
-  }).sort((a, b) => a.Index - b.Index);
+      return false;
+    })
+    .sort((a, b) => a.Index - b.Index);
   return crafters;
 };
 export default useCrafters;

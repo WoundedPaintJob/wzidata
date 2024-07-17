@@ -1,5 +1,7 @@
 import useLevelStore from "@lib/stores/levelStore";
 import { ConquerState } from "./enums";
+import useZoneMap from "../useZoneMap";
+import useBonusMap from "../useBonusMap";
 
 const useArmyCamps = (state: ConquerState) => {
   const armyCampMap = useLevelStore(
@@ -7,47 +9,31 @@ const useArmyCamps = (state: ConquerState) => {
     (a, b) => {
       if (a.size != b.size) return false;
       let allEqual = true;
-      a.forEach((h) => {
-        const bCamp = b.get(h.Index);
+      a.forEach((ac) => {
+        const bCamp = b.get(ac.Index);
         if (!bCamp) allEqual = false;
-        else if (bCamp.Level != h.Level) allEqual = false;
-        else if (bCamp.SuperCharged != h.SuperCharged) allEqual = false;
+        else {
+          if (bCamp.Level != ac.Level) allEqual = false;
+          if (bCamp.SuperCharged != ac.SuperCharged) allEqual = false;
+          if (bCamp.Zone != ac.Zone || bCamp.Bonus != ac.Bonus)
+            allEqual = false;
+        }
       });
-      return allEqual;
-    }
-  );
-  const zoneMap = useLevelStore(
-    (state) => state.Zones,
-    (a, b) => {
-      if (a.size != b.size) return false;
-      let allEqual = true;
-      armyCampMap.forEach((camp) => {
-        if (camp.Zone) {
-          const aZone = a.get(camp.Zone);
-          const bZone = b.get(camp.Zone);
-          if (aZone && bZone && aZone.Conquered != bZone.Conquered)
+      b.forEach((ac) => {
+        const aCamp = a.get(ac.Index);
+        if (!aCamp) allEqual = false;
+        else {
+          if (aCamp.Level != ac.Level) allEqual = false;
+          if (aCamp.SuperCharged != ac.SuperCharged) allEqual = false;
+          if (aCamp.Zone != ac.Zone || aCamp.Bonus != ac.Bonus)
             allEqual = false;
         }
       });
       return allEqual;
     }
   );
-  const bonusMap = useLevelStore(
-    (state) => state.Bonuses,
-    (a, b) => {
-      if (a.size != b.size) return false;
-      let allEqual = true;
-      armyCampMap.forEach((camp) => {
-        if (camp.Bonus) {
-          const aBonus = a.get(camp.Bonus);
-          const bBonus = b.get(camp.Bonus);
-          if (aBonus && bBonus && aBonus.Conquered != bBonus.Conquered)
-            allEqual = false;
-        }
-      });
-      return allEqual;
-    }
-  );
+  const zoneMap = useZoneMap(true);
+  const bonusMap = useBonusMap(true);
   const armyCamps = Array.from(armyCampMap.values()).filter((h) => {
     if (h.Zone) {
       const zone = zoneMap.get(h.Zone);

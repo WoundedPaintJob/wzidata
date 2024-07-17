@@ -4,51 +4,82 @@ import { Settings } from "src/settings";
 import { RenderOptionType } from "@lib/types/enums";
 import { formatNumber } from "@helpers/numberHelper";
 import useBonus from "@lib/state/hooks/useBonus";
+import useZoneMap from "@lib/state/hooks/useZoneMap";
 
 const MapBonus = (props: { bonusId: number }) => {
   const bonus = useBonus(props.bonusId);
   const renderSettings = useLevelStore((state) => state.RenderOptions);
   const setActive = useLevelStore((state) => state.SetActiveBonus);
+  const zoneMap = useZoneMap(false);
   const assetSize = 40;
   if (!bonus) return <></>;
-  const drawImage = shouldDrawImage(bonus.Reward, renderSettings, bonus.Conquered);
+  const drawImage = shouldDrawImage(
+    bonus.Reward,
+    renderSettings,
+    bonus.Conquered
+  );
   if (!bonus.Svg) return <></>;
+  const zones = Array.from(zoneMap.values()).filter((z) => {
+    return bonus.ZoneIds.includes(z.Id);
+  });
+  const centerX = zones.reduce((a, b) => a + b.Center.X, 0) / zones.length;
+  const centerY = zones.reduce((a, b) => a + b.Center.Y, 0) / zones.length;
   return (
-    <g key={`Z${bonus.Id}G`} onClick={() => setActive(bonus)}>
-      {bonus.Svg.Shapes.map((sh, index) => (
+    <>
+      <g
+        key={`B${bonus.Id}G`}
+        onClick={() => {
+          setActive(bonus);
+        }}
+      >
+        {bonus.Svg.Shapes.map((sh, index) => (
+          <polygon
+            key={`B${bonus.Id}${index}Pol`}
+            id={`B${bonus.Id}`}
+            points={sh.Path}
+            stroke="#000"
+            fill="#000"
+          />
+        ))}
+        {drawImage && (
+          <image
+            key={`${bonus.Id}Ass`}
+            href={`${Settings.RewardUrl}${bonus.Reward.Image || ""}`}
+            x={bonus.Svg.Center.X - assetSize / 2}
+            y={bonus.Svg.Center.Y - assetSize / 2}
+            width={assetSize}
+            height={assetSize}
+            onClick={() => {
+              setActive(bonus);
+            }}
+          />
+        )}
+        {renderSettings.get(RenderOptionType.MoneyPerSecond) &&
+          bonus.Reward.MoneyPerSecond && (
+            <text
+              key={`${bonus.Id}Text`}
+              x={bonus.Svg.Center.X - 8}
+              y={bonus.Svg.Center.Y + 2}
+              fill="#FFF"
+              fontWeight={400}
+              fontSize={10}
+            >
+              {formatNumber(bonus.Reward.MoneyPerSecond)}
+            </text>
+          )}
+      </g>
+      <g
+        key={`B${bonus.Id}C`}
+        id={`B${bonus.Id}C`}
+        onClick={() => setActive(bonus)}
+      >
         <polygon
-          key={`B${bonus.Id}${index}Pol`}
-          id={`B${bonus.Id}`}
-          points={sh.Path}
-          stroke="#000"
-          fill="#000"
+          key={`B${bonus.Id}Center`}
+          id={`B${bonus.Id}Center`}
+          points={`${centerX},${centerY}`}
         />
-      ))}
-      {drawImage && (
-        <image
-          key={`${bonus.Id}Ass`}
-          href={`${Settings.RewardUrl}${bonus.Reward.Image || ""}`}
-          x={bonus.Svg.Center.X - assetSize / 2}
-          y={bonus.Svg.Center.Y - assetSize / 2}
-          width={assetSize}
-          height={assetSize}
-          onClick={() => setActive(bonus)}
-        />
-      )}
-      {renderSettings.get(RenderOptionType.MoneyPerSecond) &&
-        bonus.Reward.MoneyPerSecond && (
-        <text
-          key={`${bonus.Id}Text`}
-          x={bonus.Svg.Center.X - 8}
-          y={bonus.Svg.Center.Y + 2}
-          fill="#FFF"
-          fontWeight={400}
-          fontSize={10}
-        >
-          {formatNumber(bonus.Reward.MoneyPerSecond)}
-        </text>
-      )}
-    </g>
+      </g>
+    </>
   );
 };
 export default MapBonus;

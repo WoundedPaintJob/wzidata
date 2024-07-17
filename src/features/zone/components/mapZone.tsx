@@ -33,7 +33,11 @@ const MapZone = (props: {
     hospitalSaves,
     props.partOfPath
   );
-  const drawImage = shouldDrawImage(zone.Reward, renderSettings, zone.Conquered);
+  const drawImage = shouldDrawImage(
+    zone.Reward,
+    renderSettings,
+    zone.Conquered
+  );
   return (
     <g
       key={`Z${zone.Id}G`}

@@ -122,6 +122,7 @@ export const createPersistSlice: StateCreator<
         state.Hospitals = data.Hospitals;
         state.Markets = data.Markets;
         state.MercenaryCamps = data.MercenaryCamps;
+        state.Mines = data.Mines;
         state.Crafters = data.Crafters;
         state.Smelters = data.Smelters;
         state.Mortars = data.Mortars;

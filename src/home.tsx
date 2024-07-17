@@ -74,8 +74,8 @@ const Home = () => {
           {!wideMap && (
             <div className="grid grid-cols-1 lg:grid-cols-8">
               <div className="col-span-1 lg:col-span-2">
-                <Highlights />
                 <MiniView />
+                <Highlights />
                 <div className="hidden lg:block">
                   <MapFilter />
                 </div>
@@ -91,7 +91,6 @@ const Home = () => {
                 <MapComponent />
               </div>
               <div className="grid grid-cols-2">
-                <MiniView />
                 <MapFilter />
                 <Highlights />
               </div>

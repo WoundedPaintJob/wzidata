@@ -74,6 +74,7 @@ const ZoneHighlight = (props: { zone: ZoneState }) => {
           </Button>
           <Button
             onClick={() => {
+            console.log(document.getElementById(`Z${zone.Id}G`));
               zoomToElement(
                 `Z${zone.Id}G`,
                 instance.transformState.scale

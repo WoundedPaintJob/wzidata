@@ -1,65 +1,56 @@
 import useLevelStore from "@lib/stores/levelStore";
 import { ConquerState } from "./enums";
+import useZoneMap from "../useZoneMap";
+import useBonusMap from "../useBonusMap";
 
 const useSmelters = (state: ConquerState) => {
   const smelterMap = useLevelStore(
     (state) => state.Smelters,
     (a, b) => {
       if (a.size != b.size) return false;
-      return true;
-    }
-  );
-  const zoneMap = useLevelStore(
-    (state) => state.Zones,
-    (a, b) => {
-      if (a.size != b.size) return false;
       let allEqual = true;
-      smelterMap.forEach((smelter) => {
-        if (smelter.Zone) {
-          const aZone = a.get(smelter.Zone);
-          const bZone = b.get(smelter.Zone);
-          if (aZone && bZone && aZone.Conquered != bZone.Conquered)
+      a.forEach((sm) => {
+        const bSmelter = b.get(sm.Index);
+        if (!bSmelter) allEqual = false;
+        else {
+          if (bSmelter.Zone != sm.Zone || bSmelter.Bonus != sm.Bonus)
+            allEqual = false;
+        }
+      });
+      b.forEach((sm) => {
+        const aSmelter = a.get(sm.Index);
+        if (!aSmelter) allEqual = false;
+        else {
+          if (aSmelter.Zone != sm.Zone || aSmelter.Bonus != sm.Bonus)
             allEqual = false;
         }
       });
       return allEqual;
     }
   );
-  const bonusMap = useLevelStore(
-    (state) => state.Bonuses,
-    (a, b) => {
-      if (a.size != b.size) return false;
-      let allEqual = true;
-      smelterMap.forEach((smelter) => {
-        if (smelter.Bonus) {
-          const aBonus = a.get(smelter.Bonus);
-          const bBonus = b.get(smelter.Bonus);
-          if (aBonus && bBonus && aBonus.Conquered != bBonus.Conquered)
-            allEqual = false;
+  const zoneMap = useZoneMap(true);
+  const bonusMap = useBonusMap(true);
+  const smelters = Array.from(smelterMap.values())
+    .filter((h) => {
+      if (h.Zone) {
+        const zone = zoneMap.get(h.Zone);
+        if (zone) {
+          if (state == ConquerState.OnlyConquered) return zone.Conquered;
+          if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
+          return true;
         }
-      });
-      return allEqual;
-    }
-  );
-  const smelters = Array.from(smelterMap.values()).filter((h) => {
-    if (h.Zone) {
-      const zone = zoneMap.get(h.Zone);
-      if (zone) {
-        if (state == ConquerState.OnlyConquered) return zone.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
-        return true;
       }
-    }
-    if (h.Bonus) {
-      const bonus = bonusMap.get(h.Bonus);
-      if (bonus) {
-        if (state == ConquerState.OnlyConquered) return bonus.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !bonus.Conquered;
-        return true;
+      if (h.Bonus) {
+        const bonus = bonusMap.get(h.Bonus);
+        if (bonus) {
+          if (state == ConquerState.OnlyConquered) return bonus.Conquered;
+          if (state == ConquerState.OnlyUnConquered) return !bonus.Conquered;
+          return true;
+        }
       }
-    }
-    return false;
-  }).sort((a, b) => a.Index - b.Index);
+      return false;
+    })
+    .sort((a, b) => a.Index - b.Index);
   return smelters;
 };
 export default useSmelters;

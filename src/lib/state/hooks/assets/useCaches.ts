@@ -2,51 +2,44 @@ import useLevelStore from "@lib/stores/levelStore";
 import { CacheType, ConquerState } from "./enums";
 import useZoneMap from "../useZoneMap";
 import useBonusMap from "../useBonusMap";
-
-const useCaches = (state: ConquerState, type: CacheType) => {
-  const zoneMap = useZoneMap(true);
-  const bonusMap = useBonusMap(true);
-  const caches = Array.from(zoneMap.values()).filter((zone) => {
-    if (zone.Reward.Cache) {
+import { useState } from "react";
+import { Reward } from "@features/reward/lib/types";
+const isCache = (reward: Reward, conquered: boolean, state: ConquerState, type: CacheType) => {
+if (reward.Cache) {
       if (type == CacheType.All) {
-        if (state == ConquerState.OnlyConquered) return zone.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
+        if (state == ConquerState.OnlyConquered) return conquered;
+        if (state == ConquerState.OnlyUnConquered) return !conquered;
         return true;
-      } if (type == CacheType.Army && zone.Reward.Cache.Armies > 0) {
-        if (state == ConquerState.OnlyConquered) return zone.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
+      }
+      if (type == CacheType.Army && reward.Cache.Armies > 0) {
+        if (state == ConquerState.OnlyConquered) return conquered;
+        if (state == ConquerState.OnlyUnConquered) return !conquered;
         return true;
-      } if (type == CacheType.Money && zone.Reward.Cache.Money > 0) {
-        if (state == ConquerState.OnlyConquered) return zone.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
+      }
+      if (type == CacheType.Money && reward.Cache.Money > 0) {
+        if (state == ConquerState.OnlyConquered) return conquered;
+        if (state == ConquerState.OnlyUnConquered) return !conquered;
         return true;
-      } if (type == CacheType.Resource && zone.Reward.Cache.Materials.length > 0) {
-        if (state == ConquerState.OnlyConquered) return zone.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
+      }
+      if (
+        type == CacheType.Resource &&
+        reward.Cache.Materials.length > 0
+      ) {
+        if (state == ConquerState.OnlyConquered) return conquered;
+        if (state == ConquerState.OnlyUnConquered) return !conquered;
         return true;
       }
       return false;
     }
+}
+const useCaches = (state: ConquerState, type: CacheType) => {
+  const zoneMap = useZoneMap(true);
+  const bonusMap = useBonusMap(true);
+  const zoneCaches = Array.from(zoneMap.values()).filter((zone) => { 
+    return isCache(zone.Reward, zone.Conquered, state, type);
   });
-  const crafters = Array.from(cacheMap.values()).filter((h) => {
-    if (h.Zone) {
-      const zone = zoneMap.get(h.Zone);
-      if (zone) {
-        if (state == ConquerState.OnlyConquered) return zone.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !zone.Conquered;
-        return true;
-      }
-    }
-    if (h.Bonus) {
-      const bonus = bonusMap.get(h.Bonus);
-      if (bonus) {
-        if (state == ConquerState.OnlyConquered) return bonus.Conquered;
-        if (state == ConquerState.OnlyUnConquered) return !bonus.Conquered;
-        return true;
-      }
-    }
-    return false;
-  }).sort((a, b) => a.Index - b.Index);
-  return crafters;
+  const bonusCaches = Array.from(bonusMap.values()).filter((bonus) => { 
+    return isCache(bonus.Reward, bonus.Conquered, state, type);
+  });
 };
 export default useCaches;
